@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Sigma Study House</title>
+    <meta name="description" content="Learn about Sigma Study House, a youth-led project providing ideal study environments with fully equipped private rooms and meeting spaces in Amman, Jordan.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html">Courses</a>
+                            <a href="booking.html">Booking</a>
+                            <a href="printing.html">Printing</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- This will be populated by JavaScript based on auth state -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Page Content -->
+    <section class="about" style="padding: 120px 0 80px;">
+        <div class="container">
+            <h1 class="section-title">About Sigma Study House</h1>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>Sigma Study House was founded in 2023 by a group of Jordanian students who recognized the need for dedicated study spaces in Amman. Frustrated by the lack of quiet, well-equipped environments for focused learning, we set out to create the perfect study sanctuary.</p>
+                    
+                    <h2>Our Mission</h2>
+                    <p>We believe that the right environment can significantly enhance learning outcomes. Our mission is to provide students, professionals, and lifelong learners with spaces that foster concentration, creativity, and collaboration.</p>
+                    
+                    <h2>Why Choose Us?</h2>
+                    <ul style="margin-left: 20px; margin-bottom: 20px;">
+                        <li>24/7 access to accommodate all schedules</li>
+                        <li>Variety of room types for different study needs</li>
+                        <li>High-speed internet and modern amenities</li>
+                        <li>Comfortable ergonomic furniture</li>
+                        <li>Dedicated support staff</li>
+                        <li>Affordable pricing with flexible options</li>
+                    </ul>
+                    
+                    <h2>Our Values</h2>
+                    <p>At Sigma Study House, we're committed to creating an inclusive, supportive environment where every learner can thrive. We prioritize comfort, convenience, and community in everything we do.</p>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">Our Team Photo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="services" style="background-color: var(--light);">
+        <div class="container">
+            <h2 class="section-title">Our Team</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image">Founder Photo</div>
+                    <div class="service-content">
+                        <h3>Mohammad Al-Saadi</h3>
+                        <p>Founder & CEO</p>
+                        <p>Computer Science graduate with a passion for creating optimal learning environments.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">Manager Photo</div>
+                    <div class="service-content">
+                        <h3>Sarah Ahmad</h3>
+                        <p>Operations Manager</p>
+                        <p>Ensuring smooth day-to-day operations and exceptional customer experience.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image">Support Photo</div>
+                    <div class="service-content">
+                        <h3>Team Members</h3>
+                        <p>Support Staff</p>
+                        <p>Our dedicated team is always here to help you have the best study experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p>Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="booking.html">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul>
+                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Solo Rooms</a></li>
+                        <li><a href="services.html">Meeting Rooms</a></li>
+                        <li><a href="printing.html">Printing Services</a></li>
+                        <li><a href="services.html">Coffee Point</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><a href="contact.html">Wasfi Al-Tal Street, Amman</a></li>
+                        <li><a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a></li>
+                        <li><a href="tel:00962796101060">00962796101060</a></li>
+                        <li><a href="contact.html">Open 24/7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-options">
+                    <div class="auth-option" id="googleSignIn">
+                        <div class="auth-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div>
+                            <h4>Continue with Google</h4>
+                            <p>Sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="auth-option">
+                        <div class="auth-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Sign in with Email</h4>
+                            <p>Use your email address</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>

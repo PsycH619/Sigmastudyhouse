@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Professional Courses - Sigma Study House" data-ar="الدورات المهنية - سيغما ستادي هاوس">Professional Courses - Sigma Study House</title>
+    <meta name="description" content="Professional courses at Sigma Study House: Cybersecurity Fundamentals, Medical Preparation, and more. Expert instructors, flexible schedules, competitive pricing in Amman.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder logo-animated">
+                        <div class="logo-sigma">Σ</div>
+                        <div class="logo-glow"></div>
+                    </div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="../index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                    <li><a href="about.html" data-en="About" data-ar="من نحن">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html" data-en="Services" data-ar="الخدمات">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html" data-en="Courses" data-ar="الدورات">Courses</a>
+                            <a href="booking.html" data-en="Booking" data-ar="الحجز">Booking</a>
+                            <a href="printing.html" data-en="Printing" data-ar="الطباعة">Printing</a>
+                            <a href="../cafeteria.html" data-en="Cafeteria" data-ar="الكافيتيريا">Cafeteria</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <button class="language-toggle" id="languageToggle">
+                    <span>EN</span> | <span>AR</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Courses Hero Section -->
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(52, 152, 219, 0.9), rgba(52, 152, 219, 0.8));">
+        <div class="container">
+            <h1 data-en="Professional Courses" data-ar="الدورات المهنية">Professional Courses</h1>
+            <p data-en="Enhance your skills with industry-leading courses and workshops" data-ar="طور مهاراتك مع دورات وورش عمل رائدة في المجال">Enhance your skills with industry-leading courses and workshops</p>
+        </div>
+    </section>
+
+    <!-- Featured Courses -->
+    <section class="courses">
+        <div class="container">
+            <h2 class="section-title" data-en="Featured Courses" data-ar="الدورات المميزة">Featured Courses</h2>
+            <div class="courses-grid">
+                <!-- Cybersecurity Course -->
+                <div class="course-card pricing-card">
+                    <div class="course-image" style="background: linear-gradient(135deg, #2c3e50, #3498db);">
+                        <i class="fas fa-shield-alt floating-element" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 data-en="Fundamentals of Cybersecurity" data-ar="أساسيات الأمن السيبراني">Fundamentals of Cybersecurity</h3>
+                        <div class="trainer-info" style="background: var(--light); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <h4 data-en="Trainer" data-ar="المدرب">Trainer</h4>
+                            <p><strong>Oday Jadallah</strong> - Assistant IT Manager</p>
+                            <p style="font-size: 0.9rem; color: var(--text-light);">14+ years experience in cybersecurity</p>
+                        </div>
+                        <p data-en="Comprehensive course covering cybersecurity fundamentals, personal information security, and AI in cybersecurity." data-ar="دورة شاملة تغطي أساسيات الأمن السيبراني، أمن المعلومات الشخصية، والذكاء الاصطناعي في الأمن السيبراني.">Comprehensive course covering cybersecurity fundamentals, personal information security, and AI in cybersecurity.</p>
+                        
+                        <div style="margin: 20px 0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span><i class="fas fa-clock"></i> <span data-en="40 Hours" data-ar="40 ساعة">40 Hours</span></span>
+                                <span><i class="fas fa-user-graduate"></i> <span data-en="Beginner" data-ar="مبتدئ">Beginner</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                <span><i class="fas fa-calendar"></i> <span data-en="Starting Soon" data-ar="يبدأ قريباً">Starting Soon</span></span>
+                                <span style="color: var(--primary); font-weight: bold; font-size: 1.2rem;">150 JOD</span>
+                            </div>
+                        </div>
+
+                        <h4 data-en="Course Plan" data-ar="خطة الدورة">Course Plan:</h4>
+                        <ul style="margin: 10px 0 20px 0; padding-left: 20px;">
+                            <li data-en="What is Cybersecurity?" data-ar="ما هو الأمن السيبراني؟">What is Cybersecurity?</li>
+                            <li data-en="Common threats and protection" data-ar="التهديدات الشائعة والحماية">Common threats and protection</li>
+                            <li data-en="Best practices for information security" data-ar="أفضل الممارسات لأمن المعلومات">Best practices for information security</li>
+                            <li data-en="Incident response procedures" data-ar="إجراءات الاستجابة للحوادث">Incident response procedures</li>
+                            <li data-en="AI in cybersecurity" data-ar="الذكاء الاصطناعي في الأمن السيبراني">AI in cybersecurity</li>
+                            <li data-en="Personal cybersecurity" data-ar="الأمن السيبراني الشخصي">Personal cybersecurity</li>
+                        </ul>
+
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openCourseBooking('cybersecurity')">
+                            <span data-en="Enroll Now" data-ar="سجل الآن">Enroll Now</span>
+                        </button>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="window.location.href='../live-stream.html?course=cybersecurity'">
+                            <i class="fas fa-video"></i> <span data-en="Live Stream Available" data-ar="بث مباشر متاح">Live Stream Available</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Medical Courses -->
+                <div class="course-card pricing-card">
+                    <div class="course-image" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-heartbeat floating-element" style="font-size: 3rem; color: white;"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 data-en="Medical Preparation Courses" data-ar="دورات التحضير الطبي">Medical Preparation Courses</h3>
+                        <div class="trainer-info" style="background: var(--light); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                            <h4 data-en="Trainer" data-ar="المدرب">Trainer</h4>
+                            <p><strong>Dr. Rashid Halabiya</strong></p>
+                            <p style="font-size: 0.9rem; color: var(--text-light);" data-en="Expert medical educator" data-ar="خبير في التعليم الطبي">Expert medical educator</p>
+                        </div>
+                        <p data-en="Specialized courses for medical students and professionals covering various medical disciplines and exam preparation." data-ar="دورات متخصصة لطلبة الطب والمحترفين تغطي مختلف التخصصات الطبية والتحضير للامتحانات.">Specialized courses for medical students and professionals covering various medical disciplines and exam preparation.</p>
+                        
+                        <div style="margin: 20px 0;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <span><i class="fas fa-clock"></i> <span data-en="60 Hours" data-ar="60 ساعة">60 Hours</span></span>
+                                <span><i class="fas fa-user-graduate"></i> <span data-en="Intermediate" data-ar="متوسط">Intermediate</span></span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                <span><i class="fas fa-calendar"></i> <span data-en="Monthly Intake" data-ar="مجموعات شهرية">Monthly Intake</span></span>
+                                <span style="color: var(--primary); font-weight: bold; font-size: 1.2rem;">200 JOD</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="width: 100%;" onclick="openCourseBooking('medical')">
+                            <span data-en="Enroll Now" data-ar="سجل الآن">Enroll Now</span>
+                        </button>
+                        <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="window.location.href='../live-stream.html?course=medical'">
+                            <i class="fas fa-video"></i> <span data-en="Live Stream Available" data-ar="بث مباشر متاح">Live Stream Available</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Booking Modal -->
+    <div class="modal" id="courseBookingModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 data-en="Enroll in Course" data-ar="التسجيل في الدورة">Enroll in Course</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="courseBookingForm" class="form-enhanced">
+                    <div class="form-group">
+                        <label data-en="Selected Course" data-ar="الدورة المختارة">Selected Course</label>
+                        <input type="text" class="form-control" id="selectedCourse" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" class="form-control" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Email" data-ar="البريد الإلكتروني">Email</label>
+                        <input type="email" class="form-control" id="studentEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
+                        <input type="tel" class="form-control" id="studentPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Attendance Type" data-ar="نوع الحضور">Attendance Type</label>
+                        <select class="form-control" id="attendanceType" required>
+                            <option value="physical" data-en="Physical Attendance" data-ar="حضور فعلي">Physical Attendance</option>
+                            <option value="online" data-en="Online Live Stream" data-ar="بث مباشر أونلاين">Online Live Stream</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Special Requirements" data-ar="متطلبات خاصة">Special Requirements</label>
+                        <textarea class="form-control" id="courseRequirements" rows="3"></textarea>
+                    </div>
+                    <div style="background: var(--light); padding: 15px; border-radius: 8px; margin: 20px 0;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong data-en="Total Cost:" data-ar="التكلفة الإجمالية:">Total Cost:</strong>
+                            <span id="courseTotalCost" style="color: var(--primary); font-weight: bold; font-size: 1.2rem;">150 JOD</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Confirm Enrollment" data-ar="تأكيد التسجيل">Confirm Enrollment</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Sign In to Your Account" data-ar="تسجيل الدخول إلى حسابك">Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-target="loginForm">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                    <button class="auth-tab" data-target="registerForm">
+                        <span data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</span>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="auth-options">
+                        <a href="#" class="auth-option" id="googleSignIn">
+                            <div class="auth-icon">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Continue with Google" data-ar="المتابعة باستخدام جوجل">Continue with Google</h4>
+                                <p data-en="Sign in with your Google account" data-ar="سجل الدخول باستخدام حساب جوجل">Sign in with your Google account</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="auth-divider">
+                        <span data-en="or" data-ar="أو">or</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword" data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required>
+                    </div>
+
+                    <div class="form-footer">
+                        <p data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account?
+                            <a href="#" class="switch-to-register" data-en="Sign up here" data-ar="اشترك هنا">Sign up here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerName" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" class="form-control" id="registerName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                        <input type="email" class="form-control" id="registerEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword" data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" required>
+                        <div class="password-strength">
+                            <div class="strength-weak"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" data-en="Confirm Password" data-ar="تأكيد كلمة المرور">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+
+                    <div class="form-footer">
+                        <p data-en="Already have an account?" data-ar="هل لديك حساب بالفعل؟">Already have an account?
+                            <a href="#" class="switch-to-login" data-en="Sign in here" data-ar="سجل الدخول هنا">Sign in here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p data-en="Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan." data-ar="نوفر مساحات مريحة ومجهزة بشكل كامل للدراسة والعمل الجماعي والمناقشات في عمان، الأردن.">Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                        <li><a href="about.html" data-en="About Us" data-ar="من نحن">About Us</a></li>
+                        <li><a href="services.html" data-en="Services" data-ar="الخدمات">Services</a></li>
+                        <li><a href="courses.html" data-en="Courses" data-ar="الدورات">Courses</a></li>
+                        <li><a href="booking.html" data-en="Booking" data-ar="الحجز">Booking</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Services" data-ar="الخدمات">Services</h4>
+                    <ul>
+                        <li><a href="services.html" data-en="Social Area" data-ar="المنطقة الاجتماعية">Social Area</a></li>
+                        <li><a href="services.html" data-en="Solo Rooms" data-ar="غرف فردية">Solo Rooms</a></li>
+                        <li><a href="services.html" data-en="Meeting Rooms" data-ar="غرف الاجتماعات">Meeting Rooms</a></li>
+                        <li><a href="printing.html" data-en="Printing Services" data-ar="خدمات الطباعة">Printing Services</a></li>
+                        <li><a href="../cafeteria.html" data-en="Cafeteria" data-ar="الكافيتيريا">Cafeteria</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Contact Info" data-ar="معلومات الاتصال">Contact Info</h4>
+                    <ul>
+                        <li>
+                            <a href="contact.html" data-en="Wasfi Al-Tal Street, Amman" data-ar="شارع وصفي التل، عمان">Wasfi Al-Tal Street, Amman</a>
+                        </li>
+                        <li>
+                            <a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a>
+                        </li>
+                        <li>
+                            <a href="tel:00962796101060">00962796101060</a>
+                        </li>
+                        <li>
+                            <a href="contact.html" data-en="Open 24/7" data-ar="مفتوح 24/7">Open 24/7</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/language.js"></script>
+    <script>
+        // Course booking functionality
+        let currentCourse = null;
+        const coursePrices = {
+            'cybersecurity': 150,
+            'medical': 200
+        };
+
+        function openCourseBooking(courseType) {
+            const currentUser = window.authManager ? window.authManager.currentUser : null;
+
+            if (!currentUser) {
+                if (window.authManager && typeof window.authManager.showLoginModal === 'function') {
+                    window.authManager.showLoginModal();
+                } else {
+                    showNotification('Please sign in to enroll in courses', 'warning');
+                }
+                return;
+            }
+
+            currentCourse = courseType;
+            const modal = document.getElementById('courseBookingModal');
+            const courseName = courseType === 'cybersecurity' ?
+                'Fundamentals of Cybersecurity' : 'Medical Preparation Courses';
+
+            document.getElementById('selectedCourse').value = courseName;
+            document.getElementById('courseTotalCost').textContent = coursePrices[courseType] + ' JOD';
+
+            // Pre-fill user data if available
+            if (currentUser) {
+                document.getElementById('studentName').value = currentUser.name || '';
+                document.getElementById('studentEmail').value = currentUser.email || '';
+            }
+
+            modal.classList.add('active');
+        }
+
+        document.getElementById('courseBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const courseData = {
+                id: Date.now(),
+                course: currentCourse,
+                studentName: document.getElementById('studentName').value,
+                studentEmail: document.getElementById('studentEmail').value,
+                studentPhone: document.getElementById('studentPhone').value,
+                attendanceType: document.getElementById('attendanceType').value,
+                requirements: document.getElementById('courseRequirements').value,
+                cost: coursePrices[currentCourse],
+                status: 'pending',
+                enrolledAt: new Date().toISOString()
+            };
+
+            // Save to database (localStorage for demo)
+            let courseEnrollments = JSON.parse(localStorage.getItem('courseEnrollments')) || [];
+            courseEnrollments.push(courseData);
+            localStorage.setItem('courseEnrollments', JSON.stringify(courseEnrollments));
+
+            showNotification('Course enrollment submitted successfully!', 'success');
+            document.getElementById('courseBookingModal').classList.remove('active');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

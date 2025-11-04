@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Test - Debug</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .debug-box {
+            background: #f0f0f0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+        .success { background: #d4edda; border-color: #28a745; }
+        .error { background: #f8d7da; border-color: #dc3545; }
+        .test-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Authentication System Debug Test</h1>
+
+    <div class="debug-box">
+        <h2>Step 1: Check if Scripts Are Loading</h2>
+        <div id="scriptCheck">⏳ Checking...</div>
+    </div>
+
+    <div class="debug-box">
+        <h2>Step 2: Check AuthManager</h2>
+        <div id="authManagerCheck">⏳ Checking...</div>
+    </div>
+
+    <div class="debug-box">
+        <h2>Step 3: Auth Buttons Container</h2>
+        <div id="authButtons" style="min-height: 50px; border: 2px dashed #ccc; padding: 10px;">
+            <!-- Buttons should appear here -->
+        </div>
+        <div id="buttonsCheck" style="margin-top: 10px;">⏳ Checking...</div>
+    </div>
+
+    <div class="debug-box">
+        <h2>Step 4: Test Login Modal</h2>
+        <div class="test-buttons">
+            <button class="btn btn-primary" onclick="testLoginModal()">
+                Test Open Login Modal
+            </button>
+            <button class="btn btn-outline" onclick="testAuthManager()">
+                Test AuthManager
+            </button>
+        </div>
+        <div id="modalCheck">⏳ Ready for testing...</div>
+    </div>
+
+    <div class="debug-box">
+        <h2>Console Output</h2>
+        <div id="consoleOutput" style="background: #000; color: #0f0; padding: 10px; font-family: monospace; max-height: 300px; overflow-y: auto;">
+            <!-- Console messages will appear here -->
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-target="loginForm">
+                        <span>Sign In</span>
+                    </button>
+                    <button class="auth-tab" data-target="registerForm">
+                        <span>Sign Up</span>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" class="form-control" id="registerName" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" class="form-control" id="registerEmail" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" required>
+                        <div class="password-strength">
+                            <div class="strength-weak"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Create Account</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Console logger
+        const consoleOutput = document.getElementById('consoleOutput');
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#f00' : type === 'success' ? '#0f0' : '#0ff';
+            consoleOutput.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            console.log(message);
+        }
+
+        // Override console methods to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+
+        console.log = function(...args) {
+            log(args.join(' '), 'info');
+            originalLog.apply(console, args);
+        };
+
+        console.error = function(...args) {
+            log('ERROR: ' + args.join(' '), 'error');
+            originalError.apply(console, args);
+        };
+
+        console.warn = function(...args) {
+            log('WARN: ' + args.join(' '), 'warning');
+            originalWarn.apply(console, args);
+        };
+
+        // Test functions
+        function testLoginModal() {
+            log('Testing login modal...', 'info');
+            const modal = document.getElementById('loginModal');
+            if (modal) {
+                modal.classList.add('active');
+                log('✅ Login modal opened successfully!', 'success');
+                document.getElementById('modalCheck').innerHTML = '✅ Modal opened! Close it and try again.';
+            } else {
+                log('❌ Login modal not found!', 'error');
+                document.getElementById('modalCheck').innerHTML = '❌ Modal element not found!';
+            }
+        }
+
+        function testAuthManager() {
+            log('Testing AuthManager...', 'info');
+            if (window.authManager) {
+                log('✅ AuthManager exists', 'success');
+                log('Current user: ' + (window.authManager.currentUser ? window.authManager.currentUser.name : 'Not logged in'), 'info');
+                log('User credit: ' + window.authManager.userCredit, 'info');
+                log('Total users: ' + window.authManager.users.length, 'info');
+                document.getElementById('authManagerCheck').innerHTML = '✅ AuthManager is working!';
+            } else {
+                log('❌ AuthManager not found!', 'error');
+                document.getElementById('authManagerCheck').innerHTML = '❌ AuthManager not initialized!';
+            }
+        }
+
+        // Run checks on page load
+        window.addEventListener('load', function() {
+            log('Page loaded, running checks...', 'info');
+
+            // Check 1: Scripts loaded
+            setTimeout(() => {
+                const scriptCheck = document.getElementById('scriptCheck');
+                if (typeof SigmaStudyHouse !== 'undefined' || typeof AuthManager !== 'undefined') {
+                    scriptCheck.innerHTML = '✅ Scripts loaded successfully!';
+                    scriptCheck.parentElement.classList.add('success');
+                    log('✅ Scripts loaded', 'success');
+                } else {
+                    scriptCheck.innerHTML = '❌ Scripts failed to load!';
+                    scriptCheck.parentElement.classList.add('error');
+                    log('❌ Scripts not loaded', 'error');
+                }
+
+                // Check 2: AuthManager
+                const authManagerCheck = document.getElementById('authManagerCheck');
+                if (window.authManager) {
+                    authManagerCheck.innerHTML = '✅ AuthManager initialized! Current user: ' +
+                        (window.authManager.currentUser ? window.authManager.currentUser.name : 'Not logged in');
+                    authManagerCheck.parentElement.classList.add('success');
+                    log('✅ AuthManager initialized', 'success');
+                } else {
+                    authManagerCheck.innerHTML = '❌ AuthManager not found! Check console for errors.';
+                    authManagerCheck.parentElement.classList.add('error');
+                    log('❌ AuthManager not initialized', 'error');
+                }
+
+                // Check 3: Auth buttons
+                const buttonsCheck = document.getElementById('buttonsCheck');
+                const authButtons = document.getElementById('authButtons');
+                if (authButtons && authButtons.children.length > 0) {
+                    buttonsCheck.innerHTML = '✅ Auth buttons rendered! Found ' + authButtons.children.length + ' elements.';
+                    buttonsCheck.parentElement.classList.add('success');
+                    log('✅ Auth buttons rendered: ' + authButtons.innerHTML.substring(0, 100) + '...', 'success');
+                } else {
+                    buttonsCheck.innerHTML = '⚠️ Auth buttons container is empty. This might be normal if auth.js is still loading.';
+                    log('⚠️ Auth buttons not rendered yet', 'warning');
+
+                    // Try again after a delay
+                    setTimeout(() => {
+                        if (authButtons && authButtons.children.length > 0) {
+                            buttonsCheck.innerHTML = '✅ Auth buttons appeared! Found ' + authButtons.children.length + ' elements.';
+                            buttonsCheck.parentElement.classList.add('success');
+                            log('✅ Auth buttons loaded (delayed)', 'success');
+                        } else {
+                            buttonsCheck.innerHTML = '❌ Auth buttons still not showing after delay.';
+                            buttonsCheck.parentElement.classList.add('error');
+                            log('❌ Auth buttons failed to load', 'error');
+                        }
+                    }, 1000);
+                }
+
+                log('All checks completed!', 'info');
+            }, 500);
+        });
+
+        // Catch any errors
+        window.addEventListener('error', function(e) {
+            log('ERROR: ' + e.message + ' at ' + e.filename + ':' + e.lineno, 'error');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Sigma Study House - Premium Study Spaces in Amman" data-ar="سيغما ستادي هاوس - مساحات دراسة متميزة في عمان">Sigma Study House - Premium Study Spaces in Amman</title>
+    <meta name="description" content="Sigma Study House provides comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan. Book your ideal study environment today.">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder logo-animated">
+                        <div class="logo-sigma">Σ</div>
+                        <div class="logo-glow"></div>
+                    </div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                    <li><a href="pages/about.html" data-en="About" data-ar="من نحن">About</a></li>
+                    <li class="dropdown">
+                        <a href="pages/services.html" data-en="Services" data-ar="الخدمات">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="pages/courses.html" data-en="Courses" data-ar="الدورات">Courses</a>
+                            <a href="pages/booking.html" data-en="Booking" data-ar="الحجز">Booking</a>
+                            <a href="pages/printing.html" data-en="Printing" data-ar="الطباعة">Printing</a>
+                            <a href="cafeteria.html" data-en="Cafeteria" data-ar="الكافيتيريا">Cafeteria</a>
+                        </div>
+                    </li>
+                    <li><a href="pages/contact.html" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-controls">
+                <button class="language-toggle" id="languageToggle">
+                    <span>EN</span> | <span>AR</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1 data-en="Your Ideal Study Environment" data-ar="بيئتك المثالية للدراسة">Your Ideal Study Environment</h1>
+            <p data-en="Sigma Study House provides comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan." data-ar="سيغما ستادي هاوس توفر مساحات مريحة ومجهزة بشكل كامل للدراسة والعمل الجماعي والمناقشات في عمان، الأردن.">Sigma Study House provides comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary btn-large" onclick="window.location.href='pages/booking.html'">
+                    <span data-en="Book a Room Now" data-ar="احجز غرفة الآن">Book a Room Now</span>
+                </button>
+                <button class="btn btn-outline btn-large" onclick="window.location.href='pages/services.html'">
+                    <span data-en="Explore Services" data-ar="استكشف الخدمات">Explore Services</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Carousel Section -->
+    <section class="video-section">
+        <div class="container">
+            <h2 class="section-title" data-en="Discover Sigma Study House" data-ar="اكتشف سيغما ستادي هاوس">Discover Sigma Study House</h2>
+            <div class="video-carousel">
+                <div class="carousel-container">
+                    <!-- Slide 1 - Main Promo -->
+                    <div class="carousel-slide active">
+                        <div class="video-placeholder">
+                            <i class="fas fa-play-circle floating-element" style="font-size: 4rem;"></i>
+                            <p data-en="Main Promotional Video" data-ar="الفيديو الترويجي الرئيسي">Main Promotional Video</p>
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-play"></i>
+                                    <span data-en="Watch Video" data-ar="شاهد الفيديو">Watch Video</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2 - Student Stories -->
+                    <div class="carousel-slide">
+                        <div class="video-placeholder" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                            <i class="fas fa-users floating-element" style="font-size: 4rem;"></i>
+                            <p data-en="Student Success Stories" data-ar="قصص نجاح الطلاب">Student Success Stories</p>
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-play"></i>
+                                    <span data-en="Watch Stories" data-ar="شاهد القصص">Watch Stories</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3 - Course Highlights -->
+                    <div class="carousel-slide">
+                        <div class="video-placeholder" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            <i class="fas fa-graduation-cap floating-element" style="font-size: 4rem;"></i>
+                            <p data-en="Course Highlights & Workshops" data-ar="أبرز الدورات وورش العمل">Course Highlights & Workshops</p>
+                            <div style="margin-top: 20px;">
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-play"></i>
+                                    <span data-en="Explore Courses" data-ar="استكشف الدورات">Explore Courses</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-dot active" data-slide="0"></button>
+                    <button class="carousel-dot" data-slide="1"></button>
+                    <button class="carousel-dot" data-slide="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title" data-en="About Us" data-ar="من نحن">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-en="Sigma Study House is a youth-led project dedicated to providing the ideal study environment for students by offering quiet, fully equipped private study rooms and meeting spaces." data-ar="سيغما ستادي هاوس هو مشروع يقوده الشباب مخصص لتوفير البيئة الدراسية المثالية للطلاب من خلال تقديم غرف الدراسة الخاصة الهادئة والمجهزة بالكامل ومساحات الاجتماعات.">Sigma Study House is a youth-led project dedicated to providing the ideal study environment for students by offering quiet, fully equipped private study rooms and meeting spaces.</p>
+                    
+                    <p data-en="We believe that the right space makes a real difference in the quality of learning, so we've created areas that combine comfort, calm, and the modern tools every student or study group needs." data-ar="نحن نؤمن أن المساحة المناسبة تحدث فرقًا حقيقيًا في جودة التعلم، لذلك أنشأنا مناطق تجمع بين الراحة والهدوء والأدوات الحديثة التي يحتاجها كل طالب أو مجموعة دراسة.">We believe that the right space makes a real difference in the quality of learning, so we've created areas that combine comfort, calm, and the modern tools every student or study group needs.</p>
+                    
+                    <p data-en="Located in Amman, Jordan, our facility offers a variety of study environments tailored to different needs and preferences, from silent individual rooms to collaborative group spaces." data-ar="تقع منشأتنا في عمان، الأردن، وتوفر مجموعة متنوعة من البيئات الدراسية المصممة خصيصًا للاحتياجات والتفضيلات المختلفة، من الغرف الفردية الهادئة إلى مساحات العمل الجماعي.">Located in Amman, Jordan, our facility offers a variety of study environments tailored to different needs and preferences, from silent individual rooms to collaborative group spaces.</p>
+                    
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-primary" onclick="window.location.href='pages/about.html'">
+                            <span data-en="Learn More About Us" data-ar="اعرف المزيد عنا">Learn More About Us</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-university floating-element" style="font-size: 3rem;"></i>
+                        <p style="margin-top: 20px;" data-en="Sigma Study House Facility" data-ar="منشأة سيغما ستادي هاوس">Sigma Study House Facility</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title" data-en="Our Services" data-ar="خدماتنا">Our Services</h2>
+            <div class="services-grid">
+                <!-- Social Area -->
+                <div class="service-card hover-glow">
+                    <div class="service-image" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-users floating-element"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 data-en="Social Area" data-ar="المنطقة الاجتماعية">Social Area</h3>
+                        <p data-en="Vibrant community space for networking, collaboration, and relaxation. Perfect for group discussions and social interactions." data-ar="مساحة مجتمعية حيوية للتواصل والتعاون والاسترخاء. مثالية للمناقشات الجماعية والتفاعلات الاجتماعية.">Vibrant community space for networking, collaboration, and relaxation. Perfect for group discussions and social interactions.</p>
+                        
+                        <div style="background: var(--light); padding: 20px; border-radius: 12px; margin: 20px 0;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <i class="fas fa-home" style="color: var(--primary);"></i>
+                                <span data-en="3 JD / 24 hours" data-ar="3 دينار / 24 ساعة">3 JD / 24 hours</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <i class="fas fa-user-friends" style="color: var(--primary);"></i>
+                                <span data-en="Groups of 15-40 people" data-ar="مجموعات من 15-40 شخص">Groups of 15-40 people</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="fas fa-money-bill-wave" style="color: var(--primary);"></i>
+                                <span data-en="2 JD per person" data-ar="2 دينار للشخص">2 JD per person</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="window.location.href='pages/booking.html?room=social'">
+                            <span data-en="Book Social Area" data-ar="احجز المنطقة الاجتماعية">Book Social Area</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solo Rooms -->
+                <div class="service-card hover-glow">
+                    <div class="service-image" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-user floating-element"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 data-en="Solo Rooms" data-ar="غرف فردية">Solo Rooms</h3>
+                        <p data-en="Private soundproof rooms for deep focus and maximum productivity. Your personal sanctuary for uninterrupted study sessions." data-ar="غرف خاصة عازلة للصوت للتركيز العميق والإنتاجية القصوى. ملاذك الشخصي لجلسات الدراسة دون انقطاع.">Private soundproof rooms for deep focus and maximum productivity. Your personal sanctuary for uninterrupted study sessions.</p>
+                        
+                        <div style="background: var(--light); padding: 20px; border-radius: 12px; margin: 20px 0;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <i class="fas fa-home" style="color: var(--primary);"></i>
+                                <span data-en="5 JD / 6 hours" data-ar="5 دينار / 6 ساعات">5 JD / 6 hours</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="fas fa-volume-mute" style="color: var(--primary);"></i>
+                                <span data-en="Soundproof environment" data-ar="بيئة عازلة للصوت">Soundproof environment</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="window.location.href='pages/booking.html?room=solo'">
+                            <span data-en="Book Solo Room" data-ar="احجز غرفة فردية">Book Solo Room</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Meeting Rooms -->
+                <div class="service-card hover-glow">
+                    <div class="service-image" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-handshake floating-element"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3 data-en="Meeting Rooms" data-ar="غرف الاجتماعات">Meeting Rooms</h3>
+                        <p data-en="Professional spaces equipped with smart screens and whiteboards for productive team meetings and collaborative sessions." data-ar="مساحات احترافية مجهزة بشاشات ذكية وسبورات بيضاء للاجتماعات المنتجة للفرق وجلسات التعاون.">Professional spaces equipped with smart screens and whiteboards for productive team meetings and collaborative sessions.</p>
+                        
+                        <div style="background: var(--light); padding: 20px; border-radius: 12px; margin: 20px 0;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i class="fas fa-home" style="color: var(--primary);"></i>
+                                <span data-en="5 JD / 6 hours" data-ar="5 دينار / 6 ساعات">5 JD / 6 hours</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="window.location.href='pages/booking.html?room=meeting'">
+                            <span data-en="Book Meeting Room" data-ar="احجز غرفة اجتماعات">Book Meeting Room</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <button class="btn btn-outline" onclick="window.location.href='pages/services.html'">
+                    <span data-en="View All Services" data-ar="عرض جميع الخدمات">View All Services</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Preview Section -->
+    <section class="courses" style="background: var(--bg);">
+        <div class="container">
+            <h2 class="section-title" data-en="Featured Courses" data-ar="الدورات المميزة">Featured Courses</h2>
+            <div class="courses-grid">
+                <!-- Cybersecurity Course -->
+                <div class="course-card hover-glow">
+                    <div class="course-image" style="background: linear-gradient(135deg, #2c3e50, #34495e);">
+                        <i class="fas fa-shield-alt floating-element"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 data-en="Cybersecurity Fundamentals" data-ar="أساسيات الأمن السيبراني">Cybersecurity Fundamentals</h3>
+                        <p data-en="Learn essential cybersecurity principles, threat protection, and information security best practices from industry experts." data-ar="تعلم مبادئ الأمن السيبراني الأساسية، وحماية التهديدات، وأفضل ممارسات أمن المعلومات من خبراء الصناعة.">Learn essential cybersecurity principles, threat protection, and information security best practices from industry experts.</p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                            <span style="color: var(--primary); font-weight: bold; font-size: 1.3rem;">150 JOD</span>
+                            <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">
+                                <span data-en="40 Hours" data-ar="40 ساعة">40 Hours</span>
+                            </span>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="window.location.href='pages/courses.html'">
+                            <span data-en="View Course" data-ar="عرض الدورة">View Course</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Medical Courses -->
+                <div class="course-card hover-glow">
+                    <div class="course-image" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-heartbeat floating-element"></i>
+                    </div>
+                    <div class="course-content">
+                        <h3 data-en="Medical Preparation" data-ar="التجهيز الطبي">Medical Preparation</h3>
+                        <p data-en="Comprehensive medical courses and exam preparation led by experienced medical professionals and educators." data-ar="دورات طبية شاملة والتحضير للامتحانات بقيادة متخصصين طبيين ومعلمين ذوي خبرة.">Comprehensive medical courses and exam preparation led by experienced medical professionals and educators.</p>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0;">
+                            <span style="color: var(--primary); font-weight: bold; font-size: 1.3rem;">200 JOD</span>
+                            <span style="background: var(--primary); color: white; padding: 4px 12px; border-radius: 15px; font-size: 0.8rem;">
+                                <span data-en="60 Hours" data-ar="60 ساعة">60 Hours</span>
+                            </span>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="window.location.href='pages/courses.html'">
+                            <span data-en="View Course" data-ar="عرض الدورة">View Course</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <button class="btn btn-outline" onclick="window.location.href='pages/courses.html'">
+                    <span data-en="Browse All Courses" data-ar="استعرض جميع الدورات">Browse All Courses</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <h2 class="section-title" data-en="Pricing Plans" data-ar="باقات الأسعار">Pricing Plans</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 50px; color: var(--text-light); font-size: 1.1rem;"
+               data-en="Choose the perfect plan that fits your study needs and budget. All plans include high-speed Wi-Fi and access to common areas."
+               data-ar="اختر الباقة المثالية التي تناسب احتياجاتك الدراسية وميزانيتك. جميع الباقات تشمل الواي فاي عالي السرعة والوصول إلى المناطق المشتركة.">
+               Choose the perfect plan that fits your study needs and budget. All plans include high-speed Wi-Fi and access to common areas.
+            </p>
+            
+            <div class="pricing-grid">
+                <!-- Hourly Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 data-en="Pay As You Go" data-ar="ادفع حسب الاستخدام">Pay As You Go</h3>
+                        <div class="price-amount">3 JOD</div>
+                        <div class="price-period" data-en="per hour" data-ar="في الساعة">per hour</div>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> <span data-en="Flexible booking" data-ar="حجز مرن">Flexible booking</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="All room types available" data-ar="جميع أنواع الغرف متاحة">All room types available</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="No commitment" data-ar="لا توجد التزامات">No commitment</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Perfect for occasional use" data-ar="مثالي للاستخدام المتقطع">Perfect for occasional use</span></li>
+                    </ul>
+                    
+                    <button class="btn btn-outline" style="width: 100%;" onclick="window.location.href='pages/booking.html'">
+                        <span data-en="Get Started" data-ar="ابدأ الآن">Get Started</span>
+                    </button>
+                </div>
+
+                <!-- Monthly Plan - Featured -->
+                <div class="pricing-card featured">
+                    <div class="price-badge" data-en="MOST POPULAR" data-ar="الأكثر شيوعاً">MOST POPULAR</div>
+                    <div class="pricing-header">
+                        <h3 data-en="Unlimited Access" data-ar="وصول غير محدود">Unlimited Access</h3>
+                        <div class="price-amount">50 JOD</div>
+                        <div class="price-period" data-en="per month" data-ar="في الشهر">per month</div>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> <span data-en="Unlimited hours" data-ar="ساعات غير محدودة">Unlimited hours</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Priority booking" data-ar="أولوية في الحجز">Priority booking</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Free printing credits" data-ar="رصيد طباعة مجاني">Free printing credits</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Coffee discounts" data-ar="خصومات على القهوة">Coffee discounts</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Personal storage locker" data-ar="خزانة تخزين شخصية">Personal storage locker</span></li>
+                    </ul>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" onclick="window.location.href='pages/booking.html'">
+                        <span data-en="Choose Plan" data-ar="اختر الباقة">Choose Plan</span>
+                    </button>
+                </div>
+
+                <!-- Group Plan -->
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 data-en="Team Package" data-ar="باقة الفريق">Team Package</h3>
+                        <div class="price-amount">120 JOD</div>
+                        <div class="price-period" data-en="per month" data-ar="في الشهر">per month</div>
+                    </div>
+                    
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> <span data-en="Up to 4 people" data-ar="حتى 4 أشخاص">Up to 4 people</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Dedicated meeting room" data-ar="غرفة اجتماعات مخصصة">Dedicated meeting room</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Extended booking times" data-ar="أوقات حجز ممتدة">Extended booking times</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="All premium features" data-ar="جميع الميزات المميزة">All premium features</span></li>
+                        <li><i class="fas fa-check"></i> <span data-en="Team building events" data-ar="فعاليات بناء الفريق">Team building events</span></li>
+                    </ul>
+                    
+                    <button class="btn btn-outline" style="width: 100%;" onclick="window.location.href='pages/booking.html'">
+                        <span data-en="Team Up" data-ar="كون فريق">Team Up</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p data-en="Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan." data-ar="نوفر مساحات مريحة ومجهزة بشكل كامل للدراسة والعمل الجماعي والمناقشات في عمان، الأردن.">Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                        <li><a href="pages/about.html" data-en="About Us" data-ar="من نحن">About Us</a></li>
+                        <li><a href="pages/services.html" data-en="Services" data-ar="الخدمات">Services</a></li>
+                        <li><a href="pages/courses.html" data-en="Courses" data-ar="الدورات">Courses</a></li>
+                        <li><a href="pages/booking.html" data-en="Booking" data-ar="الحجز">Booking</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Services" data-ar="الخدمات">Services</h4>
+                    <ul>
+                        <li><a href="pages/services.html" data-en="Social Area" data-ar="المنطقة الاجتماعية">Social Area</a></li>
+                        <li><a href="pages/services.html" data-en="Solo Rooms" data-ar="غرف فردية">Solo Rooms</a></li>
+                        <li><a href="pages/services.html" data-en="Meeting Rooms" data-ar="غرف الاجتماعات">Meeting Rooms</a></li>
+                        <li><a href="pages/printing.html" data-en="Printing Services" data-ar="خدمات الطباعة">Printing Services</a></li>
+                        <li><a href="cafeteria.html" data-en="Cafeteria" data-ar="الكافيتيريا">Cafeteria</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="footer-heading" data-en="Contact Info" data-ar="معلومات الاتصال">Contact Info</h4>
+                    <ul>
+                        <li>
+                            <a href="pages/contact.html" data-en="Wasfi Al-Tal Street, Amman" data-ar="شارع وصفي التل، عمان">Wasfi Al-Tal Street, Amman</a>
+                        </li>
+                        <li>
+                            <a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a>
+                        </li>
+                        <li>
+                            <a href="tel:00962796101060">00962796101060</a>
+                        </li>
+                        <li>
+                            <a href="pages/contact.html" data-en="Open 24/7" data-ar="مفتوح 24/7">Open 24/7</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-en="Sign In to Your Account" data-ar="تسجيل الدخول إلى حسابك">Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-target="loginForm">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                    <button class="auth-tab" data-target="registerForm">
+                        <span data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</span>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="auth-options">
+                        <a href="#" class="auth-option" id="googleSignIn">
+                            <div class="auth-icon">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Continue with Google" data-ar="المتابعة باستخدام جوجل">Continue with Google</h4>
+                                <p data-en="Sign in with your Google account" data-ar="سجل الدخول باستخدام حساب جوجل">Sign in with your Google account</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="auth-divider">
+                        <span data-en="or" data-ar="أو">or</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" required 
+                               data-en="Enter your email" data-ar="أدخل بريدك الإلكتروني">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword" data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required
+                               data-en="Enter your password" data-ar="أدخل كلمة المرور">
+                    </div>
+
+                    <div class="form-footer">
+                        <p data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account? 
+                            <a href="#" class="switch-to-register" data-en="Sign up here" data-ar="اشترك هنا">Sign up here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerName" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                        <input type="text" class="form-control" id="registerName" name="name" required
+                               data-en="Enter your full name" data-ar="أدخل اسمك الكامل">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                        <input type="email" class="form-control" id="registerEmail" name="email" required
+                               data-en="Enter your email" data-ar="أدخل بريدك الإلكتروني">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword" data-en="Password" data-ar="كلمة المرور">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" required
+                               data-en="Create a password" data-ar="أنشئ كلمة مرور">
+                        <div class="password-strength">
+                            <div class="strength-weak"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" data-en="Confirm Password" data-ar="تأكيد كلمة المرور">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                               data-en="Confirm your password" data-ar="أكد كلمة المرور">
+                    </div>
+
+                    <div class="form-footer">
+                        <p data-en="Already have an account?" data-ar="هل لديك حساب بالفعل؟">Already have an account? 
+                            <a href="#" class="switch-to-login" data-en="Sign in here" data-ar="سجل الدخول هنا">Sign in here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/language.js"></script>
+</body>
+</html>

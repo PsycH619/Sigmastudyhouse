@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafeteria - Sigma Study House</title>
+    <meta name="description" content="Enjoy fresh food and beverages at Sigma Study House cafeteria. Coffee, snacks, meals, and refreshments to fuel your study sessions in Amman.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html" class="active">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html">Courses</a>
+                            <a href="booking.html">Booking</a>
+                            <a href="printing.html">Printing</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- This will be populated by JavaScript based on auth state -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Page Content -->
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(255, 107, 53, 0.9), rgba(255, 107, 53, 0.8));">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>Discover the perfect study environment tailored to your needs</p>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Study Spaces</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image" style="background-color: var(--primary); color: white;">
+                        <i class="fas fa-volume-mute" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Silent Rooms</h3>
+                        <p>For deep focus and a distraction-free environment. Perfect for intense study sessions and exam preparation.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Sound-proof rooms</li>
+                            <li>Individual study carrels</li>
+                            <li>Controlled lighting</li>
+                            <li>No phone policy</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="window.location.href='booking.html'">Book Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image" style="background-color: var(--secondary); color: white;">
+                        <i class="fas fa-user" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Solo Rooms</h3>
+                        <p>Private spaces for individual study or work. Your personal sanctuary for productivity.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Lockable private rooms</li>
+                            <li>Adjustable desks</li>
+                            <li>Personal storage</li>
+                            <li>24/7 access available</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="window.location.href='booking.html'">Book Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image" style="background-color: var(--accent); color: white;">
+                        <i class="fas fa-users" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Meeting Rooms</h3>
+                        <p>Ideal for group projects, team meetings, and collaborative sessions.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>4-12 person capacity</li>
+                            <li>Smart TV & whiteboards</li>
+                            <li>Video conferencing</li>
+                            <li>Catering options</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="window.location.href='booking.html'">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" style="background-color: var(--light);">
+        <div class="container">
+            <h2 class="section-title">Additional Amenities</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image" style="background-color: #8B4513; color: white;">
+                        <i class="fas fa-coffee" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Coffee Point</h3>
+                        <p>A cozy corner to relax and recharge with your favorite drink.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Specialty coffee & tea</li>
+                            <li>Snacks & light meals</li>
+                            <li>Comfortable seating</li>
+                            <li>Free refills for members</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image" style="background-color: #2c3e50; color: white;">
+                        <i class="fas fa-print" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Printing Services</h3>
+                        <p>High-quality printing, scanning, and copying services for all your academic needs.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Color & B&W printing</li>
+                            <li>Binding & laminating</li>
+                            <li>Large format printing</li>
+                            <li>24/7 self-service</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="window.location.href='printing.html'">Print Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-image" style="background-color: #27ae60; color: white;">
+                        <i class="fas fa-smoking" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Designated Areas</h3>
+                        <p>Ensuring comfort for everyone without disturbing others.</p>
+                        <ul style="margin: 15px 0; padding-left: 20px;">
+                            <li>Comfortable smoking areas</li>
+                            <li>Phone call zones</li>
+                            <li>Social spaces</li>
+                            <li>Outdoor seating</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="courses">
+        <div class="container">
+            <h2 class="section-title">Pricing Plans</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image" style="background-color: var(--primary);">
+                        <h3 style="color: white; font-size: 2rem;">Hourly</h3>
+                    </div>
+                    <div class="course-content" style="text-align: center;">
+                        <h3>Pay As You Go</h3>
+                        <div style="font-size: 2rem; color: var(--primary); font-weight: bold; margin: 15px 0;">
+                            3 JOD<span style="font-size: 1rem; color: var(--text-light);">/hour</span>
+                        </div>
+                        <ul style="text-align: left; margin: 20px 0;">
+                            <li>Flexible booking</li>
+                            <li>All room types available</li>
+                            <li>No commitment</li>
+                            <li>Perfect for occasional use</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="window.location.href='booking.html'">Get Started</button>
+                    </div>
+                </div>
+                <div class="course-card" style="transform: scale(1.05); border: 2px solid var(--primary);">
+                    <div class="course-image" style="background-color: var(--secondary);">
+                        <h3 style="color: white; font-size: 2rem;">Monthly</h3>
+                    </div>
+                    <div class="course-content" style="text-align: center;">
+                        <div style="position: absolute; top: -10px; right: 20px; background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem;">
+                            MOST POPULAR
+                        </div>
+                        <h3>Unlimited Access</h3>
+                        <div style="font-size: 2rem; color: var(--primary); font-weight: bold; margin: 15px 0;">
+                            50 JOD<span style="font-size: 1rem; color: var(--text-light);">/month</span>
+                        </div>
+                        <ul style="text-align: left; margin: 20px 0;">
+                            <li>Unlimited hours</li>
+                            <li>Priority booking</li>
+                            <li>Free printing credits</li>
+                            <li>Coffee discounts</li>
+                            <li>Storage locker</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="window.location.href='booking.html'">Choose Plan</button>
+                    </div>
+                </div>
+                <div class="course-card">
+                    <div class="course-image" style="background-color: var(--accent);">
+                        <h3 style="color: white; font-size: 2rem;">Group</h3>
+                    </div>
+                    <div class="course-content" style="text-align: center;">
+                        <h3>Team Package</h3>
+                        <div style="font-size: 2rem; color: var(--primary); font-weight: bold; margin: 15px 0;">
+                            120 JOD<span style="font-size: 1rem; color: var(--text-light);">/month</span>
+                        </div>
+                        <ul style="text-align: left; margin: 20px 0;">
+                            <li>Up to 4 people</li>
+                            <li>Dedicated meeting room</li>
+                            <li>Extended booking times</li>
+                            <li>All premium features</li>
+                            <li>Team events</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;" onclick="window.location.href='booking.html'">Team Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p>Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="booking.html">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul>
+                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Solo Rooms</a></li>
+                        <li><a href="services.html">Meeting Rooms</a></li>
+                        <li><a href="printing.html">Printing Services</a></li>
+                        <li><a href="services.html">Coffee Point</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><a href="contact.html">Wasfi Al-Tal Street, Amman</a></li>
+                        <li><a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a></li>
+                        <li><a href="tel:00962796101060">00962796101060</a></li>
+                        <li><a href="contact.html">Open 24/7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-options">
+                    <div class="auth-option" id="googleSignIn">
+                        <div class="auth-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div>
+                            <h4>Continue with Google</h4>
+                            <p>Sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="auth-option">
+                        <div class="auth-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Sign in with Email</h4>
+                            <p>Use your email address</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>

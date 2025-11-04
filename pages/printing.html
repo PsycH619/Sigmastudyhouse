@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printing Services - Sigma Study House</title>
+    <meta name="description" content="Professional printing services in Amman. Black & white and color printing, binding, and document services. Fast, affordable, and high-quality printing for students.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html">Courses</a>
+                            <a href="booking.html">Booking</a>
+                            <a href="printing.html" class="active">Printing</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- This will be populated by JavaScript based on auth state -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Printing Page Content -->
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(52, 152, 219, 0.9), rgba(52, 152, 219, 0.8));">
+        <div class="container">
+            <h1>Printing Services</h1>
+            <p>High-quality printing, copying, and binding services for all your academic needs</p>
+        </div>
+    </section>
+
+    <section class="printing">
+        <div class="container">
+            <h2 class="section-title">Upload & Print</h2>
+            <div class="printing-container">
+                <div class="upload-area">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Upload Your Documents</h3>
+                    <p>Drag and drop your files or click to browse</p>
+                    <input type="file" id="fileUpload" multiple style="display: none;" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png">
+                    <button class="btn btn-primary" onclick="document.getElementById('fileUpload').click()">Choose Files</button>
+                    <div id="fileList" style="margin-top: 20px; text-align: left;"></div>
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-light);">
+                        Supported formats: PDF, DOC, DOCX, PPT, JPG, PNG<br>
+                        Max file size: 50MB per file
+                    </p>
+                </div>
+                <div class="printing-options">
+                    <h3>Printing Options</h3>
+                    <div class="option-group">
+                        <label for="printType">Print Type *</label>
+                        <select class="form-control" id="printType" required>
+                            <option value="bw">Black & White - 0.10 JOD/page</option>
+                            <option value="color">Color - 0.50 JOD/page</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="paperSize">Paper Size *</label>
+                        <select class="form-control" id="paperSize" required>
+                            <option value="a4">A4</option>
+                            <option value="a3">A3 - 2x price</option>
+                            <option value="letter">Letter</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="printSides">Print Sides *</label>
+                        <select class="form-control" id="printSides" required>
+                            <option value="single">Single-sided</option>
+                            <option value="double">Double-sided - Save 20%</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="copies">Number of Copies *</label>
+                        <input type="number" class="form-control" id="copies" min="1" value="1" required>
+                    </div>
+                    <div class="option-group">
+                        <label for="binding">Binding</label>
+                        <select class="form-control" id="binding">
+                            <option value="none">None</option>
+                            <option value="stapled">Stapled - 1 JOD</option>
+                            <option value="spiral">Spiral Bound - 5 JOD</option>
+                            <option value="hardcover">Hard Cover - 15 JOD</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="urgency">Urgency</label>
+                        <select class="form-control" id="urgency">
+                            <option value="standard">Standard (24 hours)</option>
+                            <option value="express">Express (4 hours) - +50%</option>
+                            <option value="urgent">Urgent (1 hour) - +100%</option>
+                        </select>
+                    </div>
+                    
+                    <div style="background-color: var(--light); padding: 15px; border-radius: 5px; margin: 20px 0;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <strong>Estimated Cost:</strong>
+                            <span id="estimatedCost">0.00 JOD</span>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 5px;">
+                            <span id="pageCount">0 pages</span> • Final cost calculated after upload
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%;" id="addToCartBtn" disabled>Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="services" style="background-color: var(--light);">
+        <div class="container">
+            <h2 class="section-title">Printing Prices</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Standard Printing</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Black & White (A4)</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.10 JOD/page</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Color (A4)</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.50 JOD/page</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">A3 Size</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">2x A4 price</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0;">Double-sided</td>
+                                <td style="padding: 8px 0; text-align: right;">20% discount</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Binding Services</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Stapling</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">1 JOD</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Spiral Binding</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">5 JOD</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Hard Cover</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">15 JOD</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0;">Lamination (A4)</td>
+                                <td style="padding: 8px 0; text-align: right;">2 JOD/page</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Additional Services</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Scanning</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.05 JOD/page</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Fax Service</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">1 JOD/page</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Express Service</td>
+                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">+50%</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px 0;">Urgent Service</td>
+                                <td style="padding: 8px 0; text-align: right;">+100%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p>Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="booking.html">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul>
+                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Solo Rooms</a></li>
+                        <li><a href="services.html">Meeting Rooms</a></li>
+                        <li><a href="printing.html">Printing Services</a></li>
+                        <li><a href="services.html">Coffee Point</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><a href="contact.html">Wasfi Al-Tal Street, Amman</a></li>
+                        <li><a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a></li>
+                        <li><a href="tel:00962796101060">00962796101060</a></li>
+                        <li><a href="contact.html">Open 24/7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-options">
+                    <div class="auth-option" id="googleSignIn">
+                        <div class="auth-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div>
+                            <h4>Continue with Google</h4>
+                            <p>Sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="auth-option">
+                        <div class="auth-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Sign in with Email</h4>
+                            <p>Use your email address</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/printing.js"></script>
+</body>
+</html>

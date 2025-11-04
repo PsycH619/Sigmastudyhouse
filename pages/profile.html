@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Sigma Study House</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html">Courses</a>
+                            <a href="booking.html">Booking</a>
+                            <a href="printing.html">Printing</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- This will be populated by JavaScript based on auth state -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Page Content -->
+    <section class="profile">
+        <div class="container">
+            <h1 class="section-title">My Profile</h1>
+            <div class="profile-container">
+                <div class="profile-sidebar">
+                    <div class="profile-avatar" id="profileAvatar">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    <h3 id="userName" style="text-align: center;">User Name</h3>
+                    <p id="userEmail" style="text-align: center; color: var(--text-light);">user@email.com</p>
+                    
+                    <ul class="profile-nav">
+                        <li><a href="#" data-section="personal-info" class="active">Personal Information</a></li>
+                        <li><a href="#" data-section="bookings">Booking History</a></li>
+                        <li><a href="#" data-section="printing-orders">Printing Orders</a></li>
+                        <li><a href="#" data-section="credit">Credit & Payments</a></li>
+                        <li><a href="#" data-section="settings">Account Settings</a></li>
+                    </ul>
+                </div>
+                
+                <div class="profile-main">
+                    <!-- Personal Information Section -->
+                    <div id="personal-info" class="profile-section active">
+                        <h2>Personal Information</h2>
+                        <div class="credit-balance">
+                            <h3>Account Balance</h3>
+                            <div class="credit-amount" id="currentBalance">25.00 JOD</div>
+                            <p>Available credit for bookings and services</p>
+                        </div>
+                        
+                        <form id="personalInfoForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileEmail">Email Address</label>
+                                <input type="email" class="form-control" id="profileEmail" value="john.doe@example.com" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" value="+962 79 610 1060">
+                            </div>
+                            <div class="form-group">
+                                <label for="studentId">Student ID (Optional)</label>
+                                <input type="text" class="form-control" id="studentId" placeholder="Enter your student ID for discounts">
+                            </div>
+                            <div class="form-group">
+                                <label for="preferences">Study Preferences</label>
+                                <select class="form-control" id="preferences" multiple>
+                                    <option value="silent" selected>Silent Rooms</option>
+                                    <option value="solo">Solo Rooms</option>
+                                    <option value="group">Group Study</option>
+                                    <option value="coffee">Coffee Point Access</option>
+                                </select>
+                                <small style="color: var(--text-light);">Hold Ctrl to select multiple options</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Information</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Booking History Section -->
+                    <div id="bookings" class="profile-section">
+                        <h2>Booking History</h2>
+                        <div class="booking-history">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Room Type</th>
+                                        <th>Time</th>
+                                        <th>Duration</th>
+                                        <th>Cost</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Printing Orders Section -->
+                    <div id="printing-orders" class="profile-section">
+                        <h2>Printing Orders</h2>
+                        <div class="booking-history">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order Date</th>
+                                        <th>Files</th>
+                                        <th>Pages</th>
+                                        <th>Cost</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="printingTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Credit & Payments Section -->
+                    <div id="credit" class="profile-section">
+                        <h2>Credit & Payments</h2>
+                        <div class="credit-balance">
+                            <h3>Current Balance</h3>
+                            <div class="credit-amount" id="creditBalance">25.00 JOD</div>
+                            <p>Available credit for all services</p>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="creditAmount">Add Credit Amount (JOD)</label>
+                            <input type="number" class="form-control" id="creditAmount" min="5" max="500" step="5" value="25">
+                            <small style="color: var(--text-light);">Minimum amount: 5 JOD</small>
+                        </div>
+                        <button class="btn btn-primary" id="addCreditBtn">Add Credit</button>
+                        
+                        <div style="margin-top: 30px;">
+                            <h3>Payment History</h3>
+                            <div class="booking-history">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="paymentHistoryBody">
+                                        <!-- Will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Settings Section -->
+                    <div id="settings" class="profile-section">
+                        <h2>Account Settings</h2>
+                        
+                        <div class="form-group">
+                            <label>Notification Preferences</label>
+                            <div style="margin: 10px 0;">
+                                <label style="display: block; margin: 5px 0;">
+                                    <input type="checkbox" checked> Email notifications
+                                </label>
+                                <label style="display: block; margin: 5px 0;">
+                                    <input type="checkbox" checked> SMS notifications
+                                </label>
+                                <label style="display: block; margin: 5px 0;">
+                                    <input type="checkbox"> promotional offers
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="language">Language Preference</label>
+                            <select class="form-control" id="language">
+                                <option value="en">English</option>
+                                <option value="ar">Arabic</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="timezone">Timezone</label>
+                            <select class="form-control" id="timezone">
+                                <option value="+3">Amman, Jordan (UTC+3)</option>
+                                <option value="+0">London (UTC+0)</option>
+                                <option value="-5">New York (UTC-5)</option>
+                            </select>
+                        </div>
+                        
+                        <div style="margin: 30px 0; padding: 20px; background-color: var(--light); border-radius: 5px;">
+                            <h3 style="color: var(--accent);">Danger Zone</h3>
+                            <p>Once you delete your account, there is no going back. Please be certain.</p>
+                            <button class="btn btn-outline" style="border-color: var(--accent); color: var(--accent);">Delete Account</button>
+                        </div>
+                        
+                        <button class="btn btn-primary">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p>Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="booking.html">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul>
+                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Solo Rooms</a></li>
+                        <li><a href="services.html">Meeting Rooms</a></li>
+                        <li><a href="printing.html">Printing Services</a></li>
+                        <li><a href="services.html">Coffee Point</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><a href="contact.html">Wasfi Al-Tal Street, Amman</a></li>
+                        <li><a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a></li>
+                        <li><a href="tel:00962796101060">00962796101060</a></li>
+                        <li><a href="contact.html">Open 24/7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-options">
+                    <div class="auth-option" id="googleSignIn">
+                        <div class="auth-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div>
+                            <h4>Continue with Google</h4>
+                            <p>Sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="auth-option">
+                        <div class="auth-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Sign in with Email</h4>
+                            <p>Use your email address</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Profile page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!currentUser) {
+                window.location.href = '../index.html';
+                return;
+            }
+            
+            loadBookingHistory();
+            loadPrintingOrders();
+            loadPaymentHistory();
+            
+            // Personal info form
+            document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showNotification('Personal information updated successfully!', 'success');
+            });
+            
+            // Add credit functionality
+            document.getElementById('addCreditBtn').addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
+                if (amount >= 5) {
+                    userCredit += amount;
+                    localStorage.setItem('userCredit', JSON.stringify(userCredit));
+                    
+                    // Add to payment history
+                    const payment = {
+                        date: new Date().toISOString(),
+                        description: 'Credit Top-up',
+                        amount: amount,
+                        type: 'credit'
+                    };
+                    
+                    let paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+                    paymentHistory.push(payment);
+                    localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
+                    
+                    updateCreditDisplay();
+                    loadPaymentHistory();
+                    showNotification(`Successfully added ${amount.toFixed(2)} JOD to your account!`, 'success');
+                } else {
+                    showNotification('Minimum credit amount is 5 JOD', 'error');
+                }
+            });
+        });
+        
+        function loadBookingHistory() {
+            const bookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+            const tbody = document.getElementById('bookingsTableBody');
+            
+            if (bookings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No bookings found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = bookings.map(booking => `
+                <tr>
+                    <td>${new Date(booking.date).toLocaleDateString('en-JO')}</td>
+                    <td>${formatRoomType(booking.roomType)}</td>
+                    <td>${booking.startTime} - ${booking.endTime}</td>
+                    <td>${booking.duration.toFixed(1)} hours</td>
+                    <td>${booking.totalCost.toFixed(2)} JOD</td>
+                    <td><span class="status-${booking.status}">${booking.status}</span></td>
+                </tr>
+            `).join('');
+        }
+        
+        function loadPrintingOrders() {
+            const orders = JSON.parse(localStorage.getItem('printingOrders')) || [];
+            const tbody = document.getElementById('printingTableBody');
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No printing orders found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
+                    <td>${order.files.length} file(s)</td>
+                    <td>${order.totalPages}</td>
+                    <td>${order.cost.toFixed(2)} JOD</td>
+                    <td><span class="status-${order.status}">${order.status}</span></td>
+                </tr>
+            `).join('');
+        }
+        
+        function loadPaymentHistory() {
+            const payments = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+            const tbody = document.getElementById('paymentHistoryBody');
+            
+            // Add sample data if empty
+            if (payments.length === 0) {
+                payments.push(
+                    {
+                        date: new Date(Date.now() - 86400000).toISOString(),
+                        description: 'Room Booking - Silent Room',
+                        amount: -9.00,
+                        type: 'debit'
+                    },
+                    {
+                        date: new Date(Date.now() - 172800000).toISOString(),
+                        description: 'Credit Top-up',
+                        amount: 25.00,
+                        type: 'credit'
+                    },
+                    {
+                        date: new Date(Date.now() - 259200000).toISOString(),
+                        description: 'Printing Services',
+                        amount: -3.50,
+                        type: 'debit'
+                    }
+                );
+                localStorage.setItem('paymentHistory', JSON.stringify(payments));
+            }
+            
+            tbody.innerHTML = payments.map(payment => `
+                <tr>
+                    <td>${new Date(payment.date).toLocaleDateString('en-JO')}</td>
+                    <td>${payment.description}</td>
+                    <td style="color: ${payment.type === 'credit' ? 'var(--success)' : 'var(--accent)'}">
+                        ${payment.type === 'credit' ? '+' : ''}${payment.amount.toFixed(2)} JOD
+                    </td>
+                    <td><span class="status-${payment.type}">${payment.type}</span></td>
+                </tr>
+            `).join('');
+        }
+        
+        function formatRoomType(roomType) {
+            const types = {
+                'silent': 'Silent Room',
+                'solo': 'Solo Room',
+                'meeting-small': 'Small Meeting Room',
+                'meeting-medium': 'Medium Meeting Room',
+                'meeting-large': 'Large Meeting Room'
+            };
+            return types[roomType] || roomType;
+        }
+    </script>
+</body>
+</html>

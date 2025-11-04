@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup Demo - Sigma Study House</title>
+    <meta name="description" content="Test the login and signup functionality for Sigma Study House">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder logo-animated">
+                        <div class="logo-sigma">Σ</div>
+                        <div class="logo-glow"></div>
+                    </div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="auth-demo.html" style="color: var(--primary);">Auth Demo</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Demo Hero Section -->
+    <section class="hero" style="padding: 100px 0 80px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.9), rgba(231, 111, 81, 0.8));">
+        <div class="container">
+            <h1>Authentication System Demo</h1>
+            <p>Test the login and signup functionality with all features</p>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+                <button class="btn btn-primary btn-large" onclick="document.getElementById('loginModal').classList.add('active')">
+                    <i class="fas fa-sign-in-alt"></i> Test Login
+                </button>
+                <button class="btn btn-outline btn-large" onclick="openSignupTab()">
+                    <i class="fas fa-user-plus"></i> Test Signup
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="services" style="padding: 80px 0;">
+        <div class="container">
+            <h2 class="section-title">Authentication Features</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Secure Login</h3>
+                        <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Email validation</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Password visibility toggle</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Loading states</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Error handling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Smart Registration</h3>
+                        <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Password strength indicator</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Duplicate email detection</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Comprehensive validation</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Auto-login after signup</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>Enhanced Security</h3>
+                        <ul style="list-style: none; padding: 0; margin: 20px 0;">
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Real-time validation</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Case-insensitive email</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Tab switching</li>
+                            <li style="padding: 8px 0;"><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Google Sign-In ready</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--light); padding: 40px; border-radius: 20px; margin-top: 50px;">
+                <h3 style="margin-bottom: 20px; color: var(--primary);">
+                    <i class="fas fa-info-circle"></i> Test Credentials
+                </h3>
+                <p style="margin-bottom: 15px;"><strong>To test login:</strong></p>
+                <ol style="margin-left: 20px; line-height: 2;">
+                    <li>First, create an account using the "Test Signup" button</li>
+                    <li>Fill in your details and click "Create Account"</li>
+                    <li>You'll be automatically logged in</li>
+                    <li>Click "Logout" from the user menu</li>
+                    <li>Click "Test Login" and use the same credentials</li>
+                </ol>
+
+                <div style="margin-top: 30px; padding: 20px; background: rgba(255, 193, 7, 0.1); border-left: 4px solid var(--warning); border-radius: 8px;">
+                    <p style="margin: 0; color: var(--text);">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+                        <strong>Note:</strong> This is a demo using localStorage. In production, implement proper server-side authentication with password hashing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-target="loginForm">
+                        <span>Sign In</span>
+                    </button>
+                    <button class="auth-tab" data-target="registerForm">
+                        <span>Sign Up</span>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form active">
+                    <div class="auth-options">
+                        <a href="#" class="auth-option" id="googleSignIn">
+                            <div class="auth-icon">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div>
+                                <h4>Continue with Google</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--text-light);">Sign in with your Google account</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="auth-divider">
+                        <span>or</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" required placeholder="Enter your password">
+                    </div>
+
+                    <div class="form-footer">
+                        <p>Don't have an account?
+                            <a href="#" class="switch-to-register">Sign up here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Sign In</span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" class="form-control" id="registerName" name="name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" class="form-control" id="registerEmail" name="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" name="password" required placeholder="Create a password (min 6 characters)">
+                        <div class="password-strength">
+                            <div class="strength-weak"></div>
+                        </div>
+                        <small style="color: var(--text-light); font-size: 0.85rem; margin-top: 5px; display: block;">
+                            Use 8+ characters with uppercase, lowercase, numbers & symbols
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                    </div>
+
+                    <div class="form-footer">
+                        <p>Already have an account?
+                            <a href="#" class="switch-to-login">Sign in here</a>
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span>Create Account</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Function to open signup tab directly
+        function openSignupTab() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.add('active');
+
+            // Switch to signup tab
+            setTimeout(() => {
+                const registerTab = modal.querySelector('[data-target="registerForm"]');
+                if (registerTab) {
+                    registerTab.click();
+                }
+            }, 100);
+        }
+
+        // Show current user status
+        window.addEventListener('load', () => {
+            const currentUser = window.authManager ? window.authManager.currentUser : null;
+            if (currentUser) {
+                console.log('Currently logged in as:', currentUser.name, '-', currentUser.email);
+            } else {
+                console.log('Not logged in. Click "Test Signup" to create an account.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="Live Stream - Sigma Study House" data-ar="البث المباشر - سيغما ستادي هاوس">Live Stream - Sigma Study House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <header>
+        <!-- Same enhanced header -->
+    </header>
+
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.8));">
+        <div class="container">
+            <h1 data-en="Live Learning Experience" data-ar="تجربة التعلم المباشر">Live Learning Experience</h1>
+            <p data-en="Join our interactive live streams and learn from anywhere" data-ar="انضم إلى بثودنا المباشرة التفاعلية وتعلم من أي مكان">Join our interactive live streams and learn from anywhere</p>
+        </div>
+    </section>
+
+    <section class="printing">
+        <div class="container">
+            <div class="stream-container">
+                <div class="live-indicator">
+                    <i class="fas fa-circle"></i> <span data-en="LIVE" data-ar="مباشر">LIVE</span>
+                </div>
+                
+                <div class="video-container">
+                    <div class="video-placeholder" style="height: 400px; background: linear-gradient(135deg, #2c3e50, #34495e);">
+                        <i class="fas fa-broadcast-tower floating-element" style="font-size: 4rem; color: #e74c3c;"></i>
+                        <p style="color: white; margin-top: 20px; font-size: 1.2rem;" data-en="Live Stream Starting Soon" data-ar="البث المباشر سيبدأ قريباً">Live Stream Starting Soon</p>
+                        <div style="margin-top: 20px;">
+                            <div class="countdown" style="font-size: 2rem; color: white; font-weight: bold;">
+                                00:15:32
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 30px;">
+                    <div>
+                        <h3 data-en="Stream Information" data-ar="معلومات البث">Stream Information</h3>
+                        <div id="streamInfo">
+                            <!-- Dynamic stream info -->
+                        </div>
+                        
+                        <div class="chat-container">
+                            <h4 data-en="Live Chat" data-ar="الدردشة المباشرة">Live Chat</h4>
+                            <div id="chatMessages" style="min-height: 200px; margin-bottom: 15px;">
+                                <div style="text-align: center; color: var(--text-light); padding: 20px;">
+                                    <span data-en="Chat will be available when stream starts" data-ar="الدردشة ستكون متاحة عند بدء البث">Chat will be available when stream starts</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" class="form-control" placeholder="Type your message..." data-en="Type your message..." data-ar="اكتب رسالتك...">
+                                <button class="btn btn-primary" data-en="Send" data-ar="إرسال">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 data-en="Course Materials" data-ar="مواد الدورة">Course Materials</h3>
+                        <div style="background: var(--light); padding: 20px; border-radius: 10px;">
+                            <div class="material-item" style="margin-bottom: 15px;">
+                                <i class="fas fa-file-pdf" style="color: #e74c3c;"></i>
+                                <span data-en="Course Slides" data-ar="شرائح الدورة">Course Slides</span>
+                                <button class="btn btn-outline" style="padding: 5px 10px; margin-left: 10px;">
+                                    <span data-en="Download" data-ar="تحميل">Download</span>
+                                </button>
+                            </div>
+                            <div class="material-item" style="margin-bottom: 15px;">
+                                <i class="fas fa-file-alt" style="color: #3498db;"></i>
+                                <span data-en="Exercise Files" data-ar="ملفات التمارين">Exercise Files</span>
+                                <button class="btn btn-outline" style="padding: 5px 10px; margin-left: 10px;">
+                                    <span data-en="Download" data-ar="تحميل">Download</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/language.js"></script>
+    <script src="js/live-stream.js"></script>
+</body>
+</html>

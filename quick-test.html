@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Auth Test</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="padding: 40px; font-family: Arial, sans-serif;">
+
+    <h1>🔍 Quick Button Test</h1>
+
+    <div style="background: #f0f0f0; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <h2>The buttons should appear below:</h2>
+        <div id="authButtons" style="border: 2px dashed #999; padding: 20px; min-height: 60px; background: white;">
+            <!-- Buttons will appear here -->
+        </div>
+    </div>
+
+    <div style="background: #e3f2fd; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <h3>Console Output:</h3>
+        <div id="output" style="background: #fff; padding: 10px; border: 1px solid #ccc; font-family: monospace; max-height: 400px; overflow-y: auto;"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        const output = document.getElementById('output');
+        function log(msg) {
+            output.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + msg + '</div>';
+            console.log(msg);
+        }
+
+        log('✅ Page loaded');
+
+        window.addEventListener('load', function() {
+            log('✅ Window load event fired');
+
+            setTimeout(() => {
+                log('Checking authManager...');
+                if (window.authManager) {
+                    log('✅ authManager found!');
+                    log('Current user: ' + (window.authManager.currentUser ? window.authManager.currentUser.name : 'null'));
+
+                    const authButtons = document.getElementById('authButtons');
+                    log('authButtons innerHTML length: ' + authButtons.innerHTML.length);
+                    log('authButtons children count: ' + authButtons.children.length);
+
+                    if (authButtons.children.length > 0) {
+                        log('✅ SUCCESS! Buttons are rendered!');
+                    } else {
+                        log('❌ ERROR: authButtons is empty');
+                        log('Calling updateAuthUI manually...');
+                        window.authManager.updateAuthUI();
+
+                        setTimeout(() => {
+                            log('After manual call, children count: ' + authButtons.children.length);
+                        }, 100);
+                    }
+                } else {
+                    log('❌ ERROR: authManager not found!');
+                    log('Available global objects: ' + Object.keys(window).filter(k => k.includes('auth') || k.includes('Auth')).join(', '));
+                }
+            }, 1000);
+        });
+
+        // Catch errors
+        window.addEventListener('error', function(e) {
+            log('❌ JavaScript Error: ' + e.message + ' at line ' + e.lineno);
+        });
+    </script>
+</body>
+</html>

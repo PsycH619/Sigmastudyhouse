@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Sigma Study House</title>
+    <meta name="description" content="Get in touch with Sigma Study House. Located at Wasfi Al-Tal Street, Amman. Call 00962796101060 or email info@sigmastudyhouse.com. Open 24/7.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="../index.html" style="text-decoration: none; display: flex; align-items: center;">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Sigma<span>StudyHouse</span></div>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="services.html">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="courses.html">Courses</a>
+                            <a href="booking.html">Booking</a>
+                            <a href="printing.html">Printing</a>
+                        </div>
+                    </li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div class="auth-buttons" id="authButtons">
+                    <!-- This will be populated by JavaScript based on auth state -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Page Content -->
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(155, 89, 182, 0.9), rgba(155, 89, 182, 0.8));">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>We're here to help you find the perfect study environment</p>
+        </div>
+    </section>
+
+    <section class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h4>Address</h4>
+                            <p>Wasfi Al-Tal Street (Khalda), Amman, Jordan – Opposite Shahwan Furniture</p>
+                            <a href="https://maps.google.com/?q=Wasfi+Al-Tal+Street+Amman+Jordan" target="_blank" class="btn btn-outline" style="margin-top: 10px; padding: 5px 15px;">
+                                <i class="fas fa-directions"></i> Get Directions
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Email</h4>
+                            <p><a href="mailto:info@sigmastudyhouse.com" style="color: var(--text);">info@sigmastudyhouse.com</a></p>
+                            <p><a href="mailto:booking@sigmastudyhouse.com" style="color: var(--text);">booking@sigmastudyhouse.com</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p><a href="tel:00962796101060" style="color: var(--text);">00962796101060</a></p>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">Available 24/7</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4>Opening Hours</h4>
+                            <p><strong>24/7</strong> - We're available anytime</p>
+                            <p style="color: var(--text-light); font-size: 0.9rem;">Staff available: 8:00 AM - 12:00 AM</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div>
+                            <h4>Social Media</h4>
+                            <div class="social-links" style="margin-top: 10px;">
+                                <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select class="form-control" id="subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="booking">Booking Inquiry</option>
+                                <option value="courses">Course Information</option>
+                                <option value="printing">Printing Services</option>
+                                <option value="membership">Membership</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="suggestion">Suggestion</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Enter your message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="video-section" style="background-color: var(--light);">
+        <div class="container">
+            <h2 class="section-title">Find Us</h2>
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <i class="fas fa-map-marked-alt" style="font-size: 4rem;"></i>
+                    <p>Interactive Map - Sigma Study House Location</p>
+                    <p style="margin-top: 10px; font-size: 1rem;">
+                        Wasfi Al-Tal Street (Khalda), Amman, Jordan<br>
+                        Opposite Shahwan Furniture
+                    </p>
+                    <button class="btn btn-primary" style="margin-top: 20px;">
+                        <i class="fas fa-directions"></i> Open in Google Maps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Booking & Reservations</h3>
+                        <div class="faq-item">
+                            <strong>How far in advance can I book?</strong>
+                            <p>You can book up to 30 days in advance for all room types.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Can I cancel my booking?</strong>
+                            <p>Yes, cancellations are free up to 2 hours before your booking time.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Do you offer group discounts?</strong>
+                            <p>Yes, we offer special rates for groups of 5 or more people.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Facilities & Services</h3>
+                        <div class="faq-item">
+                            <strong>Is Wi-Fi available?</strong>
+                            <p>Yes, we provide high-speed Wi-Fi free of charge to all visitors.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Do you have parking?</strong>
+                            <p>Yes, we have dedicated parking spaces for our customers.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Are food and drinks allowed?</strong>
+                            <p>Yes, but only in designated areas to maintain cleanliness.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-content">
+                        <h3>Membership & Payment</h3>
+                        <div class="faq-item">
+                            <strong>How does the credit system work?</strong>
+                            <p>You can add credit to your account and use it for all services.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>Do you offer student discounts?</strong>
+                            <p>Yes, we offer 15% discount for students with valid ID.</p>
+                        </div>
+                        <div class="faq-item">
+                            <strong>What payment methods do you accept?</strong>
+                            <p>We accept cash, credit cards, and mobile payments.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">Sigma<span>StudyHouse</span></div>
+                    <p>Providing comfortable, well-equipped spaces for studying, teamwork, and discussions in Amman, Jordan.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="courses.html">Courses</a></li>
+                        <li><a href="booking.html">Booking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul>
+                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Solo Rooms</a></li>
+                        <li><a href="services.html">Meeting Rooms</a></li>
+                        <li><a href="printing.html">Printing Services</a></li>
+                        <li><a href="services.html">Coffee Point</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4 class="footer-heading">Contact Info</h4>
+                    <ul>
+                        <li><a href="contact.html">Wasfi Al-Tal Street, Amman</a></li>
+                        <li><a href="mailto:info@sigmastudyhouse.com">info@sigmastudyhouse.com</a></li>
+                        <li><a href="tel:00962796101060">00962796101060</a></li>
+                        <li><a href="contact.html">Open 24/7</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Sigma Study House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Sign In to Your Account</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="auth-options">
+                    <div class="auth-option" id="googleSignIn">
+                        <div class="auth-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div>
+                            <h4>Continue with Google</h4>
+                            <p>Sign in with your Google account</p>
+                        </div>
+                    </div>
+                    <div class="auth-option">
+                        <div class="auth-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4>Sign in with Email</h4>
+                            <p>Use your email address</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="#" style="color: var(--primary);">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Contact form functionality
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Simple form validation
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            if (!name || !email || !subject || !message) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
+            }
+
+            // Simulate form submission
+            showNotification('Thank you for your message! We will get back to you within 24 hours.', 'success');
+
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>

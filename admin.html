@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Sigma Study House</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-placeholder">Σ</div>
+                    <div class="logo-text">Admin<span>Panel</span></div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#bookings" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#courses" class="nav-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="#users" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#finance" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Finance</span>
+                </a>
+                <a href="#inventory" class="nav-item">
+                    <i class="fas fa-boxes"></i>
+                    <span>Inventory</span>
+                </a>
+                <a href="#settings" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <div class="admin-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <div class="card-header">
+                        <i class="fas fa-users" style="color: #3498db;"></i>
+                        <h3>Total Users</h3>
+                    </div>
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-change positive">+12% this month</div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-header">
+                        <i class="fas fa-calendar-check" style="color: #2ecc71;"></i>
+                        <h3>Active Bookings</h3>
+                    </div>
+                    <div class="stat-number">89</div>
+                    <div class="stat-change positive">+5% today</div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-header">
+                        <i class="fas fa-money-bill-wave" style="color: #f39c12;"></i>
+                        <h3>Revenue</h3>
+                    </div>
+                    <div class="stat-number">12,540 JOD</div>
+                    <div class="stat-change positive">+8% this week</div>
+                </div>
+                <div class="admin-card">
+                    <div class="card-header">
+                        <i class="fas fa-graduation-cap" style="color: #9b59b6;"></i>
+                        <h3>Course Enrollments</h3>
+                    </div>
+                    <div class="stat-number">156</div>
+                    <div class="stat-change positive">+15% this month</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="admin-section">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <div class="action-card" onclick="openModal('bookingModal')">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Booking</span>
+                    </div>
+                    <div class="action-card" onclick="openModal('userModal')">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add User</span>
+                    </div>
+                    <div class="action-card" onclick="openModal('courseModal')">
+                        <i class="fas fa-book-medical"></i>
+                        <span>Add Course</span>
+                    </div>
+                    <div class="action-card" onclick="openModal('productModal')">
+                        <i class="fas fa-box-open"></i>
+                        <span>Add Product</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="admin-section">
+                <h2>Recent Activity</h2>
+                <div class="activity-list">
+                    <!-- Dynamic activity items -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
