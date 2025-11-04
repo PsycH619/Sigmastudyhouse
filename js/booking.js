@@ -88,20 +88,23 @@ const bookingWizard = {
             dateInput.addEventListener('change', () => this.validateDateTime());
         }
 
-        // Set default times
-        const startTimeInput = document.getElementById('startTime');
-        const endTimeInput = document.getElementById('endTime');
+        // Set default times (hourly intervals)
+        const startTimeSelect = document.getElementById('startTime');
+        const endTimeSelect = document.getElementById('endTime');
 
-        if (startTimeInput && endTimeInput) {
+        if (startTimeSelect && endTimeSelect) {
             const now = new Date();
             let startHour = now.getHours() + 1;
             if (startHour > 23) startHour = 9;
 
-            startTimeInput.value = `${startHour.toString().padStart(2, '0')}:00`;
-            endTimeInput.value = `${(startHour + 2).toString().padStart(2, '0')}:00`;
+            let endHour = startHour + 2;
+            if (endHour > 23) endHour = endHour - 24;
 
-            startTimeInput.addEventListener('change', () => this.validateDateTime());
-            endTimeInput.addEventListener('change', () => this.validateDateTime());
+            startTimeSelect.value = `${startHour.toString().padStart(2, '0')}:00`;
+            endTimeSelect.value = `${endHour.toString().padStart(2, '0')}:00`;
+
+            startTimeSelect.addEventListener('change', () => this.validateDateTime());
+            endTimeSelect.addEventListener('change', () => this.validateDateTime());
         }
     },
 
@@ -120,13 +123,12 @@ const bookingWizard = {
         const [startHour, startMin] = startTime.split(':').map(Number);
         const [endHour, endMin] = endTime.split(':').map(Number);
 
-        const startMinutes = startHour * 60 + startMin;
-        const endMinutes = endHour * 60 + endMin;
+        let startMinutes = startHour * 60 + startMin;
+        let endMinutes = endHour * 60 + endMin;
 
+        // Handle overnight bookings (if end time is before start time, it means next day)
         if (endMinutes <= startMinutes) {
-            document.getElementById('step2Next').disabled = true;
-            document.getElementById('durationInfo').innerHTML = '<i class="fas fa-exclamation-triangle"></i> End time must be after start time';
-            return false;
+            endMinutes += 24 * 60; // Add 24 hours
         }
 
         const durationMinutes = endMinutes - startMinutes;
@@ -138,7 +140,7 @@ const bookingWizard = {
         this.bookingData.endTime = endTime;
         this.bookingData.duration = durationMinutes / 60;
 
-        document.getElementById('durationInfo').innerHTML = `<i class="fas fa-check-circle"></i> Duration: ${hours} hours ${minutes > 0 ? minutes + ' minutes' : ''}`;
+        document.getElementById('durationInfo').innerHTML = `<i class="fas fa-check-circle"></i> Duration: ${hours} hour${hours !== 1 ? 's' : ''}${minutes > 0 ? ' ' + minutes + ' minutes' : ''}`;
         document.getElementById('step2Next').disabled = false;
 
         return true;
@@ -259,9 +261,9 @@ const bookingWizard = {
                 cost = room.daily; // Fixed daily rate
             }
         } else if (roomType === 'solo') {
-            // Solo room: 5 JD per 6 hours
+            // Solo room: 5 JD per 6-hour period
             const periods = Math.ceil(duration / 6);
-            cost = periods * room.hourly * 6;
+            cost = periods * 5; // 5 JOD per 6-hour period
         } else {
             // Meeting rooms: hourly rate
             cost = duration * room.hourly;
@@ -285,7 +287,7 @@ const bookingWizard = {
             }
         } else if (roomType === 'solo') {
             const periods = Math.ceil(duration / 6);
-            return `${periods} × 6h periods @ ${room.hourly} JOD`;
+            return `${periods} period${periods > 1 ? 's' : ''} × 5 JOD/6h`;
         } else {
             return `${duration}h × ${room.hourly} JOD/h`;
         }
@@ -562,7 +564,7 @@ class BookingManager {
             }
         } else if (roomType === 'solo') {
             const periods = Math.ceil(duration / 6);
-            cost = periods * room.hourly * 6;
+            cost = periods * 5; // 5 JOD per 6-hour period
         } else {
             cost = duration * room.hourly;
         }
@@ -581,7 +583,7 @@ class BookingManager {
                 return `${room.daily} JOD / 24h`;
             }
         } else if (roomType === 'solo') {
-            return `${room.hourly} JOD / 6 hours`;
+            return `5 JOD / 6 hours`;
         } else {
             return `${room.hourly} JOD / hour`;
         }
