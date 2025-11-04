@@ -81,11 +81,78 @@ class SigmaStudyHouse {
     }
 
     initializeMobileMenu() {
-        // Add mobile menu functionality if needed
+        // Create mobile menu button
+        const header = document.querySelector('header .header-container');
+        if (!header) return;
+
+        // Check if mobile menu button already exists
+        if (document.querySelector('.mobile-menu-btn')) return;
+
         const mobileMenuBtn = document.createElement('button');
         mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
         mobileMenuBtn.className = 'mobile-menu-btn';
-        // Add mobile menu styles and functionality
+        mobileMenuBtn.setAttribute('aria-label', 'Toggle mobile menu');
+
+        // Insert before header controls
+        const headerControls = header.querySelector('.header-controls');
+        if (headerControls) {
+            header.insertBefore(mobileMenuBtn, headerControls);
+        }
+
+        // Mobile menu toggle functionality
+        const nav = document.querySelector('header nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('mobile-active');
+            mobileMenuBtn.classList.toggle('active');
+
+            // Toggle icon
+            const icon = mobileMenuBtn.querySelector('i');
+            if (nav.classList.contains('mobile-active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+
+        // Close mobile menu when clicking nav links
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('mobile-active');
+                mobileMenuBtn.classList.remove('active');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!nav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                if (nav.classList.contains('mobile-active')) {
+                    nav.classList.remove('mobile-active');
+                    mobileMenuBtn.classList.remove('active');
+                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && nav.classList.contains('mobile-active')) {
+                nav.classList.remove('mobile-active');
+                mobileMenuBtn.classList.remove('active');
+                mobileMenuBtn.querySelector('i').classList.remove('fa-times');
+                mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+                document.body.style.overflow = '';
+            }
+        });
     }
 
     // Modal functionality
