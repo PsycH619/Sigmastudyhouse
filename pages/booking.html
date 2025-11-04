@@ -10,6 +10,343 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        /* Booking Wizard Styles */
+        .booking-wizard {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .progress-indicator::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light);
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--primary);
+            z-index: 1;
+            transition: width 0.3s ease;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .progress-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light);
+            border: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .progress-step-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .progress-step.completed .progress-step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .progress-step-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .progress-step.active .progress-step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .wizard-step {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .wizard-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .room-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .room-card {
+            background: var(--card-bg);
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .room-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(42, 157, 143, 0.1));
+        }
+
+        .room-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .room-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .room-card-details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .room-card-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 10px;
+        }
+
+        .room-card-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--primary);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .room-card.selected .room-card-badge {
+            display: flex;
+        }
+
+        .date-time-selector {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group-inline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .guest-counter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .counter-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: var(--bg);
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .counter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .counter-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .booking-summary-box {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding-top: 20px;
+        }
+
+        .wizard-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-wizard {
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-wizard-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-wizard-primary:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-wizard-secondary {
+            background: var(--light);
+            color: var(--text);
+        }
+
+        .btn-wizard-secondary:hover {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .info-box {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .room-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .wizard-actions {
+                flex-direction: column;
+            }
+
+            .btn-wizard {
+                width: 100%;
+            }
+
+            .progress-step-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -54,150 +391,272 @@
     <!-- Booking Page Content -->
     <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(231, 111, 81, 0.9), rgba(231, 111, 81, 0.8));">
         <div class="container">
-            <h1>Book Your Study Space</h1>
-            <p>Reserve the perfect environment for your study session</p>
+            <h1 data-en="Book Your Study Space" data-ar="احجز مساحة الدراسة الخاصة بك">Book Your Study Space</h1>
+            <p data-en="Easy 4-step booking process - takes less than 2 minutes" data-ar="عملية حجز سهلة من 4 خطوات - تستغرق أقل من دقيقتين">Easy 4-step booking process - takes less than 2 minutes</p>
         </div>
     </section>
 
-    <section class="booking">
+    <section class="booking-wizard">
         <div class="container">
-            <h2 class="section-title">Make a Reservation</h2>
-            <div class="booking-container">
-                <div class="booking-form">
-                    <form id="bookingForm">
-                        <div class="form-group">
-                            <label for="roomType">Room Type *</label>
-                            <select class="form-control" id="roomType" required>
-                                <option value="">Select Room Type</option>
-                                <option value="social">Social Area - 3 JOD/24h (15-40 people, 2 JOD/person)</option>
-                                <option value="solo">Solo Room - 5 JOD/6 hours</option>
-                                <option value="meeting-small">Small Meeting Room (2-4 people) - 8 JOD/hour</option>
-                                <option value="meeting-medium">Medium Meeting Room (4-8 people) - 12 JOD/hour</option>
-                                <option value="meeting-large">Large Meeting Room (8-12 people) - 18 JOD/hour</option>
-                                <option value="class">Class Room - 3 JOD/24h (7-14 people, 2 JOD/person)</option>
-                            </select>
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="progress-step active" data-step="1">
+                    <div class="progress-step-circle">1</div>
+                    <div class="progress-step-label" data-en="Choose Room" data-ar="اختر الغرفة">Choose Room</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="progress-step-circle">2</div>
+                    <div class="progress-step-label" data-en="Date & Time" data-ar="التاريخ والوقت">Date & Time</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="progress-step-circle">3</div>
+                    <div class="progress-step-label" data-en="Guests & Details" data-ar="الضيوف والتفاصيل">Guests & Details</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="progress-step-circle">4</div>
+                    <div class="progress-step-label" data-en="Review & Confirm" data-ar="المراجعة والتأكيد">Review & Confirm</div>
+                </div>
+            </div>
+
+            <!-- Step 1: Choose Room -->
+            <div class="wizard-step active" id="step1">
+                <h2 style="text-align: center; margin-bottom: 30px;" data-en="Select Your Room Type" data-ar="اختر نوع الغرفة">Select Your Room Type</h2>
+
+                <div class="room-cards">
+                    <!-- Social Area -->
+                    <div class="room-card" data-room="social">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                            <i class="fas fa-users"></i>
                         </div>
-                        <div class="form-group">
-                            <label for="bookingDate">Date *</label>
-                            <input type="date" class="form-control" id="bookingDate" required>
+                        <div class="room-card-title" data-en="Social Area" data-ar="المنطقة الاجتماعية">Social Area</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-user-friends"></i> <span data-en="15-40 people" data-ar="15-40 شخص">15-40 people</span>
                         </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-wifi"></i> <span data-en="High-speed WiFi" data-ar="واي فاي عالي السرعة">High-speed WiFi</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-coffee"></i> <span data-en="Refreshments available" data-ar="المرطبات متوفرة">Refreshments available</span>
+                        </div>
+                        <div class="room-card-price" data-en="3 JOD / 24h or 2 JOD/person" data-ar="3 دينار / 24 ساعة أو 2 دينار/شخص">3 JOD / 24h or 2 JOD/person</div>
+                    </div>
+
+                    <!-- Solo Room -->
+                    <div class="room-card" data-room="solo">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #3498db, #2980b9);">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="room-card-title" data-en="Solo Room" data-ar="غرفة فردية">Solo Room</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-user"></i> <span data-en="1 person" data-ar="شخص واحد">1 person</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-volume-mute"></i> <span data-en="Soundproof" data-ar="عازلة للصوت">Soundproof</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-lock"></i> <span data-en="Private & secure" data-ar="خاصة وآمنة">Private & secure</span>
+                        </div>
+                        <div class="room-card-price" data-en="5 JOD / 6 hours" data-ar="5 دينار / 6 ساعات">5 JOD / 6 hours</div>
+                    </div>
+
+                    <!-- Meeting Room Small -->
+                    <div class="room-card" data-room="meeting-small">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="room-card-title" data-en="Small Meeting Room" data-ar="قاعة اجتماعات صغيرة">Small Meeting Room</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-users"></i> <span data-en="2-4 people" data-ar="2-4 أشخاص">2-4 people</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-tv"></i> <span data-en="Smart display" data-ar="شاشة ذكية">Smart display</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-chalkboard"></i> <span data-en="Whiteboard" data-ar="سبورة">Whiteboard</span>
+                        </div>
+                        <div class="room-card-price" data-en="8 JOD / hour" data-ar="8 دينار / ساعة">8 JOD / hour</div>
+                    </div>
+
+                    <!-- Meeting Room Medium -->
+                    <div class="room-card" data-room="meeting-medium">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="room-card-title" data-en="Medium Meeting Room" data-ar="قاعة اجتماعات متوسطة">Medium Meeting Room</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-users"></i> <span data-en="4-8 people" data-ar="4-8 أشخاص">4-8 people</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-tv"></i> <span data-en="Large screen" data-ar="شاشة كبيرة">Large screen</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-video"></i> <span data-en="Video conference" data-ar="مؤتمرات فيديو">Video conference</span>
+                        </div>
+                        <div class="room-card-price" data-en="12 JOD / hour" data-ar="12 دينار / ساعة">12 JOD / hour</div>
+                    </div>
+
+                    <!-- Meeting Room Large -->
+                    <div class="room-card" data-room="meeting-large">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="room-card-title" data-en="Large Meeting Room" data-ar="قاعة اجتماعات كبيرة">Large Meeting Room</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-users"></i> <span data-en="8-12 people" data-ar="8-12 شخص">8-12 people</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-tv"></i> <span data-en="Premium AV setup" data-ar="نظام صوتي مرئي متميز">Premium AV setup</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-coffee"></i> <span data-en="Coffee service" data-ar="خدمة القهوة">Coffee service</span>
+                        </div>
+                        <div class="room-card-price" data-en="18 JOD / hour" data-ar="18 دينار / ساعة">18 JOD / hour</div>
+                    </div>
+
+                    <!-- Class Room -->
+                    <div class="room-card" data-room="class">
+                        <div class="room-card-badge"><i class="fas fa-check"></i></div>
+                        <div class="room-card-icon" style="background: linear-gradient(135deg, #e91e63, #c2185b);">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="room-card-title" data-en="Class Room" data-ar="القاعة الدراسية">Class Room</div>
+                        <div class="room-card-details">
+                            <i class="fas fa-users"></i> <span data-en="7-14 people" data-ar="7-14 شخص">7-14 people</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-laptop"></i> <span data-en="Training setup" data-ar="إعداد التدريب">Training setup</span>
+                        </div>
+                        <div class="room-card-details">
+                            <i class="fas fa-presentation"></i> <span data-en="Projector & screen" data-ar="جهاز عرض وشاشة">Projector & screen</span>
+                        </div>
+                        <div class="room-card-price" data-en="3 JOD / 24h or 2 JOD/person" data-ar="3 دينار / 24 ساعة أو 2 دينار/شخص">3 JOD / 24h or 2 JOD/person</div>
+                    </div>
+                </div>
+
+                <div class="wizard-actions">
+                    <button class="btn-wizard btn-wizard-secondary" onclick="window.location.href='services.html'" data-en="Cancel" data-ar="إلغاء">Cancel</button>
+                    <button class="btn-wizard btn-wizard-primary" onclick="bookingWizard.nextStep()" id="step1Next" disabled data-en="Continue to Date & Time" data-ar="المتابعة إلى التاريخ والوقت">Continue to Date & Time</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Date & Time -->
+            <div class="wizard-step" id="step2">
+                <h2 style="text-align: center; margin-bottom: 30px;" data-en="Select Date & Time" data-ar="اختر التاريخ والوقت">Select Date & Time</h2>
+
+                <div class="date-time-selector">
+                    <div class="form-group">
+                        <label for="bookingDate" data-en="Select Date" data-ar="اختر التاريخ">Select Date</label>
+                        <input type="date" class="form-control" id="bookingDate" required>
+                    </div>
+
+                    <div class="form-group-inline">
                         <div class="form-group">
-                            <label for="startTime">Start Time *</label>
+                            <label for="startTime" data-en="Start Time" data-ar="وقت البدء">Start Time</label>
                             <input type="time" class="form-control" id="startTime" required>
                         </div>
                         <div class="form-group">
-                            <label for="endTime">End Time *</label>
+                            <label for="endTime" data-en="End Time" data-ar="وقت الانتهاء">End Time</label>
                             <input type="time" class="form-control" id="endTime" required>
                         </div>
-                        <div class="form-group">
-                            <label for="guests">Number of Guests *</label>
-                            <input type="number" class="form-control" id="guests" min="1" max="12" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="specialRequirements">Special Requirements</label>
-                            <textarea class="form-control" id="specialRequirements" rows="3" placeholder="Any special equipment or setup requirements..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Check Availability & Book</button>
-                    </form>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="durationInfo" data-en="Please select date and time" data-ar="الرجاء اختيار التاريخ والوقت">Please select date and time</span>
+                    </div>
                 </div>
-                <div class="booking-summary">
-                    <h3>Booking Summary</h3>
-                    <div class="summary-item">
-                        <span>Room Type:</span>
-                        <span id="summaryRoomType">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Date:</span>
-                        <span id="summaryDate">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Time:</span>
-                        <span id="summaryTime">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Duration:</span>
-                        <span id="summaryDuration">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Guests:</span>
-                        <span id="summaryGuests">-</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Hourly Rate:</span>
-                        <span id="summaryRate">-</span>
-                    </div>
-                    <div class="summary-item" style="border-bottom: none; font-weight: bold; font-size: 1.1rem;">
-                        <span>Total Cost:</span>
-                        <span id="summaryTotal">-</span>
-                    </div>
-                    <button class="btn btn-outline" style="width: 100%; margin-top: 20px; background-color: white; color: var(--primary); border-color: white;" id="confirmBookingBtn" disabled>Confirm Booking</button>
-                    
-                    <div style="margin-top: 30px; padding: 20px; background-color: rgba(255,255,255,0.1); border-radius: 5px;">
-                        <h4>Need Help?</h4>
-                        <p>Our team is available 24/7 to assist with your booking:</p>
-                        <p><i class="fas fa-phone"></i> 00962796101060</p>
-                        <p><i class="fas fa-envelope"></i> booking@sigmastudyhouse.com</p>
-                    </div>
+
+                <div class="wizard-actions">
+                    <button class="btn-wizard btn-wizard-secondary" onclick="bookingWizard.previousStep()" data-en="Back" data-ar="رجوع">Back</button>
+                    <button class="btn-wizard btn-wizard-primary" onclick="bookingWizard.nextStep()" id="step2Next" disabled data-en="Continue to Details" data-ar="المتابعة إلى التفاصيل">Continue to Details</button>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Available Rooms Section -->
-    <section class="services" style="background-color: var(--light);">
-        <div class="container">
-            <h2 class="section-title">Available Room Types</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-image" style="background-color: var(--primary); color: white;">
-                        <i class="fas fa-volume-mute" style="font-size: 3rem;"></i>
+            <!-- Step 3: Guests & Details -->
+            <div class="wizard-step" id="step3">
+                <h2 style="text-align: center; margin-bottom: 30px;" data-en="Add Details" data-ar="إضافة التفاصيل">Add Details</h2>
+
+                <div class="date-time-selector">
+                    <div class="form-group">
+                        <label for="guests" data-en="Number of Guests" data-ar="عدد الضيوف">Number of Guests</label>
+                        <div class="guest-counter">
+                            <button type="button" class="counter-btn" onclick="bookingWizard.decrementGuests()">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <div class="counter-value" id="guestCount">1</div>
+                            <button type="button" class="counter-btn" onclick="bookingWizard.incrementGuests()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                            <span id="guestRangeInfo"></span>
+                        </div>
                     </div>
-                    <div class="service-content">
-                        <h3>Silent Rooms</h3>
-                        <p><strong>Price:</strong> 3 JOD/hour</p>
-                        <p><strong>Capacity:</strong> 1 person</p>
-                        <p>Perfect for focused individual study with zero distractions.</p>
-                        <ul style="margin: 10px 0; padding-left: 20px;">
-                            <li>Sound-proof environment</li>
-                            <li>Individual study carrel</li>
-                            <li>Controlled lighting</li>
-                            <li>Power outlets</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-image" style="background-color: var(--secondary); color: white;">
-                        <i class="fas fa-user" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="service-content">
-                        <h3>Solo Rooms</h3>
-                        <p><strong>Price:</strong> 5 JOD/hour</p>
-                        <p><strong>Capacity:</strong> 1 person</p>
-                        <p>Private locked rooms for maximum privacy and concentration.</p>
-                        <ul style="margin: 10px 0; padding-left: 20px;">
-                            <li>Lockable private room</li>
-                            <li>Adjustable desk</li>
-                            <li>Personal storage</li>
-                            <li>Enhanced privacy</li>
-                        </ul>
+
+                    <div class="form-group" style="margin-top: 30px;">
+                        <label for="specialRequirements" data-en="Special Requirements (Optional)" data-ar="متطلبات خاصة (اختياري)">Special Requirements (Optional)</label>
+                        <textarea class="form-control" id="specialRequirements" rows="4" placeholder="Any special equipment, setup, or accessibility requirements..."></textarea>
                     </div>
                 </div>
-                <div class="service-card">
-                    <div class="service-image" style="background-color: var(--accent); color: white;">
-                        <i class="fas fa-users" style="font-size: 3rem;"></i>
+
+                <div class="wizard-actions">
+                    <button class="btn-wizard btn-wizard-secondary" onclick="bookingWizard.previousStep()" data-en="Back" data-ar="رجوع">Back</button>
+                    <button class="btn-wizard btn-wizard-primary" onclick="bookingWizard.nextStep()" data-en="Review Booking" data-ar="مراجعة الحجز">Review Booking</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Review & Confirm -->
+            <div class="wizard-step" id="step4">
+                <h2 style="text-align: center; margin-bottom: 30px;" data-en="Review Your Booking" data-ar="راجع حجزك">Review Your Booking</h2>
+
+                <div class="booking-summary-box">
+                    <h3 style="margin-bottom: 20px;" data-en="Booking Summary" data-ar="ملخص الحجز">Booking Summary</h3>
+                    <div class="summary-row">
+                        <span data-en="Room Type:" data-ar="نوع الغرفة:">Room Type:</span>
+                        <span id="summaryRoomType">-</span>
                     </div>
-                    <div class="service-content">
-                        <h3>Meeting Rooms</h3>
-                        <p><strong>Price:</strong> From 8 JOD/hour</p>
-                        <p><strong>Capacity:</strong> 2-12 people</p>
-                        <p>Collaborative spaces equipped for team work and discussions.</p>
-                        <ul style="margin: 10px 0; padding-left: 20px;">
-                            <li>Smart TV & whiteboard</li>
-                            <li>Video conferencing</li>
-                            <li>Comfortable seating</li>
-                            <li>Multiple size options</li>
-                        </ul>
+                    <div class="summary-row">
+                        <span data-en="Date:" data-ar="التاريخ:">Date:</span>
+                        <span id="summaryDate">-</span>
                     </div>
+                    <div class="summary-row">
+                        <span data-en="Time:" data-ar="الوقت:">Time:</span>
+                        <span id="summaryTime">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span data-en="Duration:" data-ar="المدة:">Duration:</span>
+                        <span id="summaryDuration">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span data-en="Guests:" data-ar="الضيوف:">Guests:</span>
+                        <span id="summaryGuests">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span data-en="Rate:" data-ar="السعر:">Rate:</span>
+                        <span id="summaryRate">-</span>
+                    </div>
+                    <div class="summary-row">
+                        <span data-en="Total Cost:" data-ar="التكلفة الإجمالية:">Total Cost:</span>
+                        <span id="summaryTotal">-</span>
+                    </div>
+                </div>
+
+                <div class="info-box" style="background: rgba(255, 107, 53, 0.1); border-color: var(--primary);">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span data-en="Please ensure you're signed in to complete your booking. Payment will be deducted from your account credit." data-ar="يرجى التأكد من تسجيل الدخول لإكمال حجزك. سيتم خصم الدفع من رصيد حسابك.">Please ensure you're signed in to complete your booking. Payment will be deducted from your account credit.</span>
+                </div>
+
+                <div class="wizard-actions">
+                    <button class="btn-wizard btn-wizard-secondary" onclick="bookingWizard.previousStep()" data-en="Back" data-ar="رجوع">Back</button>
+                    <button class="btn-wizard btn-wizard-primary" onclick="bookingWizard.confirmBooking()" style="background: var(--success);" data-en="Confirm & Pay" data-ar="تأكيد والدفع">
+                        <i class="fas fa-check-circle"></i> <span data-en="Confirm & Pay" data-ar="تأكيد والدفع">Confirm & Pay</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -230,7 +689,7 @@
                 <div class="footer-links">
                     <h4 class="footer-heading">Services</h4>
                     <ul>
-                        <li><a href="services.html">Silent Rooms</a></li>
+                        <li><a href="services.html">Social Area</a></li>
                         <li><a href="services.html">Solo Rooms</a></li>
                         <li><a href="services.html">Meeting Rooms</a></li>
                         <li><a href="printing.html">Printing Services</a></li>
