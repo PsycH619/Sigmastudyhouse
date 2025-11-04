@@ -1243,3 +1243,33 @@ footer {
         z-index: -1;
     }
 }
+
+/* RTL Logo Position Fix - Keep logo on the left side */
+[dir="rtl"] .header-container {
+    direction: ltr;
+}
+
+[dir="rtl"] .header-container nav,
+[dir="rtl"] .header-container .header-controls {
+    direction: rtl;
+}
+
+[dir="rtl"] .logo-placeholder {
+    margin-right: 12px;
+    margin-left: 0;
+}
+
+/* Ensure logo stays on left in RTL mode */
+[dir="rtl"] .logo {
+    order: -1;
+}
+
+[dir="rtl"] nav ul {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .dropdown-content {
+    left: auto;
+    right: 0;
+    text-align: right;
+}

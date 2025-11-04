@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,20 +23,24 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="../index.html">Home</a></li>
-                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="../index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+                    <li><a href="about.html" class="active" data-en="About" data-ar="من نحن">About</a></li>
                     <li class="dropdown">
-                        <a href="services.html">Services <i class="fas fa-chevron-down"></i></a>
+                        <a href="services.html" data-en="Services" data-ar="الخدمات">Services <i class="fas fa-chevron-down"></i></a>
                         <div class="dropdown-content">
-                            <a href="courses.html">Courses</a>
-                            <a href="booking.html">Booking</a>
-                            <a href="printing.html">Printing</a>
+                            <a href="courses.html" data-en="Courses" data-ar="الدورات">Courses</a>
+                            <a href="booking.html" data-en="Booking" data-ar="الحجز">Booking</a>
+                            <a href="printing.html" data-en="Printing" data-ar="الطباعة">Printing</a>
+                            <a href="../cafeteria.html" data-en="Cafeteria" data-ar="الكافيتيريا">Cafeteria</a>
                         </div>
                     </li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.html" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
                 </ul>
             </nav>
             <div class="header-controls">
+                <button class="language-toggle" id="languageToggle">
+                    <span>EN</span> | <span>AR</span>
+                </button>
                 <button class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
                 </button>
@@ -197,5 +201,6 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/auth.js"></script>
+    <script src="../js/language.js"></script>
 </body>
 </html>
