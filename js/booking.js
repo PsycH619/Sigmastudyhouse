@@ -165,9 +165,16 @@ class BookingManager {
 
         let cost = 0;
 
-        if (roomType === 'social' || roomType === 'class') {
-            // Social and Class areas have per-person pricing for groups
+        if (roomType === 'social') {
+            // Social area: 15-40 people, per-person pricing
             if (guests >= 15) {
+                cost = guests * 2; // 2 JD per person
+            } else {
+                cost = room.daily; // Fixed daily rate for small groups
+            }
+        } else if (roomType === 'class') {
+            // Class room: 7-14 people, per-person pricing
+            if (guests >= 7) {
                 cost = guests * 2; // 2 JD per person
             } else {
                 cost = room.daily; // Fixed daily rate for small groups
