@@ -1,265 +1,398 @@
-// Printing services functionality
-document.addEventListener('DOMContentLoaded', function() {
-    initializePrintingSystem();
-});
+// Database abstraction layer
+// Supports both Firebase (production) and localStorage (fallback/development)
 
-function initializePrintingSystem() {
-    const fileUpload = document.getElementById('fileUpload');
-    const fileList = document.getElementById('fileList');
-    const addToCartBtn = document.getElementById('addToCartBtn');
-    
-    let uploadedFiles = [];
-    
-    // File upload handling
-    fileUpload.addEventListener('change', function(e) {
-        handleFileUpload(e.target.files);
-    });
-    
-    // Drag and drop functionality
-    const uploadArea = document.querySelector('.upload-area');
-    uploadArea.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        uploadArea.style.backgroundColor = 'var(--light)';
-    });
-    
-    uploadArea.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        uploadArea.style.backgroundColor = '';
-    });
-    
-    uploadArea.addEventListener('drop', function(e) {
-        e.preventDefault();
-        uploadArea.style.backgroundColor = '';
-        handleFileUpload(e.dataTransfer.files);
-    });
-    
-    // Update cost when options change
-    document.querySelectorAll('#printType, #paperSize, #printSides, #copies, #binding, #urgency').forEach(element => {
-        element.addEventListener('change', updatePrintingCost);
-    });
-    
-    // Add to cart functionality
-    addToCartBtn.addEventListener('click', addToCart);
-    
-    function handleFileUpload(files) {
-        if (files.length === 0) return;
-        
-        for (let file of files) {
-            // Check file type
-            const validTypes = ['application/pdf', 'application/msword', 
-                              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                              'application/vnd.ms-powerpoint',
-                              'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                              'image/jpeg', 'image/jpg', 'image/png'];
-            
-            if (!validTypes.includes(file.type)) {
-                showNotification(`File type not supported: ${file.name}`, 'error');
-                continue;
+class DatabaseManager {
+    constructor() {
+        this.useFirebase = this.checkFirebaseAvailability();
+        this.collections = {
+            users: 'users',
+            bookings: 'bookings',
+            printingOrders: 'printingOrders',
+            courseEnrollments: 'courseEnrollments',
+            cafeteriaOrders: 'cafeteriaOrders',
+            paymentHistory: 'paymentHistory',
+            settings: 'settings'
+        };
+
+        this.init();
+    }
+
+    init() {
+        if (this.useFirebase) {
+            console.log('📊 Using Firebase database');
+            this.setupFirebaseListeners();
+        } else {
+            console.log('💾 Using localStorage (fallback mode)');
+            console.warn('⚠️ Data will be lost on browser clear. Set up Firebase for production.');
+        }
+    }
+
+    checkFirebaseAvailability() {
+        return typeof window.firebaseDB !== 'undefined' &&
+               window.firebaseDB !== null &&
+               typeof window.firebaseAuth !== 'undefined';
+    }
+
+    // ==================== CREATE ====================
+
+    async create(collection, data) {
+        try {
+            if (this.useFirebase) {
+                const docRef = await window.firebaseDB.collection(collection).add({
+                    ...data,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return { id: docRef.id, ...data };
+            } else {
+                // localStorage fallback
+                const items = this.getLocalStorageArray(collection);
+                const newItem = {
+                    id: data.id || Date.now() + Math.random(),
+                    ...data,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                items.push(newItem);
+                localStorage.setItem(collection, JSON.stringify(items));
+                return newItem;
             }
-            
-            // Check file size (50MB limit)
-            if (file.size > 50 * 1024 * 1024) {
-                showNotification(`File too large: ${file.name} (max 50MB)`, 'error');
-                continue;
+        } catch (error) {
+            console.error(`Error creating document in ${collection}:`, error);
+            throw error;
+        }
+    }
+
+    // ==================== READ ====================
+
+    async get(collection, id) {
+        try {
+            if (this.useFirebase) {
+                const doc = await window.firebaseDB.collection(collection).doc(id).get();
+                if (doc.exists) {
+                    return { id: doc.id, ...doc.data() };
+                }
+                return null;
+            } else {
+                const items = this.getLocalStorageArray(collection);
+                return items.find(item => item.id === id) || null;
             }
-            
-            uploadedFiles.push({
-                file: file,
-                id: Date.now() + Math.random(),
-                name: file.name,
-                size: formatFileSize(file.size),
-                pages: estimatePages(file) // This would be more accurate with a backend
+        } catch (error) {
+            console.error(`Error getting document ${id} from ${collection}:`, error);
+            return null;
+        }
+    }
+
+    async getAll(collection, filters = {}) {
+        try {
+            if (this.useFirebase) {
+                let query = window.firebaseDB.collection(collection);
+
+                // Apply filters
+                Object.keys(filters).forEach(key => {
+                    if (filters[key] !== undefined) {
+                        query = query.where(key, '==', filters[key]);
+                    }
+                });
+
+                const snapshot = await query.get();
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } else {
+                let items = this.getLocalStorageArray(collection);
+
+                // Apply filters
+                Object.keys(filters).forEach(key => {
+                    if (filters[key] !== undefined) {
+                        items = items.filter(item => item[key] === filters[key]);
+                    }
+                });
+
+                return items;
+            }
+        } catch (error) {
+            console.error(`Error getting all documents from ${collection}:`, error);
+            return [];
+        }
+    }
+
+    async query(collection, conditions) {
+        try {
+            if (this.useFirebase) {
+                let query = window.firebaseDB.collection(collection);
+
+                conditions.forEach(condition => {
+                    const [field, operator, value] = condition;
+                    query = query.where(field, operator, value);
+                });
+
+                const snapshot = await query.get();
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } else {
+                let items = this.getLocalStorageArray(collection);
+
+                conditions.forEach(condition => {
+                    const [field, operator, value] = condition;
+                    items = items.filter(item => {
+                        switch (operator) {
+                            case '==': return item[field] === value;
+                            case '!=': return item[field] !== value;
+                            case '>': return item[field] > value;
+                            case '>=': return item[field] >= value;
+                            case '<': return item[field] < value;
+                            case '<=': return item[field] <= value;
+                            case 'in': return value.includes(item[field]);
+                            case 'array-contains': return item[field] && item[field].includes(value);
+                            default: return true;
+                        }
+                    });
+                });
+
+                return items;
+            }
+        } catch (error) {
+            console.error(`Error querying ${collection}:`, error);
+            return [];
+        }
+    }
+
+    // ==================== UPDATE ====================
+
+    async update(collection, id, data) {
+        try {
+            if (this.useFirebase) {
+                await window.firebaseDB.collection(collection).doc(id).update({
+                    ...data,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                return true;
+            } else {
+                const items = this.getLocalStorageArray(collection);
+                const index = items.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    items[index] = {
+                        ...items[index],
+                        ...data,
+                        updatedAt: new Date().toISOString()
+                    };
+                    localStorage.setItem(collection, JSON.stringify(items));
+                    return true;
+                }
+                return false;
+            }
+        } catch (error) {
+            console.error(`Error updating document ${id} in ${collection}:`, error);
+            return false;
+        }
+    }
+
+    // ==================== DELETE ====================
+
+    async delete(collection, id) {
+        try {
+            if (this.useFirebase) {
+                await window.firebaseDB.collection(collection).doc(id).delete();
+                return true;
+            } else {
+                const items = this.getLocalStorageArray(collection);
+                const filtered = items.filter(item => item.id !== id);
+                localStorage.setItem(collection, JSON.stringify(filtered));
+                return true;
+            }
+        } catch (error) {
+            console.error(`Error deleting document ${id} from ${collection}:`, error);
+            return false;
+        }
+    }
+
+    // ==================== STORAGE (File Upload) ====================
+
+    async uploadFile(path, file, metadata = {}) {
+        try {
+            if (this.useFirebase && window.firebaseStorage) {
+                const storageRef = window.firebaseStorage.ref();
+                const fileRef = storageRef.child(path);
+
+                const uploadTask = await fileRef.put(file, metadata);
+                const downloadURL = await uploadTask.ref.getDownloadURL();
+
+                return {
+                    url: downloadURL,
+                    path: path,
+                    name: file.name,
+                    size: file.size,
+                    type: file.type
+                };
+            } else {
+                // For localStorage fallback, we'll store file info only (not actual file)
+                console.warn('File upload requires Firebase Storage. Storing metadata only.');
+                return {
+                    url: URL.createObjectURL(file),
+                    path: path,
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    localOnly: true
+                };
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            throw error;
+        }
+    }
+
+    async deleteFile(path) {
+        try {
+            if (this.useFirebase && window.firebaseStorage) {
+                const storageRef = window.firebaseStorage.ref();
+                const fileRef = storageRef.child(path);
+                await fileRef.delete();
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Error deleting file:', error);
+            return false;
+        }
+    }
+
+    // ==================== REALTIME LISTENERS ====================
+
+    onSnapshot(collection, callback, filters = {}) {
+        if (this.useFirebase) {
+            let query = window.firebaseDB.collection(collection);
+
+            // Apply filters
+            Object.keys(filters).forEach(key => {
+                if (filters[key] !== undefined) {
+                    query = query.where(key, '==', filters[key]);
+                }
+            });
+
+            return query.onSnapshot(snapshot => {
+                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                callback(data);
+            });
+        } else {
+            // For localStorage, we'll poll for changes (not ideal but works)
+            const intervalId = setInterval(() => {
+                let items = this.getLocalStorageArray(collection);
+
+                // Apply filters
+                Object.keys(filters).forEach(key => {
+                    if (filters[key] !== undefined) {
+                        items = items.filter(item => item[key] === filters[key]);
+                    }
+                });
+
+                callback(items);
+            }, 1000);
+
+            // Return unsubscribe function
+            return () => clearInterval(intervalId);
+        }
+    }
+
+    // ==================== HELPERS ====================
+
+    getLocalStorageArray(key) {
+        try {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : [];
+        } catch (error) {
+            console.error(`Error reading ${key} from localStorage:`, error);
+            return [];
+        }
+    }
+
+    setupFirebaseListeners() {
+        // Set up authentication state listener
+        if (window.firebaseAuth) {
+            window.firebaseAuth.onAuthStateChanged(user => {
+                if (user) {
+                    console.log('🔐 User authenticated:', user.email);
+                } else {
+                    console.log('🔓 User signed out');
+                }
             });
         }
-        
-        updateFileList();
-        updatePrintingCost();
     }
-    
-    function updateFileList() {
-        fileList.innerHTML = '';
-        
-        if (uploadedFiles.length === 0) {
-            fileList.innerHTML = '<p style="color: var(--text-light); font-style: italic;">No files uploaded</p>';
-            addToCartBtn.disabled = true;
-            return;
-        }
-        
-        uploadedFiles.forEach((fileData, index) => {
-            const fileElement = document.createElement('div');
-            fileElement.className = 'file-item';
-            fileElement.style.cssText = `
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px;
-                background-color: var(--light);
-                border-radius: 5px;
-                margin-bottom: 10px;
-            `;
-            
-            fileElement.innerHTML = `
-                <div>
-                    <strong>${fileData.name}</strong>
-                    <div style="font-size: 0.8rem; color: var(--text-light);">
-                        ${fileData.size} • ${fileData.pages} pages
-                    </div>
-                </div>
-                <button class="btn-remove" data-index="${index}" style="background: none; border: none; color: var(--accent); cursor: pointer;">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            fileList.appendChild(fileElement);
-        });
-        
-        // Add remove functionality
-        document.querySelectorAll('.btn-remove').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const index = parseInt(this.getAttribute('data-index'));
-                uploadedFiles.splice(index, 1);
-                updateFileList();
-                updatePrintingCost();
+
+    // ==================== BATCH OPERATIONS ====================
+
+    async batchWrite(operations) {
+        if (this.useFirebase) {
+            const batch = window.firebaseDB.batch();
+
+            operations.forEach(op => {
+                const ref = window.firebaseDB.collection(op.collection).doc(op.id);
+
+                switch (op.type) {
+                    case 'create':
+                    case 'set':
+                        batch.set(ref, op.data);
+                        break;
+                    case 'update':
+                        batch.update(ref, op.data);
+                        break;
+                    case 'delete':
+                        batch.delete(ref);
+                        break;
+                }
             });
-        });
-        
-        addToCartBtn.disabled = false;
-    }
-    
-    function estimatePages(file) {
-        // Simple estimation - in a real app, this would be more accurate
-        const sizeInMB = file.size / (1024 * 1024);
-        let estimatedPages = Math.max(1, Math.round(sizeInMB * 2));
-        
-        // Adjust based on file type
-        if (file.type.includes('image')) {
-            estimatedPages = 1; // Images are typically 1 page
-        } else if (file.type.includes('presentation')) {
-            estimatedPages = Math.max(1, Math.round(sizeInMB * 5)); // PPT files have more slides
+
+            await batch.commit();
+            return true;
+        } else {
+            // Execute operations sequentially for localStorage
+            for (const op of operations) {
+                switch (op.type) {
+                    case 'create':
+                    case 'set':
+                        await this.create(op.collection, { ...op.data, id: op.id });
+                        break;
+                    case 'update':
+                        await this.update(op.collection, op.id, op.data);
+                        break;
+                    case 'delete':
+                        await this.delete(op.collection, op.id);
+                        break;
+                }
+            }
+            return true;
         }
-        
-        return estimatedPages;
     }
-    
-    function updatePrintingCost() {
-        if (uploadedFiles.length === 0) {
-            document.getElementById('estimatedCost').textContent = '0.00 JOD';
-            document.getElementById('pageCount').textContent = '0 pages';
-            return;
+
+    // ==================== UTILITY METHODS ====================
+
+    async clearCollection(collection) {
+        try {
+            if (this.useFirebase) {
+                const snapshot = await window.firebaseDB.collection(collection).get();
+                const batch = window.firebaseDB.batch();
+                snapshot.docs.forEach(doc => batch.delete(doc.ref));
+                await batch.commit();
+                return true;
+            } else {
+                localStorage.removeItem(collection);
+                return true;
+            }
+        } catch (error) {
+            console.error(`Error clearing collection ${collection}:`, error);
+            return false;
         }
-        
-        const printType = document.getElementById('printType').value;
-        const paperSize = document.getElementById('paperSize').value;
-        const printSides = document.getElementById('printSides').value;
-        const copies = parseInt(document.getElementById('copies').value) || 1;
-        const binding = document.getElementById('binding').value;
-        const urgency = document.getElementById('urgency').value;
-        
-        let totalPages = uploadedFiles.reduce((sum, file) => sum + file.pages, 0) * copies;
-        let cost = 0;
-        
-        // Base printing cost
-        const basePrice = printType === 'bw' ? 0.10 : 0.50;
-        cost += totalPages * basePrice;
-        
-        // Paper size multiplier
-        if (paperSize === 'a3') cost *= 2;
-        
-        // Double-sided discount
-        if (printSides === 'double') cost *= 0.8;
-        
-        // Binding cost
-        const bindingCosts = {
-            'none': 0,
-            'stapled': 1,
-            'spiral': 5,
-            'hardcover': 15
+    }
+
+    async getStats(collection) {
+        const items = await this.getAll(collection);
+        return {
+            total: items.length,
+            collection: collection,
+            backend: this.useFirebase ? 'Firebase' : 'localStorage'
         };
-        cost += bindingCosts[binding];
-        
-        // Urgency multiplier
-        const urgencyMultipliers = {
-            'standard': 1,
-            'express': 1.5,
-            'urgent': 2
-        };
-        cost *= urgencyMultipliers[urgency];
-        
-        document.getElementById('estimatedCost').textContent = `${cost.toFixed(2)} JOD`;
-        document.getElementById('pageCount').textContent = `${totalPages} pages`;
-    }
-    
-    function addToCart() {
-        if (!currentUser) {
-            showLoginModal();
-            return;
-        }
-        
-        if (uploadedFiles.length === 0) {
-            showNotification('Please upload files first', 'error');
-            return;
-        }
-        
-        const printType = document.getElementById('printType').value;
-        const paperSize = document.getElementById('paperSize').value;
-        const printSides = document.getElementById('printSides').value;
-        const copies = parseInt(document.getElementById('copies').value) || 1;
-        const binding = document.getElementById('binding').value;
-        const urgency = document.getElementById('urgency').value;
-        
-        const totalPages = uploadedFiles.reduce((sum, file) => sum + file.pages, 0) * copies;
-        const cost = parseFloat(document.getElementById('estimatedCost').textContent);
-        
-        // Check if user has enough credit
-        if (userCredit < cost) {
-            showNotification(`Insufficient credit. You need ${cost.toFixed(2)} JOD but only have ${userCredit.toFixed(2)} JOD. Please add credit to your account.`, 'error');
-            return;
-        }
-        
-        // Create printing order
-        const order = {
-            id: Date.now(),
-            files: uploadedFiles.map(f => ({ name: f.name, pages: f.pages })),
-            options: {
-                printType,
-                paperSize,
-                printSides,
-                copies,
-                binding,
-                urgency
-            },
-            totalPages,
-            cost,
-            status: 'pending',
-            createdAt: new Date().toISOString()
-        };
-        
-        // Save to localStorage (in real app, send to backend)
-        let printingOrders = JSON.parse(localStorage.getItem('printingOrders')) || [];
-        printingOrders.push(order);
-        localStorage.setItem('printingOrders', JSON.stringify(printingOrders));
-        
-        // Deduct cost from credit
-        userCredit -= cost;
-        localStorage.setItem('userCredit', JSON.stringify(userCredit));
-        
-        // Update UI
-        updateAuthUI();
-        
-        showNotification(`Printing order submitted! ${cost.toFixed(2)} JOD deducted from your account.`, 'success');
-        
-        // Reset form
-        uploadedFiles = [];
-        updateFileList();
-        document.getElementById('printingOptions').reset();
-        updatePrintingCost();
-    }
-    
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 }
+
+// Initialize database manager
+document.addEventListener('DOMContentLoaded', function() {
+    window.db = new DatabaseManager();
+});

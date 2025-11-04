@@ -256,8 +256,9 @@ class BookingManager {
         }
 
         // Check minimum guests for social/class areas
-        if ((roomType === 'social' || roomType === 'class') && parseInt(guests) < 7) {
-            showNotification(`Minimum ${roomType === 'social' ? 15 : 7} guests required for this room type`, 'error');
+        const minGuests = roomType === 'social' ? 15 : (roomType === 'class' ? 7 : 1);
+        if ((roomType === 'social' || roomType === 'class') && parseInt(guests) < minGuests) {
+            showNotification(`Minimum ${minGuests} guests required for this room type`, 'error');
             return false;
         }
 
