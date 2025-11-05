@@ -160,10 +160,11 @@ class DatabaseManager {
     async update(collection, id, data) {
         try {
             if (this.useFirebase) {
-                await window.firebaseDB.collection(collection).doc(id).update({
+                // Use set with merge to create if doesn't exist, update if exists
+                await window.firebaseDB.collection(collection).doc(id).set({
                     ...data,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
+                }, { merge: true });
                 return true;
             } else {
                 const items = this.getLocalStorageArray(collection);
