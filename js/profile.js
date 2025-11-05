@@ -151,6 +151,7 @@ class ProfileManager {
             }
             if (profileEmailInput) {
                 profileEmailInput.value = this.currentUser.email || '';
+                profileEmailInput.placeholder = this.currentUser.email ? '' : 'No email available';
             }
             if (phoneInput) {
                 phoneInput.value = this.currentUser.phone || '';

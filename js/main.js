@@ -66,14 +66,10 @@ class SigmaStudyHouse {
             });
         });
 
-        // Close dropdowns when clicking outside
+        // Close user dropdown when clicking outside
         document.addEventListener('click', (event) => {
-            if (!event.target.closest('.dropdown')) {
-                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
-                    dropdown.style.display = 'none';
-                });
-            }
-            
+            // Only handle user dropdown, not services dropdown
+            // Services dropdown is handled by CSS hover
             if (!event.target.closest('.user-profile')) {
                 const dropdown = document.querySelector('.user-dropdown');
                 if (dropdown) dropdown.classList.remove('active');

@@ -21,6 +21,7 @@ class AuthManager {
         this.unsubscribeAuth = null;
         this.authStateReady = false;
         this.authStatePromise = null;
+        this.dropdownClickHandler = null; // Store reference to dropdown click handler
 
         // Create a promise that resolves when auth state is ready
         this.authStatePromise = new Promise((resolve) => {
@@ -801,17 +802,23 @@ class AuthManager {
                     });
                 }
 
-                // Close dropdown when clicking outside
-                setTimeout(() => {
-                    document.addEventListener('click', (e) => {
-                        if (!freshUserMenu.contains(e.target)) {
-                            const dropdown = freshUserMenu.querySelector('.user-dropdown');
-                            if (dropdown) {
-                                dropdown.classList.remove('active');
-                            }
+                // Remove old dropdown click handler if it exists
+                if (this.dropdownClickHandler) {
+                    document.removeEventListener('click', this.dropdownClickHandler);
+                }
+
+                // Create new dropdown click handler
+                this.dropdownClickHandler = (e) => {
+                    if (!freshUserMenu.contains(e.target)) {
+                        const dropdown = freshUserMenu.querySelector('.user-dropdown');
+                        if (dropdown) {
+                            dropdown.classList.remove('active');
                         }
-                    }, { once: false });
-                }, 100);
+                    }
+                };
+
+                // Add the new handler
+                document.addEventListener('click', this.dropdownClickHandler);
             }
         } else {
             // User is signed out
