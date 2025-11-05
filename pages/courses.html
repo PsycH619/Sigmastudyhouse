@@ -51,7 +51,31 @@
                     <i class="fas fa-moon"></i>
                 </button>
                 <div class="auth-buttons" id="authButtons">
-                    <!-- Dynamic content -->
+                    <button class="btn btn-outline-light" id="signInBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                    <button class="btn btn-primary" id="signUpBtn">
+                        <i class="fas fa-user-plus"></i>
+                        <span data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</span>
+                    </button>
+                    <div class="user-menu" id="userMenu" style="display: none;">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name"></span>
+                            <span class="user-email"></span>
+                        </div>
+                        <div class="user-dropdown">
+                            <a href="profile.html" class="dropdown-item" id="profileBtn">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="dropdown-item" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -216,6 +240,9 @@
                     <button class="auth-tab" data-target="registerForm">
                         <span data-en="Sign Up" data-ar="إنشاء حساب">Sign Up</span>
                     </button>
+                    <button class="auth-tab" data-target="forgotPasswordForm" style="display: none;">
+                        <span data-en="Reset Password" data-ar="إعادة تعيين كلمة المرور">Reset Password</span>
+                    </button>
                 </div>
 
                 <!-- Login Form -->
@@ -246,15 +273,25 @@
                         <input type="password" class="form-control" id="loginPassword" name="password" required>
                     </div>
 
-                    <div class="form-footer">
-                        <p data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account?
-                            <a href="#" class="switch-to-register" data-en="Sign up here" data-ar="اشترك هنا">Sign up here</a>
-                        </p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div class="remember-me">
+                            <input type="checkbox" id="rememberMe" name="rememberMe">
+                            <label for="rememberMe" data-en="Remember me" data-ar="تذكرني">Remember me</label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#" id="forgotPasswordLink" data-en="Forgot password?" data-ar="نسيت كلمة المرور؟">Forgot password?</a>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
                         <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
                     </button>
+
+                    <div class="form-footer">
+                        <p data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account?
+                            <a href="#" class="switch-to-register" data-en="Sign up here" data-ar="اشترك هنا">Sign up here</a>
+                        </p>
+                    </div>
                 </form>
 
                 <!-- Register Form -->
@@ -291,6 +328,31 @@
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
                         <span data-en="Create Account" data-ar="إنشاء حساب">Create Account</span>
                     </button>
+                </form>
+
+                <!-- Forgot Password Form -->
+                <form id="forgotPasswordForm" class="auth-form">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-key" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <p style="color: var(--text-light);" data-en="Enter your email address and we'll help you reset your password." data-ar="أدخل عنوان بريدك الإلكتروني وسنساعدك في إعادة تعيين كلمة المرور.">
+                            Enter your email address and we'll help you reset your password.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resetEmail" data-en="Email Address" data-ar="البريد الإلكتروني">Email Address</label>
+                        <input type="email" class="form-control" id="resetEmail" name="email" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <span data-en="Send Reset Link" data-ar="إرسال رابط إعادة التعيين">Send Reset Link</span>
+                    </button>
+
+                    <div class="form-footer">
+                        <p data-en="Remember your password?" data-ar="تتذكر كلمة مرورك؟">Remember your password?
+                            <a href="#" class="switch-to-login" data-en="Sign in here" data-ar="سجل الدخول هنا">Sign in here</a>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -366,6 +428,17 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/database.js"></script>
+
+    <!-- Application Scripts -->
     <script src="../js/main.js"></script>
     <script src="../js/auth.js"></script>
     <script src="../js/language.js"></script>
