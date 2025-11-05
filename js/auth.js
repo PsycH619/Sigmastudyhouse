@@ -483,9 +483,14 @@ class AuthManager {
 
     loadProfileData() {
         // Populate user info
-        document.getElementById('userName')?.textContent = this.currentUser.name;
-        document.getElementById('userEmail')?.textContent = this.currentUser.email;
-        document.getElementById('profileAvatar')?.textContent = this.currentUser.name.charAt(0).toUpperCase();
+        const userName = document.getElementById('userName');
+        if (userName) userName.textContent = this.currentUser.name;
+
+        const userEmail = document.getElementById('userEmail');
+        if (userEmail) userEmail.textContent = this.currentUser.email;
+
+        const profileAvatar = document.getElementById('profileAvatar');
+        if (profileAvatar) profileAvatar.textContent = this.currentUser.name.charAt(0).toUpperCase();
         
         // Update credit display
         this.updateCreditDisplay();
