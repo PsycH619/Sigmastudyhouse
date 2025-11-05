@@ -258,38 +258,81 @@ class DatabaseManager {
 
     // ==================== REALTIME LISTENERS ====================
 
-    onSnapshot(collection, callback, filters = {}) {
-        if (this.useFirebase) {
-            let query = window.firebaseDB.collection(collection);
+    onSnapshot(collection, docIdOrCallback, callbackOrFilters = {}, filtersOrUndefined = {}) {
+        // Support both document and collection snapshots
+        // onSnapshot(collection, docId, callback) - for a specific document
+        // onSnapshot(collection, callback, filters) - for a collection
 
-            // Apply filters
-            Object.keys(filters).forEach(key => {
-                if (filters[key] !== undefined) {
-                    query = query.where(key, '==', filters[key]);
-                }
-            });
+        let isDocumentListener = false;
+        let docId = null;
+        let callback = null;
+        let filters = {};
 
-            return query.onSnapshot(snapshot => {
-                const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                callback(data);
-            });
+        if (typeof docIdOrCallback === 'string') {
+            // Document listener: onSnapshot('users', 'userId123', callback)
+            isDocumentListener = true;
+            docId = docIdOrCallback;
+            callback = callbackOrFilters;
+        } else if (typeof docIdOrCallback === 'function') {
+            // Collection listener: onSnapshot('users', callback, filters)
+            callback = docIdOrCallback;
+            filters = callbackOrFilters;
+        }
+
+        if (isDocumentListener) {
+            // Listen to a specific document
+            if (this.useFirebase) {
+                return window.firebaseDB.collection(collection).doc(docId).onSnapshot(doc => {
+                    if (doc.exists) {
+                        callback({ id: doc.id, ...doc.data() });
+                    } else {
+                        callback(null);
+                    }
+                });
+            } else {
+                // For localStorage, poll for changes to the specific document
+                const intervalId = setInterval(() => {
+                    const items = this.getLocalStorageArray(collection);
+                    const item = items.find(i => i.id === docId);
+                    callback(item || null);
+                }, 1000);
+
+                return () => clearInterval(intervalId);
+            }
         } else {
-            // For localStorage, we'll poll for changes (not ideal but works)
-            const intervalId = setInterval(() => {
-                let items = this.getLocalStorageArray(collection);
+            // Listen to a collection
+            if (this.useFirebase) {
+                let query = window.firebaseDB.collection(collection);
 
                 // Apply filters
                 Object.keys(filters).forEach(key => {
                     if (filters[key] !== undefined) {
-                        items = items.filter(item => item[key] === filters[key]);
+                        query = query.where(key, '==', filters[key]);
                     }
                 });
 
-                callback(items);
-            }, 1000);
+                return query.onSnapshot(snapshot => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    callback(data);
+                });
+            } else {
+                // For localStorage, we'll poll for changes (not ideal but works)
+                const intervalId = setInterval(() => {
+                    let items = this.getLocalStorageArray(collection);
 
-            // Return unsubscribe function
-            return () => clearInterval(intervalId);
+                    // Apply filters
+                    Object.keys(filters).forEach(key => {
+                        if (filters[key] !== undefined) {
+                            items = items.filter(item => item[key] === filters[key]);
+                        }
+                    });
+
+                    callback(items);
+                }, 1000);
+
+                // Return unsubscribe function
+                return () => clearInterval(intervalId);
+            }
         }
     }
 
