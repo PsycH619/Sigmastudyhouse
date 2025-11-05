@@ -33,11 +33,12 @@ class AuthManager {
         if (!authButtons) return;
         
         if (this.currentUser) {
+            const userName = this.currentUser.name || this.currentUser.email || 'User';
             authButtons.innerHTML = `
                 <div class="user-credit">${formatCurrency(this.userCredit)}</div>
                 <div class="user-profile">
-                    <div class="user-avatar">${this.currentUser.name.charAt(0).toUpperCase()}</div>
-                    <div class="user-name">${this.currentUser.name}</div>
+                    <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
+                    <div class="user-name">${userName}</div>
                     <div class="user-dropdown">
                         <a href="pages/profile.html">
                             <i class="fas fa-user"></i>
@@ -483,14 +484,16 @@ class AuthManager {
 
     loadProfileData() {
         // Populate user info
+        const displayName = this.currentUser.name || this.currentUser.email || 'User';
+
         const userName = document.getElementById('userName');
-        if (userName) userName.textContent = this.currentUser.name;
+        if (userName) userName.textContent = displayName;
 
         const userEmail = document.getElementById('userEmail');
         if (userEmail) userEmail.textContent = this.currentUser.email;
 
         const profileAvatar = document.getElementById('profileAvatar');
-        if (profileAvatar) profileAvatar.textContent = this.currentUser.name.charAt(0).toUpperCase();
+        if (profileAvatar) profileAvatar.textContent = displayName.charAt(0).toUpperCase();
         
         // Update credit display
         this.updateCreditDisplay();
