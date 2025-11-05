@@ -83,11 +83,6 @@ class AuthManager {
 
         this.initializeAuthModals();
         this.cleanupOldAttempts();
-
-        // Check if we're on the profile page
-        if (window.location.pathname.includes('profile.html')) {
-            this.initializeProfilePage();
-        }
     }
 
     async handleAuthStateChange(firebaseUser) {
@@ -819,12 +814,22 @@ class AuthManager {
     }
 
     checkPageAccess() {
+        // Only check page access after auth state is resolved
+        if (!this.authStateReady) {
+            return;
+        }
+
         const protectedPages = ['profile.html', 'booking.html'];
         const currentPage = window.location.pathname.split('/').pop();
 
         if (protectedPages.includes(currentPage) && !this.currentUser) {
-            this.showNotification('Please sign in to access this page', 'error');
-            window.location.href = '../index.html';
+            console.log('checkPageAccess: Redirecting from protected page');
+            // Don't show notification or redirect if we're on profile page
+            // Let the ProfileManager handle it with a delay
+            if (currentPage !== 'profile.html') {
+                this.showNotification('Please sign in to access this page', 'error');
+                window.location.href = '../index.html';
+            }
         }
     }
 
