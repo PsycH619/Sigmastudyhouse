@@ -67,6 +67,7 @@ class ProfileManager {
         // Load all data
         await this.loadBookingHistory();
         await this.loadPrintingOrders();
+        await this.loadCafeteriaOrders();
         await this.loadPaymentHistory();
     }
 
@@ -383,6 +384,44 @@ class ProfileManager {
         } catch (error) {
             console.error('Error loading printing orders:', error);
             tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Error loading printing orders</td></tr>';
+        }
+    }
+
+    async loadCafeteriaOrders() {
+        if (!this.currentUser) return;
+
+        const tbody = document.getElementById('cafeteriaTableBody');
+        if (!tbody) return;
+
+        try {
+            const orders = await this.db.query('cafeteriaOrders', [
+                ['userId', '==', this.currentUser.id]
+            ]);
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No cafeteria orders found</td></tr>';
+                return;
+            }
+
+            // Sort by date (newest first)
+            orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            tbody.innerHTML = orders.map(order => {
+                const itemCount = order.items?.length || 0;
+                const itemsText = itemCount === 1 ? '1 item' : `${itemCount} items`;
+                return `
+                    <tr>
+                        <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
+                        <td>${order.orderNumber || 'N/A'}</td>
+                        <td>${itemsText}</td>
+                        <td>${(order.total || 0).toFixed(2)} JOD</td>
+                        <td><span class="status-${order.status || 'pending'}">${order.status || 'pending'}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        } catch (error) {
+            console.error('Error loading cafeteria orders:', error);
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Error loading cafeteria orders</td></tr>';
         }
     }
 

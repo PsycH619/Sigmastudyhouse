@@ -31,6 +31,7 @@
                             <a href="courses.html">Courses</a>
                             <a href="booking.html">Booking</a>
                             <a href="printing.html">Printing</a>
+                            <a href="../cafeteria.html">Cafeteria</a>
                         </div>
                     </li>
                     <li><a href="contact.html">Contact</a></li>
@@ -92,6 +93,9 @@
                         </a></li>
                         <li><a href="#" data-section="printing-orders">
                             <i class="fas fa-print"></i> Printing Orders
+                        </a></li>
+                        <li><a href="#" data-section="cafeteria-orders">
+                            <i class="fas fa-utensils"></i> Cafeteria Orders
                         </a></li>
                         <li><a href="#" data-section="credit">
                             <i class="fas fa-wallet"></i> Credit & Payments
@@ -197,7 +201,28 @@
                             </table>
                         </div>
                     </div>
-                    
+
+                    <!-- Cafeteria Orders Section -->
+                    <div id="cafeteria-orders" class="profile-section">
+                        <h2>Cafeteria Orders</h2>
+                        <div class="booking-history">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-calendar"></i> Order Date</th>
+                                        <th><i class="fas fa-receipt"></i> Order Number</th>
+                                        <th><i class="fas fa-shopping-bag"></i> Items</th>
+                                        <th><i class="fas fa-money-bill"></i> Total</th>
+                                        <th><i class="fas fa-info-circle"></i> Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cafeteriaTableBody">
+                                    <!-- Will be populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <!-- Credit & Payments Section -->
                     <div id="credit" class="profile-section">
                         <h2>Credit & Payments</h2>
