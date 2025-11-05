@@ -356,11 +356,11 @@ const bookingWizard = {
 
         try {
             // Save to database
-            if (window.databaseManager) {
-                await window.databaseManager.create('bookings', booking);
+            if (window.db) {
+                await window.db.create('bookings', booking);
 
                 // Add to payment history
-                await window.databaseManager.create('paymentHistory', {
+                await window.db.create('paymentHistory', {
                     userId: window.authManager.currentUser.id,
                     date: new Date().toISOString(),
                     description: `Booking - ${this.roomPrices[this.bookingData.roomType].description}`,
@@ -669,11 +669,11 @@ class BookingManager {
         };
 
         try {
-            if (window.databaseManager) {
-                await window.databaseManager.create('bookings', booking);
+            if (window.db) {
+                await window.db.create('bookings', booking);
 
                 // Add to payment history
-                await window.databaseManager.create('paymentHistory', {
+                await window.db.create('paymentHistory', {
                     userId: window.authManager.currentUser.id,
                     date: new Date().toISOString(),
                     description: `Booking - ${this.roomPrices[roomType].description}`,

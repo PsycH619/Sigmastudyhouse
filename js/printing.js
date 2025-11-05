@@ -342,8 +342,8 @@ class PrintingManager {
     }
 
     async savePrintingOrder(order) {
-        if (window.databaseManager) {
-            await window.databaseManager.create('printingOrders', order);
+        if (window.db) {
+            await window.db.create('printingOrders', order);
         } else {
             // Fallback to localStorage
             let printingOrders = JSON.parse(localStorage.getItem('printingOrders') || '[]');
