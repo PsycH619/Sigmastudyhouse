@@ -333,14 +333,24 @@
     <script>
         // Profile page specific functionality
         document.addEventListener('DOMContentLoaded', async function() {
-            // Wait for auth to load
+            // Wait for auth manager to be ready
             let attempts = 0;
             while (!window.authManager && attempts < 50) {
                 await new Promise(resolve => setTimeout(resolve, 100));
                 attempts++;
             }
 
-            if (!window.authManager || !window.authManager.currentUser) {
+            if (!window.authManager) {
+                alert('Authentication system not available');
+                window.location.href = '../index.html';
+                return;
+            }
+
+            // Wait for auth state to be resolved
+            await window.authManager.authStatePromise;
+
+            // Check if user is authenticated
+            if (!window.authManager.currentUser) {
                 alert('Please sign in to view your profile');
                 window.location.href = '../index.html';
                 return;
