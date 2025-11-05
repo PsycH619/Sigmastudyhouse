@@ -529,6 +529,28 @@ class CafeteriaManager {
         // Save order
         await this.saveOrder(order);
 
+        // Add to payment history
+        if (window.databaseManager) {
+            await window.databaseManager.create('paymentHistory', {
+                userId: window.authManager.currentUser.id,
+                date: new Date().toISOString(),
+                description: `Cafeteria Order #${order.orderNumber}`,
+                amount: total,
+                type: 'cafeteria'
+            });
+        } else {
+            // Fallback to localStorage
+            const paymentHistory = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+            paymentHistory.push({
+                userId: window.authManager.currentUser.id,
+                date: new Date().toISOString(),
+                description: `Cafeteria Order #${order.orderNumber}`,
+                amount: total,
+                type: 'cafeteria'
+            });
+            localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
+        }
+
         // Deduct from credit
         const newCreditAmount = window.authManager.userCredit - total;
         await window.authManager.updateCredit(newCreditAmount);

@@ -349,7 +349,7 @@ const bookingWizard = {
             duration: this.bookingData.duration,
             guests: this.bookingData.guests,
             specialRequirements: this.bookingData.specialRequirements,
-            cost: cost,
+            totalCost: cost,
             status: 'confirmed',
             createdAt: new Date().toISOString()
         };
@@ -358,11 +358,31 @@ const bookingWizard = {
             // Save to database
             if (window.databaseManager) {
                 await window.databaseManager.create('bookings', booking);
+
+                // Add to payment history
+                await window.databaseManager.create('paymentHistory', {
+                    userId: window.authManager.currentUser.id,
+                    date: new Date().toISOString(),
+                    description: `Booking - ${this.roomPrices[this.bookingData.roomType].description}`,
+                    amount: cost,
+                    type: 'booking'
+                });
             } else {
                 // Fallback to localStorage
                 const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
                 bookings.push(booking);
                 localStorage.setItem('bookings', JSON.stringify(bookings));
+
+                // Add to payment history
+                const paymentHistory = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+                paymentHistory.push({
+                    userId: window.authManager.currentUser.id,
+                    date: new Date().toISOString(),
+                    description: `Booking - ${this.roomPrices[this.bookingData.roomType].description}`,
+                    amount: cost,
+                    type: 'booking'
+                });
+                localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
             }
 
             // Deduct credit from user account
@@ -643,7 +663,7 @@ class BookingManager {
             duration: duration,
             guests: guests,
             specialRequirements: specialRequirements,
-            cost: cost,
+            totalCost: cost,
             status: 'confirmed',
             createdAt: new Date().toISOString()
         };
@@ -651,10 +671,30 @@ class BookingManager {
         try {
             if (window.databaseManager) {
                 await window.databaseManager.create('bookings', booking);
+
+                // Add to payment history
+                await window.databaseManager.create('paymentHistory', {
+                    userId: window.authManager.currentUser.id,
+                    date: new Date().toISOString(),
+                    description: `Booking - ${this.roomPrices[roomType].description}`,
+                    amount: cost,
+                    type: 'booking'
+                });
             } else {
                 const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
                 bookings.push(booking);
                 localStorage.setItem('bookings', JSON.stringify(bookings));
+
+                // Add to payment history
+                const paymentHistory = JSON.parse(localStorage.getItem('paymentHistory') || '[]');
+                paymentHistory.push({
+                    userId: window.authManager.currentUser.id,
+                    date: new Date().toISOString(),
+                    description: `Booking - ${this.roomPrices[roomType].description}`,
+                    amount: cost,
+                    type: 'booking'
+                });
+                localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
             }
 
             const newCreditAmount = window.authManager.userCredit - cost;
