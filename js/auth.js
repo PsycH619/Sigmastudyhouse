@@ -53,6 +53,13 @@ class AuthManager {
     }
 
     async init() {
+        // Hide auth buttons initially to prevent FOUC (Flash of Unauthenticated Content)
+        const authButtons = document.getElementById('authButtons');
+        if (authButtons) {
+            authButtons.style.visibility = 'hidden';
+            authButtons.style.opacity = '0';
+        }
+
         // Set up Firebase Auth state listener
         if (this.auth) {
             this.unsubscribeAuth = this.auth.onAuthStateChanged(async (user) => {
@@ -79,6 +86,8 @@ class AuthManager {
             if (this.resolveAuthState) {
                 this.resolveAuthState(null);
             }
+            // Show auth UI even if Firebase not available
+            this.updateAuthUI();
         }
 
         this.initializeAuthModals();
@@ -377,7 +386,8 @@ class AuthManager {
         const submitBtn = form.querySelector('button[type="submit"]');
 
         try {
-            const email = this.sanitizeInput(form.querySelector('#forgotEmail').value);
+            const emailInput = form.querySelector('#resetEmail') || form.querySelector('#forgotEmail');
+            const email = this.sanitizeInput(emailInput?.value || '');
 
             if (!email) {
                 this.showNotification('Please enter your email address', 'error');
@@ -418,7 +428,7 @@ class AuthManager {
 
             // Reset button
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Send Reset Link';
+            submitBtn.innerHTML = '<span data-en="Send Reset Link" data-ar="إرسال رابط إعادة التعيين">Send Reset Link</span>';
         }
     }
 
@@ -746,6 +756,7 @@ class AuthManager {
         const signInBtn = document.getElementById('signInBtn');
         const signUpBtn = document.getElementById('signUpBtn');
         const userMenu = document.getElementById('userMenu');
+        const authButtons = document.getElementById('authButtons');
 
         if (this.currentUser) {
             // User is signed in
@@ -807,6 +818,13 @@ class AuthManager {
             if (signInBtn) signInBtn.style.display = 'inline-block';
             if (signUpBtn) signUpBtn.style.display = 'inline-block';
             if (userMenu) userMenu.style.display = 'none';
+        }
+
+        // Show auth buttons with smooth transition (prevent FOUC)
+        if (authButtons) {
+            authButtons.style.visibility = 'visible';
+            authButtons.style.opacity = '1';
+            authButtons.style.transition = 'opacity 0.3s ease';
         }
 
         // Update protected pages

@@ -6,6 +6,7 @@ class ProfileManager {
         this.currentUser = null;
         this.db = null;
         this.auth = null;
+        this.unsubscribeUser = null; // For realtime user data updates
 
         // Wait for dependencies
         this.waitForDependencies().then(() => {
@@ -51,6 +52,9 @@ class ProfileManager {
         console.log('User authenticated:', window.authManager.currentUser.email);
         this.currentUser = window.authManager.currentUser;
 
+        // Set up realtime listener for user data updates
+        this.setupUserDataListener();
+
         // Load profile data
         await this.loadProfileData();
 
@@ -66,14 +70,62 @@ class ProfileManager {
         await this.loadPaymentHistory();
     }
 
+    setupUserDataListener() {
+        // Listen for realtime updates to user data
+        if (this.currentUser && this.currentUser.id) {
+            this.unsubscribeUser = this.db.onSnapshot('users', this.currentUser.id, (userData) => {
+                if (userData) {
+                    console.log('User data updated from Firebase:', userData);
+                    // Update local user object
+                    this.currentUser = { ...this.currentUser, ...userData };
+                    window.authManager.currentUser = this.currentUser;
+                    window.authManager.userCredit = this.currentUser.credit || 25.00;
+
+                    // Update UI with new data
+                    this.updateCreditDisplay();
+
+                    // Update header user info
+                    const userName = document.getElementById('userName');
+                    if (userName) userName.textContent = this.currentUser.name || 'User';
+
+                    // Update form fields if they exist
+                    const fullNameInput = document.getElementById('fullName');
+                    const phoneInput = document.getElementById('phone');
+                    const studentIdInput = document.getElementById('studentId');
+
+                    if (fullNameInput && fullNameInput.value !== this.currentUser.name) {
+                        fullNameInput.value = this.currentUser.name || '';
+                    }
+                    if (phoneInput && phoneInput.value !== this.currentUser.phone) {
+                        phoneInput.value = this.currentUser.phone || '';
+                    }
+                    if (studentIdInput && studentIdInput.value !== this.currentUser.studentId) {
+                        studentIdInput.value = this.currentUser.studentId || '';
+                    }
+                }
+            });
+        }
+    }
+
     async loadProfileData() {
         try {
+            // Fetch the latest user data from Firebase
+            if (this.currentUser && this.currentUser.id) {
+                const latestUserData = await this.db.get('users', this.currentUser.id);
+                if (latestUserData) {
+                    console.log('Loaded user data from Firebase:', latestUserData);
+                    this.currentUser = { ...this.currentUser, ...latestUserData };
+                    window.authManager.currentUser = this.currentUser;
+                    window.authManager.userCredit = this.currentUser.credit || 25.00;
+                }
+            }
+
             // Update profile header
             const userName = document.getElementById('userName');
             const userEmail = document.getElementById('userEmail');
 
             if (userName) userName.textContent = this.currentUser.name || 'User';
-            if (userEmail) userEmail.textContent = this.currentUser.email;
+            if (userEmail) userEmail.textContent = this.currentUser.email || '';
 
             // Update profile avatar
             const profileAvatar = document.getElementById('profileAvatar');
@@ -102,6 +154,9 @@ class ProfileManager {
 
         } catch (error) {
             console.error('Error loading profile data:', error);
+            if (window.authManager.showNotification) {
+                window.authManager.showNotification('Error loading profile data', 'error');
+            }
         }
     }
 
@@ -350,13 +405,31 @@ class ProfileManager {
             'solo': 'Solo Room',
             'meeting-small': 'Small Meeting Room',
             'meeting-medium': 'Medium Meeting Room',
-            'meeting-large': 'Large Meeting Room'
+            'meeting-large': 'Large Meeting Room',
+            'social': 'Social Area',
+            'meeting': 'Meeting Room',
+            'class': 'Class Room'
         };
         return types[roomType] || roomType;
+    }
+
+    // Cleanup method to unsubscribe from listeners
+    destroy() {
+        if (this.unsubscribeUser) {
+            this.unsubscribeUser();
+            console.log('Unsubscribed from user data listener');
+        }
     }
 }
 
 // Initialize profile manager when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     window.profileManager = new ProfileManager();
+});
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', function() {
+    if (window.profileManager && window.profileManager.destroy) {
+        window.profileManager.destroy();
+    }
 });
