@@ -824,7 +824,7 @@ class AuthManager {
 
         if (protectedPages.includes(currentPage) && !this.currentUser) {
             this.showNotification('Please sign in to access this page', 'error');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         }
     }
 
@@ -832,7 +832,7 @@ class AuthManager {
 
     async initializeProfilePage() {
         if (!this.currentUser) {
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
             return;
         }
 
