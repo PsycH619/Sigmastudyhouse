@@ -615,9 +615,32 @@ nav ul li a:hover::after {
 }
 
 .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    display: flex;
     gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.services-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.services-grid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.services-grid::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.services-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
 }
 
 .service-card {
@@ -628,11 +651,20 @@ nav ul li a:hover::after {
     transition: all 0.3s ease;
     position: relative;
     border: 1px solid rgba(79,70,229,0.1);
+    min-width: 350px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
 }
 
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px var(--shadow);
+}
+
+@media (max-width: 768px) {
+    .service-card {
+        min-width: 300px;
+    }
 }
 
 .service-image {
@@ -844,6 +876,10 @@ footer {
     background: linear-gradient(135deg, var(--dark), #0F172A);
     color: white;
     padding: 80px 0 20px;
+}
+
+.dark-mode footer {
+    background: linear-gradient(135deg, #1E293B, #0F172A);
 }
 
 .footer-container {
