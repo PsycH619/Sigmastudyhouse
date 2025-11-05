@@ -144,16 +144,38 @@ class ProfileManager {
             const phoneInput = document.getElementById('phone');
             const studentIdInput = document.getElementById('studentId');
 
-            if (fullNameInput) fullNameInput.value = this.currentUser.name || '';
-            if (profileEmailInput) profileEmailInput.value = this.currentUser.email || '';
-            if (phoneInput) phoneInput.value = this.currentUser.phone || '';
-            if (studentIdInput) studentIdInput.value = this.currentUser.studentId || '';
+            if (fullNameInput) {
+                fullNameInput.value = this.currentUser.name || '';
+                fullNameInput.placeholder = this.currentUser.name ? '' : 'Enter your full name';
+            }
+            if (profileEmailInput) {
+                profileEmailInput.value = this.currentUser.email || '';
+            }
+            if (phoneInput) {
+                phoneInput.value = this.currentUser.phone || '';
+            }
+            if (studentIdInput) {
+                studentIdInput.value = this.currentUser.studentId || '';
+            }
 
             // Update credit displays
             this.updateCreditDisplay();
 
         } catch (error) {
             console.error('Error loading profile data:', error);
+
+            // Update placeholders to show error state instead of "Loading..."
+            const fullNameInput = document.getElementById('fullName');
+            const profileEmailInput = document.getElementById('profileEmail');
+            if (fullNameInput) fullNameInput.placeholder = 'Error loading data';
+            if (profileEmailInput) profileEmailInput.placeholder = 'Error loading data';
+
+            // Update credit display to show error
+            const balanceElements = document.querySelectorAll('#currentBalance, #creditBalance');
+            balanceElements.forEach(el => {
+                if (el) el.textContent = 'Error loading';
+            });
+
             if (window.authManager.showNotification) {
                 window.authManager.showNotification('Error loading profile data', 'error');
             }
