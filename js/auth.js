@@ -851,6 +851,31 @@ class AuthManager {
         }
     }
 
+    // ==================== CREDIT MANAGEMENT ====================
+
+    async updateCredit(newCreditAmount) {
+        if (!this.currentUser) {
+            throw new Error('User not authenticated');
+        }
+
+        // Update local state
+        this.userCredit = newCreditAmount;
+        this.currentUser.credit = newCreditAmount;
+
+        // Update in Firestore if available
+        if (this.db && this.auth && this.auth.currentUser) {
+            try {
+                await this.db.update('users', this.auth.currentUser.uid, {
+                    credit: newCreditAmount
+                });
+                console.log('✅ User credit updated in Firestore:', newCreditAmount);
+            } catch (error) {
+                console.error('Error updating credit in Firestore:', error);
+                // Don't throw - allow local update to succeed even if Firestore fails
+            }
+        }
+    }
+
     // ==================== PROFILE PAGE ====================
 
     async initializeProfilePage() {

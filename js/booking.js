@@ -366,8 +366,8 @@ const bookingWizard = {
             }
 
             // Deduct credit from user account
-            window.authManager.userCredit -= cost;
-            await window.authManager.saveToDatabase('userCredit', window.authManager.userCredit);
+            const newCreditAmount = window.authManager.userCredit - cost;
+            await window.authManager.updateCredit(newCreditAmount);
 
             // Show success message
             showNotification(`✓ Booking confirmed! ${cost.toFixed(2)} JOD has been deducted from your account. You now have ${window.authManager.userCredit.toFixed(2)} JOD remaining.`, 'success');
@@ -657,8 +657,8 @@ class BookingManager {
                 localStorage.setItem('bookings', JSON.stringify(bookings));
             }
 
-            window.authManager.userCredit -= cost;
-            await window.authManager.saveToDatabase('userCredit', window.authManager.userCredit);
+            const newCreditAmount = window.authManager.userCredit - cost;
+            await window.authManager.updateCredit(newCreditAmount);
 
             showNotification(`✓ Booking confirmed! ${cost.toFixed(2)} JOD deducted. Remaining: ${window.authManager.userCredit.toFixed(2)} JOD.`, 'success');
 

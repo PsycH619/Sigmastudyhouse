@@ -530,8 +530,8 @@ class CafeteriaManager {
         await this.saveOrder(order);
 
         // Deduct from credit
-        window.authManager.userCredit -= total;
-        await window.authManager.saveToDatabase('userCredit', window.authManager.userCredit);
+        const newCreditAmount = window.authManager.userCredit - total;
+        await window.authManager.updateCredit(newCreditAmount);
         window.authManager.updateAuthUI();
 
         // Clear cart
@@ -547,9 +547,14 @@ class CafeteriaManager {
     }
 
     async saveOrder(order) {
-        let cafeteriaOrders = await window.authManager.loadFromDatabase('cafeteriaOrders') || [];
-        cafeteriaOrders.push(order);
-        await window.authManager.saveToDatabase('cafeteriaOrders', cafeteriaOrders);
+        if (window.databaseManager) {
+            await window.databaseManager.create('cafeteriaOrders', order);
+        } else {
+            // Fallback to localStorage
+            let cafeteriaOrders = JSON.parse(localStorage.getItem('cafeteriaOrders') || '[]');
+            cafeteriaOrders.push(order);
+            localStorage.setItem('cafeteriaOrders', JSON.stringify(cafeteriaOrders));
+        }
     }
 
     saveCart() {
