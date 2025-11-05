@@ -326,8 +326,8 @@ class PrintingManager {
         await this.savePrintingOrder(order);
 
         // Deduct cost from credit
-        window.authManager.userCredit -= cost;
-        await window.authManager.saveToDatabase('userCredit', window.authManager.userCredit);
+        const newCreditAmount = window.authManager.userCredit - cost;
+        await window.authManager.updateCredit(newCreditAmount);
 
         // Update UI
         window.authManager.updateAuthUI();
@@ -342,9 +342,14 @@ class PrintingManager {
     }
 
     async savePrintingOrder(order) {
-        let printingOrders = await window.authManager.loadFromDatabase('printingOrders') || [];
-        printingOrders.push(order);
-        await window.authManager.saveToDatabase('printingOrders', printingOrders);
+        if (window.databaseManager) {
+            await window.databaseManager.create('printingOrders', order);
+        } else {
+            // Fallback to localStorage
+            let printingOrders = JSON.parse(localStorage.getItem('printingOrders') || '[]');
+            printingOrders.push(order);
+            localStorage.setItem('printingOrders', JSON.stringify(printingOrders));
+        }
     }
 
     resetPrintingForm() {
