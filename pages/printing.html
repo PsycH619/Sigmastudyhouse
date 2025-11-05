@@ -76,62 +76,86 @@
     </header>
 
     <!-- Printing Page Content -->
-    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(rgba(52, 152, 219, 0.9), rgba(52, 152, 219, 0.8));">
+    <section class="hero" style="padding: 120px 0 80px; background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFA559 100%);">
         <div class="container">
-            <h1>Printing Services</h1>
-            <p>High-quality printing, copying, and binding services for all your academic needs</p>
+            <h1 style="font-size: 3rem; margin-bottom: 15px;">
+                <i class="fas fa-print" style="margin-right: 15px;"></i>
+                Printing Services
+            </h1>
+            <p style="font-size: 1.3rem; max-width: 700px; margin: 0 auto;">High-quality printing, copying, and binding services for all your academic needs</p>
         </div>
     </section>
 
-    <section class="printing">
+    <section class="printing" style="padding: 60px 0;">
         <div class="container">
-            <h2 class="section-title">Upload & Print</h2>
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 15px;">Upload & Print Your Documents</h2>
+                <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                    Quick and easy document printing with professional quality and fast turnaround times
+                </p>
+            </div>
             <div class="printing-container">
-                <div class="upload-area">
-                    <div class="upload-icon">
+                <div class="upload-area" style="background: linear-gradient(135deg, var(--light) 0%, #fff 100%); border: 3px dashed var(--primary); border-radius: 15px; padding: 40px; box-shadow: 0 5px 20px var(--shadow);">
+                    <div class="upload-icon" style="font-size: 5rem; color: var(--primary); margin-bottom: 20px;">
                         <i class="fas fa-cloud-upload-alt"></i>
                     </div>
-                    <h3>Upload Your Documents</h3>
-                    <p>Drag and drop your files or click to browse</p>
+                    <h3 style="font-size: 1.8rem; color: var(--dark); margin-bottom: 15px;">Upload Your Documents</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-light); margin-bottom: 30px;">Drag and drop your files or click to browse</p>
                     <input type="file" id="fileUpload" multiple style="display: none;" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png">
-                    <button class="btn btn-primary" onclick="document.getElementById('fileUpload').click()">Choose Files</button>
-                    <div id="fileList" style="margin-top: 20px; text-align: left;"></div>
-                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-light);">
-                        Supported formats: PDF, DOC, DOCX, PPT, JPG, PNG<br>
-                        Max file size: 50MB per file
-                    </p>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileUpload').click()" style="padding: 15px 40px; font-size: 1.1rem; border-radius: 30px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
+                        <i class="fas fa-file-upload" style="margin-right: 10px;"></i>Choose Files
+                    </button>
+                    <div id="fileList" style="margin-top: 30px; text-align: left;"></div>
+                    <div style="margin-top: 25px; padding: 20px; background: white; border-radius: 10px; border-left: 4px solid var(--primary);">
+                        <p style="font-size: 0.95rem; color: var(--text); margin: 0;">
+                            <strong><i class="fas fa-info-circle" style="color: var(--primary); margin-right: 8px;"></i>Supported formats:</strong> PDF, DOC, DOCX, PPT, JPG, PNG<br>
+                            <strong style="margin-top: 8px; display: inline-block;"><i class="fas fa-database" style="color: var(--primary); margin-right: 8px;"></i>Max file size:</strong> 50MB per file
+                        </p>
+                    </div>
                 </div>
-                <div class="printing-options">
-                    <h3>Printing Options</h3>
+                <div class="printing-options" style="background: white; border-radius: 15px; padding: 35px; box-shadow: 0 5px 20px var(--shadow);">
+                    <h3 style="font-size: 1.8rem; color: var(--dark); margin-bottom: 30px; padding-bottom: 15px; border-bottom: 3px solid var(--primary);">
+                        <i class="fas fa-cog" style="margin-right: 10px; color: var(--primary);"></i>Printing Options
+                    </h3>
                     <div class="option-group">
-                        <label for="printType">Print Type *</label>
-                        <select class="form-control" id="printType" required>
+                        <label for="printType" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-palette" style="color: var(--primary); margin-right: 8px;"></i>Print Type *
+                        </label>
+                        <select class="form-control" id="printType" required style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                             <option value="bw">Black & White - 0.10 JOD/page</option>
                             <option value="color">Color - 0.50 JOD/page</option>
                         </select>
                     </div>
                     <div class="option-group">
-                        <label for="paperSize">Paper Size *</label>
-                        <select class="form-control" id="paperSize" required>
+                        <label for="paperSize" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-file" style="color: var(--primary); margin-right: 8px;"></i>Paper Size *
+                        </label>
+                        <select class="form-control" id="paperSize" required style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                             <option value="a4">A4</option>
                             <option value="a3">A3 - 2x price</option>
                             <option value="letter">Letter</option>
                         </select>
                     </div>
                     <div class="option-group">
-                        <label for="printSides">Print Sides *</label>
-                        <select class="form-control" id="printSides" required>
+                        <label for="printSides" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-copy" style="color: var(--primary); margin-right: 8px;"></i>Print Sides *
+                        </label>
+                        <select class="form-control" id="printSides" required style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                             <option value="single">Single-sided</option>
                             <option value="double">Double-sided - Save 20%</option>
                         </select>
                     </div>
                     <div class="option-group">
-                        <label for="copies">Number of Copies *</label>
-                        <input type="number" class="form-control" id="copies" min="1" value="1" required>
+                        <label for="copies" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-clone" style="color: var(--primary); margin-right: 8px;"></i>Number of Copies *
+                        </label>
+                        <input type="number" class="form-control" id="copies" min="1" value="1" required style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                     </div>
                     <div class="option-group">
-                        <label for="binding">Binding</label>
-                        <select class="form-control" id="binding">
+                        <label for="binding" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-book" style="color: var(--primary); margin-right: 8px;"></i>Binding
+                        </label>
+                        <select class="form-control" id="binding" style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                             <option value="none">None</option>
                             <option value="stapled">Stapled - 1 JOD</option>
                             <option value="spiral">Spiral Bound - 5 JOD</option>
@@ -139,100 +163,144 @@
                         </select>
                     </div>
                     <div class="option-group">
-                        <label for="urgency">Urgency</label>
-                        <select class="form-control" id="urgency">
+                        <label for="urgency" style="font-weight: 600; margin-bottom: 8px; display: block;">
+                            <i class="fas fa-clock" style="color: var(--primary); margin-right: 8px;"></i>Urgency
+                        </label>
+                        <select class="form-control" id="urgency" style="padding: 12px; border-radius: 8px; border: 2px solid #e2e8f0;">
                             <option value="standard">Standard (24 hours)</option>
                             <option value="express">Express (4 hours) - +50%</option>
                             <option value="urgent">Urgent (1 hour) - +100%</option>
                         </select>
                     </div>
-                    
-                    <div style="background-color: var(--light); padding: 15px; border-radius: 5px; margin: 20px 0;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <strong>Estimated Cost:</strong>
-                            <span id="estimatedCost">0.00 JOD</span>
+
+                    <div style="background: linear-gradient(135deg, var(--light) 0%, #fff5f5 100%); padding: 20px; border-radius: 12px; margin: 25px 0; border: 2px solid var(--primary); box-shadow: 0 3px 10px rgba(255, 107, 53, 0.15);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <strong style="font-size: 1.2rem; color: var(--dark);">
+                                <i class="fas fa-calculator" style="color: var(--primary); margin-right: 8px;"></i>Estimated Cost:
+                            </strong>
+                            <span id="estimatedCost" style="font-size: 1.5rem; font-weight: bold; color: var(--primary);">0.00 JOD</span>
                         </div>
-                        <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 5px;">
-                            <span id="pageCount">0 pages</span> • Final cost calculated after upload
+                        <div style="font-size: 0.95rem; color: var(--text-light); margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255, 107, 53, 0.2);">
+                            <i class="fas fa-file-alt" style="margin-right: 5px;"></i><span id="pageCount">0 pages</span> • Final cost calculated after upload
                         </div>
                     </div>
-                    
-                    <button class="btn btn-primary" style="width: 100%;" id="addToCartBtn" disabled>Add to Cart</button>
+
+                    <button class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.2rem; border-radius: 30px; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);" id="addToCartBtn" disabled>
+                        <i class="fas fa-shopping-cart" style="margin-right: 10px;"></i>Add to Cart
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Pricing Section -->
-    <section class="services" style="background-color: var(--light);">
+    <section class="services" style="background: linear-gradient(180deg, var(--light) 0%, #fff 100%); padding: 80px 0;">
         <div class="container">
-            <h2 class="section-title">Printing Prices</h2>
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 15px;">
+                    <i class="fas fa-tag" style="color: var(--primary); margin-right: 10px;"></i>Printing Prices
+                </h2>
+                <p style="font-size: 1.1rem; color: var(--text-light);">Affordable rates for all your printing needs</p>
+            </div>
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card" style="border-top: 4px solid var(--primary); box-shadow: 0 8px 20px var(--shadow); transition: transform 0.3s ease;">
                     <div class="service-content">
-                        <h3>Standard Printing</h3>
+                        <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-print" style="color: white; font-size: 1.8rem;"></i>
+                        </div>
+                        <h3 style="font-size: 1.6rem; margin-bottom: 20px; color: var(--dark);">Standard Printing</h3>
                         <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Black & White (A4)</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.10 JOD/page</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: #333; font-size: 0.5rem; margin-right: 8px;"></i>Black & White (A4)
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">0.10 JOD/page</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Color (A4)</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.50 JOD/page</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--primary); font-size: 0.5rem; margin-right: 8px;"></i>Color (A4)
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">0.50 JOD/page</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">A3 Size</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">2x A4 price</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--secondary); font-size: 0.5rem; margin-right: 8px;"></i>A3 Size
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">2x A4 price</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0;">Double-sided</td>
-                                <td style="padding: 8px 0; text-align: right;">20% discount</td>
+                                <td style="padding: 12px 0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--success); font-size: 0.5rem; margin-right: 8px;"></i>Double-sided
+                                </td>
+                                <td style="padding: 12px 0; text-align: right; font-weight: 600; color: var(--success);">20% discount</td>
                             </tr>
                         </table>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" style="border-top: 4px solid var(--secondary); box-shadow: 0 8px 20px var(--shadow); transition: transform 0.3s ease;">
                     <div class="service-content">
-                        <h3>Binding Services</h3>
+                        <div style="background: linear-gradient(135deg, var(--secondary), var(--accent)); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-book" style="color: white; font-size: 1.8rem;"></i>
+                        </div>
+                        <h3 style="font-size: 1.6rem; margin-bottom: 20px; color: var(--dark);">Binding Services</h3>
                         <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Stapling</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">1 JOD</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--primary); font-size: 0.5rem; margin-right: 8px;"></i>Stapling
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">1 JOD</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Spiral Binding</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">5 JOD</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--secondary); font-size: 0.5rem; margin-right: 8px;"></i>Spiral Binding
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">5 JOD</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Hard Cover</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">15 JOD</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--accent); font-size: 0.5rem; margin-right: 8px;"></i>Hard Cover
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">15 JOD</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0;">Lamination (A4)</td>
-                                <td style="padding: 8px 0; text-align: right;">2 JOD/page</td>
+                                <td style="padding: 12px 0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: #4F46E5; font-size: 0.5rem; margin-right: 8px;"></i>Lamination (A4)
+                                </td>
+                                <td style="padding: 12px 0; text-align: right; font-weight: 600; color: var(--primary);">2 JOD/page</td>
                             </tr>
                         </table>
                     </div>
                 </div>
-                <div class="service-card">
+                <div class="service-card" style="border-top: 4px solid var(--accent); box-shadow: 0 8px 20px var(--shadow); transition: transform 0.3s ease;">
                     <div class="service-content">
-                        <h3>Additional Services</h3>
+                        <div style="background: linear-gradient(135deg, var(--accent), #FFD700); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-plus-circle" style="color: white; font-size: 1.8rem;"></i>
+                        </div>
+                        <h3 style="font-size: 1.6rem; margin-bottom: 20px; color: var(--dark);">Additional Services</h3>
                         <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Scanning</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">0.05 JOD/page</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--primary); font-size: 0.5rem; margin-right: 8px;"></i>Scanning
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">0.05 JOD/page</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Fax Service</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">1 JOD/page</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--secondary); font-size: 0.5rem; margin-right: 8px;"></i>Fax Service
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--primary);">1 JOD/page</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light);">Express Service</td>
-                                <td style="padding: 8px 0; border-bottom: 1px solid var(--light); text-align: right;">+50%</td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--accent); font-size: 0.5rem; margin-right: 8px;"></i>Express Service
+                                </td>
+                                <td style="padding: 12px 0; border-bottom: 2px solid #f0f0f0; text-align: right; font-weight: 600; color: var(--accent);">+50%</td>
                             </tr>
                             <tr>
-                                <td style="padding: 8px 0;">Urgent Service</td>
-                                <td style="padding: 8px 0; text-align: right;">+100%</td>
+                                <td style="padding: 12px 0; font-weight: 500;">
+                                    <i class="fas fa-circle" style="color: var(--danger); font-size: 0.5rem; margin-right: 8px;"></i>Urgent Service
+                                </td>
+                                <td style="padding: 12px 0; text-align: right; font-weight: 600; color: var(--danger);">+100%</td>
                             </tr>
                         </table>
                     </div>
