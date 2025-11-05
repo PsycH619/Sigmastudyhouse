@@ -622,6 +622,13 @@ nav ul li a:hover::after {
     scroll-snap-type: x mandatory;
     padding-bottom: 20px;
     -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    user-select: none;
+}
+
+.services-grid.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -651,8 +658,9 @@ nav ul li a:hover::after {
     transition: all 0.3s ease;
     position: relative;
     border: 1px solid rgba(79,70,229,0.1);
-    min-width: 350px;
-    flex-shrink: 0;
+    min-width: 280px;
+    max-width: 380px;
+    flex: 1 0 auto;
     scroll-snap-align: start;
 }
 
@@ -663,7 +671,8 @@ nav ul li a:hover::after {
 
 @media (max-width: 768px) {
     .service-card {
-        min-width: 300px;
+        min-width: 280px;
+        max-width: 350px;
     }
 }
 

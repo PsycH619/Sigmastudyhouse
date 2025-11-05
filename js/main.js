@@ -11,6 +11,7 @@ class SigmaStudyHouse {
         this.initializeVideoCarousel();
         this.initializeAnimations();
         this.initializeNotifications();
+        this.initializeServicesSwipe();
     }
 
     // Theme functionality
@@ -232,6 +233,98 @@ class SigmaStudyHouse {
                 }
             });
         }
+    }
+
+    // Services grid swipe functionality
+    initializeServicesSwipe() {
+        const servicesGrid = document.querySelector('.services-grid');
+        if (!servicesGrid) return;
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let velocity = 0;
+        let lastX;
+        let lastTime;
+
+        servicesGrid.addEventListener('mousedown', (e) => {
+            isDown = true;
+            servicesGrid.classList.add('dragging');
+            startX = e.pageX - servicesGrid.offsetLeft;
+            scrollLeft = servicesGrid.scrollLeft;
+            lastX = e.pageX;
+            lastTime = Date.now();
+            velocity = 0;
+        });
+
+        servicesGrid.addEventListener('mouseleave', () => {
+            if (isDown) {
+                isDown = false;
+                servicesGrid.classList.remove('dragging');
+                this.applyMomentum(servicesGrid, velocity);
+            }
+        });
+
+        servicesGrid.addEventListener('mouseup', () => {
+            if (isDown) {
+                isDown = false;
+                servicesGrid.classList.remove('dragging');
+                this.applyMomentum(servicesGrid, velocity);
+            }
+        });
+
+        servicesGrid.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - servicesGrid.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed multiplier
+            servicesGrid.scrollLeft = scrollLeft - walk;
+
+            // Calculate velocity for momentum
+            const now = Date.now();
+            const timeDiff = now - lastTime;
+            if (timeDiff > 0) {
+                velocity = (e.pageX - lastX) / timeDiff;
+            }
+            lastX = e.pageX;
+            lastTime = now;
+        });
+
+        // Prevent default link behavior when dragging
+        servicesGrid.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('click', (e) => {
+                if (Math.abs(velocity) > 0.5) {
+                    e.preventDefault();
+                }
+            });
+        });
+    }
+
+    // Apply momentum scrolling after mouse release
+    applyMomentum(element, velocity) {
+        if (Math.abs(velocity) < 0.1) return;
+
+        const momentum = velocity * 200; // Momentum multiplier
+        const duration = 500; // Animation duration
+        const start = element.scrollLeft;
+        const startTime = Date.now();
+
+        const animate = () => {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease out cubic function
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+
+            element.scrollLeft = start - (momentum * easeOut);
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
     }
 
     // Animation triggers
