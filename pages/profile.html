@@ -319,136 +319,283 @@
         </div>
     </div>
 
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/database.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/auth.js"></script>
     <script>
         // Profile page specific functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!currentUser) {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Wait for auth to load
+            let attempts = 0;
+            while (!window.authManager && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
+            if (!window.authManager || !window.authManager.currentUser) {
+                alert('Please sign in to view your profile');
                 window.location.href = '../index.html';
                 return;
             }
-            
-            loadBookingHistory();
-            loadPrintingOrders();
-            loadPaymentHistory();
+
+            const currentUser = window.authManager.currentUser;
+
+            // Update profile header
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+
+            if (userName) userName.textContent = currentUser.name || 'User';
+            if (userEmail) userEmail.textContent = currentUser.email;
+
+            // Populate form fields
+            const fullNameInput = document.getElementById('fullName');
+            const profileEmailInput = document.getElementById('profileEmail');
+            const phoneInput = document.getElementById('phone');
+            const studentIdInput = document.getElementById('studentId');
+
+            if (fullNameInput) fullNameInput.value = currentUser.name || '';
+            if (profileEmailInput) profileEmailInput.value = currentUser.email || '';
+            if (phoneInput) phoneInput.value = currentUser.phone || '';
+            if (studentIdInput) studentIdInput.value = currentUser.studentId || '';
+
+            // Update credit displays
+            updateCreditDisplay();
+
+            // Load data
+            await loadBookingHistory();
+            await loadPrintingOrders();
+            await loadPaymentHistory();
+
+            // Set up profile navigation
+            setupProfileNavigation();
             
             // Personal info form
-            document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
+            document.getElementById('personalInfoForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
-                showNotification('Personal information updated successfully!', 'success');
-            });
-            
-            // Add credit functionality
-            document.getElementById('addCreditBtn').addEventListener('click', function() {
-                const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
-                if (amount >= 5) {
-                    userCredit += amount;
-                    localStorage.setItem('userCredit', JSON.stringify(userCredit));
-                    
-                    // Add to payment history
-                    const payment = {
-                        date: new Date().toISOString(),
-                        description: 'Credit Top-up',
-                        amount: amount,
-                        type: 'credit'
+                const currentUser = window.authManager.currentUser;
+
+                try {
+                    const updates = {
+                        name: document.getElementById('fullName').value,
+                        phone: document.getElementById('phone').value,
+                        studentId: document.getElementById('studentId').value
                     };
-                    
-                    let paymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-                    paymentHistory.push(payment);
-                    localStorage.setItem('paymentHistory', JSON.stringify(paymentHistory));
-                    
-                    updateCreditDisplay();
-                    loadPaymentHistory();
-                    showNotification(`Successfully added ${amount.toFixed(2)} JOD to your account!`, 'success');
+
+                    await window.db.update('users', currentUser.id, updates);
+                    window.authManager.currentUser = { ...currentUser, ...updates };
+
+                    if (window.authManager.showNotification) {
+                        window.authManager.showNotification('Personal information updated successfully!', 'success');
+                    } else {
+                        alert('Personal information updated successfully!');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    if (window.authManager.showNotification) {
+                        window.authManager.showNotification('Failed to update profile', 'error');
+                    } else {
+                        alert('Failed to update profile');
+                    }
+                }
+            });
+
+            // Add credit functionality
+            document.getElementById('addCreditBtn').addEventListener('click', async function() {
+                const currentUser = window.authManager.currentUser;
+                const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
+
+                if (amount >= 5) {
+                    try {
+                        const newCredit = (currentUser.credit || 25.00) + amount;
+
+                        // Update user credit in Firebase
+                        await window.db.update('users', currentUser.id, { credit: newCredit });
+
+                        // Add to payment history
+                        await window.db.create('paymentHistory', {
+                            userId: currentUser.id,
+                            date: new Date().toISOString(),
+                            description: 'Credit Top-up',
+                            amount: amount,
+                            type: 'credit'
+                        });
+
+                        // Update local user object
+                        window.authManager.currentUser.credit = newCredit;
+                        window.authManager.userCredit = newCredit;
+
+                        updateCreditDisplay();
+                        await loadPaymentHistory();
+
+                        if (window.authManager.showNotification) {
+                            window.authManager.showNotification(`Successfully added ${amount.toFixed(2)} JOD to your account!`, 'success');
+                        } else {
+                            alert(`Successfully added ${amount.toFixed(2)} JOD to your account!`);
+                        }
+                    } catch (error) {
+                        console.error('Error adding credit:', error);
+                        if (window.authManager.showNotification) {
+                            window.authManager.showNotification('Failed to add credit', 'error');
+                        } else {
+                            alert('Failed to add credit');
+                        }
+                    }
                 } else {
-                    showNotification('Minimum credit amount is 5 JOD', 'error');
+                    if (window.authManager.showNotification) {
+                        window.authManager.showNotification('Minimum credit amount is 5 JOD', 'error');
+                    } else {
+                        alert('Minimum credit amount is 5 JOD');
+                    }
                 }
             });
         });
-        
-        function loadBookingHistory() {
-            const bookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+
+        function updateCreditDisplay() {
+            const currentUser = window.authManager?.currentUser;
+            if (!currentUser) return;
+
+            const credit = currentUser.credit || 25.00;
+            const balanceElements = document.querySelectorAll('#currentBalance, #creditBalance');
+
+            balanceElements.forEach(el => {
+                if (el) el.textContent = `${credit.toFixed(2)} JOD`;
+            });
+        }
+
+        function setupProfileNavigation() {
+            const navLinks = document.querySelectorAll('.profile-nav a');
+            const sections = document.querySelectorAll('.profile-section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetSection = this.getAttribute('data-section');
+
+                    // Remove active class from all links and sections
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+
+                    // Add active class to clicked link and target section
+                    this.classList.add('active');
+                    const section = document.getElementById(targetSection);
+                    if (section) section.classList.add('active');
+                });
+            });
+        }
+
+        async function loadBookingHistory() {
+            const currentUser = window.authManager?.currentUser;
+            if (!currentUser) return;
+
             const tbody = document.getElementById('bookingsTableBody');
-            
-            if (bookings.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No bookings found</td></tr>';
-                return;
+
+            try {
+                const bookings = await window.db.query('bookings', [
+                    ['userId', '==', currentUser.id]
+                ]);
+
+                if (bookings.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No bookings found</td></tr>';
+                    return;
+                }
+
+                // Sort by date (newest first)
+                bookings.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
+
+                tbody.innerHTML = bookings.map(booking => {
+                    const date = new Date(booking.date || booking.createdAt);
+                    return `
+                        <tr>
+                            <td>${date.toLocaleDateString('en-JO')}</td>
+                            <td>${formatRoomType(booking.roomType || booking.roomId)}</td>
+                            <td>${booking.startTime || 'N/A'} - ${booking.endTime || 'N/A'}</td>
+                            <td>${(booking.duration || 2).toFixed(1)} hours</td>
+                            <td>${(booking.totalCost || 0).toFixed(2)} JOD</td>
+                            <td><span class="status-${booking.status || 'confirmed'}">${booking.status || 'confirmed'}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Error loading bookings</td></tr>';
             }
-            
-            tbody.innerHTML = bookings.map(booking => `
-                <tr>
-                    <td>${new Date(booking.date).toLocaleDateString('en-JO')}</td>
-                    <td>${formatRoomType(booking.roomType)}</td>
-                    <td>${booking.startTime} - ${booking.endTime}</td>
-                    <td>${booking.duration.toFixed(1)} hours</td>
-                    <td>${booking.totalCost.toFixed(2)} JOD</td>
-                    <td><span class="status-${booking.status}">${booking.status}</span></td>
-                </tr>
-            `).join('');
         }
-        
-        function loadPrintingOrders() {
-            const orders = JSON.parse(localStorage.getItem('printingOrders')) || [];
+
+        async function loadPrintingOrders() {
+            const currentUser = window.authManager?.currentUser;
+            if (!currentUser) return;
+
             const tbody = document.getElementById('printingTableBody');
-            
-            if (orders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No printing orders found</td></tr>';
-                return;
+
+            try {
+                const orders = await window.db.query('printingOrders', [
+                    ['userId', '==', currentUser.id]
+                ]);
+
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No printing orders found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
+                        <td>${(order.files?.length || 0)} file(s)</td>
+                        <td>${order.totalPages || 0}</td>
+                        <td>${(order.cost || 0).toFixed(2)} JOD</td>
+                        <td><span class="status-${order.status || 'pending'}">${order.status || 'pending'}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading printing orders:', error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">Error loading printing orders</td></tr>';
             }
-            
-            tbody.innerHTML = orders.map(order => `
-                <tr>
-                    <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
-                    <td>${order.files.length} file(s)</td>
-                    <td>${order.totalPages}</td>
-                    <td>${order.cost.toFixed(2)} JOD</td>
-                    <td><span class="status-${order.status}">${order.status}</span></td>
-                </tr>
-            `).join('');
         }
-        
-        function loadPaymentHistory() {
-            const payments = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+
+        async function loadPaymentHistory() {
+            const currentUser = window.authManager?.currentUser;
+            if (!currentUser) return;
+
             const tbody = document.getElementById('paymentHistoryBody');
-            
-            // Add sample data if empty
-            if (payments.length === 0) {
-                payments.push(
-                    {
-                        date: new Date(Date.now() - 86400000).toISOString(),
-                        description: 'Room Booking - Silent Room',
-                        amount: -9.00,
-                        type: 'debit'
-                    },
-                    {
-                        date: new Date(Date.now() - 172800000).toISOString(),
-                        description: 'Credit Top-up',
-                        amount: 25.00,
-                        type: 'credit'
-                    },
-                    {
-                        date: new Date(Date.now() - 259200000).toISOString(),
-                        description: 'Printing Services',
-                        amount: -3.50,
-                        type: 'debit'
-                    }
-                );
-                localStorage.setItem('paymentHistory', JSON.stringify(payments));
+
+            try {
+                let payments = await window.db.query('paymentHistory', [
+                    ['userId', '==', currentUser.id]
+                ]);
+
+                // Sort by date (newest first)
+                payments.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                if (payments.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">No payment history found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = payments.map(payment => `
+                    <tr>
+                        <td>${new Date(payment.date).toLocaleDateString('en-JO')}</td>
+                        <td>${payment.description}</td>
+                        <td style="color: ${payment.type === 'credit' ? 'var(--success)' : 'var(--accent)'}">
+                            ${payment.type === 'credit' ? '+' : ''}${payment.amount.toFixed(2)} JOD
+                        </td>
+                        <td><span class="status-${payment.type}">${payment.type}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading payment history:', error);
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">Error loading payment history</td></tr>';
             }
-            
-            tbody.innerHTML = payments.map(payment => `
-                <tr>
-                    <td>${new Date(payment.date).toLocaleDateString('en-JO')}</td>
-                    <td>${payment.description}</td>
-                    <td style="color: ${payment.type === 'credit' ? 'var(--success)' : 'var(--accent)'}">
-                        ${payment.type === 'credit' ? '+' : ''}${payment.amount.toFixed(2)} JOD
-                    </td>
-                    <td><span class="status-${payment.type}">${payment.type}</span></td>
-                </tr>
-            `).join('');
         }
-        
+
         function formatRoomType(roomType) {
             const types = {
                 'silent': 'Silent Room',
