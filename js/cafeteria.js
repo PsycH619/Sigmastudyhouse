@@ -530,8 +530,8 @@ class CafeteriaManager {
         await this.saveOrder(order);
 
         // Add to payment history
-        if (window.databaseManager) {
-            await window.databaseManager.create('paymentHistory', {
+        if (window.db) {
+            await window.db.create('paymentHistory', {
                 userId: window.authManager.currentUser.id,
                 date: new Date().toISOString(),
                 description: `Cafeteria Order #${order.orderNumber}`,
@@ -569,8 +569,8 @@ class CafeteriaManager {
     }
 
     async saveOrder(order) {
-        if (window.databaseManager) {
-            await window.databaseManager.create('cafeteriaOrders', order);
+        if (window.db) {
+            await window.db.create('cafeteriaOrders', order);
         } else {
             // Fallback to localStorage
             let cafeteriaOrders = JSON.parse(localStorage.getItem('cafeteriaOrders') || '[]');
