@@ -338,10 +338,9 @@ class ProfileManager {
             bookings.sort((a, b) => new Date(b.date || b.createdAt) - new Date(a.date || a.createdAt));
 
             tbody.innerHTML = bookings.map(booking => {
-                const date = new Date(booking.date || booking.createdAt);
                 return `
                     <tr>
-                        <td>${date.toLocaleDateString('en-JO')}</td>
+                        <td>${this.formatDate(booking.date || booking.createdAt)}</td>
                         <td>${this.formatRoomType(booking.roomType || booking.roomId)}</td>
                         <td>${booking.startTime || 'N/A'} - ${booking.endTime || 'N/A'}</td>
                         <td>${(booking.duration || 2).toFixed(1)} hours</td>
@@ -374,7 +373,7 @@ class ProfileManager {
 
             tbody.innerHTML = orders.map(order => `
                 <tr>
-                    <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
+                    <td>${this.formatDate(order.createdAt)}</td>
                     <td>${(order.files?.length || 0)} file(s)</td>
                     <td>${order.totalPages || 0}</td>
                     <td>${(order.cost || 0).toFixed(2)} JOD</td>
@@ -411,7 +410,7 @@ class ProfileManager {
                 const itemsText = itemCount === 1 ? '1 item' : `${itemCount} items`;
                 return `
                     <tr>
-                        <td>${new Date(order.createdAt).toLocaleDateString('en-JO')}</td>
+                        <td>${this.formatDate(order.createdAt)}</td>
                         <td>${order.orderNumber || 'N/A'}</td>
                         <td>${itemsText}</td>
                         <td>${(order.total || 0).toFixed(2)} JOD</td>
@@ -446,7 +445,7 @@ class ProfileManager {
 
             tbody.innerHTML = payments.map(payment => `
                 <tr>
-                    <td>${new Date(payment.date).toLocaleDateString('en-JO')}</td>
+                    <td>${this.formatDate(payment.date)}</td>
                     <td>${payment.description}</td>
                     <td style="color: ${payment.type === 'credit' ? 'var(--success)' : 'var(--accent)'}">
                         ${payment.type === 'credit' ? '+' : '-'}${payment.amount.toFixed(2)} JOD
@@ -472,6 +471,33 @@ class ProfileManager {
             'class': 'Class Room'
         };
         return types[roomType] || roomType;
+    }
+
+    formatDate(dateValue) {
+        // Handle undefined, null, or empty values
+        if (!dateValue) {
+            return 'N/A';
+        }
+
+        // Try to create a date object
+        const date = new Date(dateValue);
+
+        // Check if the date is valid
+        if (isNaN(date.getTime())) {
+            return 'N/A';
+        }
+
+        // Format the date using a safe locale
+        try {
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        } catch (error) {
+            // Fallback to basic formatting if locale fails
+            return date.toLocaleDateString();
+        }
     }
 
     // Cleanup method to unsubscribe from listeners
