@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection - users can read/write their own data
+    match /users/{userId} {
+      // Allow users to read their own document
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // Allow users to write to their own document
+      allow write: if request.auth != null && request.auth.uid == userId;
+
+      // Allow creating user document on first sign up
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Bookings collection - authenticated users only
+    match /bookings/{bookingId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Printing orders - authenticated users only
+    match /printingOrders/{orderId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Course enrollments - authenticated users only
+    match /courseEnrollments/{enrollmentId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Cafeteria orders - authenticated users only
+    match /cafeteriaOrders/{orderId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Payment history - users can only access their own
+    match /paymentHistory/{paymentId} {
+      allow read: if request.auth != null &&
+                  resource.data.userId == request.auth.uid;
+      allow write: if request.auth != null &&
+                   request.resource.data.userId == request.auth.uid;
+    }
+
+    // Settings - read-only for authenticated users
+    match /settings/{settingId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Admin only (manage via Firebase Console)
+    }
+  }
+}

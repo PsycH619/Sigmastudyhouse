@@ -7,6 +7,18 @@
     border-radius: 20px;
     box-shadow: 0 20px 50px var(--shadow);
     border: 1px solid rgba(255,107,53,0.1);
+    animation: slideInUp 0.4s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .auth-tabs {
@@ -62,22 +74,38 @@
     border: 2px solid rgba(255,107,53,0.2);
     border-radius: 12px;
     font-family: 'Poppins', sans-serif;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     background-color: var(--bg);
     color: var(--text);
     font-size: 1rem;
+}
+
+.form-control:hover {
+    border-color: rgba(255,107,53,0.4);
 }
 
 .form-control:focus {
     border-color: var(--primary);
     outline: none;
     box-shadow: 0 0 0 3px rgba(255,107,53,0.1);
+    transform: translateY(-1px);
+}
+
+.form-control.error {
+    border-color: #e74c3c;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
 }
 
 .password-strength {
     margin-top: 8px;
-    height: 6px;
-    border-radius: 3px;
+    height: 8px;
+    border-radius: 4px;
     background-color: var(--light);
     overflow: hidden;
     position: relative;
@@ -87,28 +115,42 @@
     background: linear-gradient(90deg, #e74c3c, #e67e22);
     width: 25%;
     height: 100%;
-    transition: width 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
 }
 
 .strength-medium {
     background: linear-gradient(90deg, #e67e22, #f1c40f);
     width: 50%;
     height: 100%;
-    transition: width 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
 }
 
 .strength-strong {
     background: linear-gradient(90deg, #f1c40f, #2ecc71);
     width: 75%;
     height: 100%;
-    transition: width 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
 }
 
 .strength-very-strong {
     background: linear-gradient(90deg, #2ecc71, #27ae60);
     width: 100%;
     height: 100%;
-    transition: width 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
 
 .form-footer {
@@ -287,22 +329,126 @@
     border-radius: 12px;
 }
 
+/* Enhanced Button Styles */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading State */
+.form-loading {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Success State */
+.form-success .form-control {
+    border-color: #2ecc71;
+    background-color: rgba(46, 204, 113, 0.05);
+}
+
+/* Account Lockout Warning */
+.lockout-warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 2px solid #f39c12;
+    color: #856404;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideInDown 0.4s ease-out;
+}
+
+.lockout-warning i {
+    color: #f39c12;
+    font-size: 1.5rem;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Password Toggle Button */
+.password-toggle {
+    transition: all 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary) !important;
+    transform: scale(1.1);
+}
+
+.password-toggle:active {
+    transform: scale(0.95);
+}
+
 /* Responsive Auth */
 @media (max-width: 576px) {
     .auth-container {
         margin: 40px 20px;
         padding: 30px 25px;
     }
-    
+
     .auth-tabs {
         flex-direction: column;
         gap: 5px;
     }
-    
+
     .auth-tab {
         padding: 12px;
     }
-    
+
     .form-control {
         padding: 12px 15px;
     }

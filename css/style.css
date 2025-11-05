@@ -1273,3 +1273,162 @@ footer {
     right: 0;
     text-align: right;
 }
+
+/* Auth Buttons Styling */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.auth-buttons .btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.auth-buttons .btn-outline-light {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.auth-buttons .btn-outline-light:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.auth-buttons .btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.auth-buttons .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+/* User Menu Styling */
+.user-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 15px;
+    background: var(--card-bg);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary);
+}
+
+.user-menu:hover {
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.2);
+    transform: translateY(-2px);
+}
+
+.user-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow);
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.user-menu:hover .user-dropdown,
+.user-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.user-dropdown .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.user-dropdown .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.user-dropdown .dropdown-item:hover {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.user-dropdown .dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .auth-buttons .btn span {
+        display: none;
+    }
+    
+    .auth-buttons .btn {
+        padding: 8px 12px;
+    }
+    
+    .user-info {
+        display: none;
+    }
+    
+    .user-menu {
+        padding: 8px;
+    }
+}

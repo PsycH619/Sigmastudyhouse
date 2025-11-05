@@ -11,13 +11,13 @@
 // 9. Enable Storage (for file uploads)
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",                           // ⚠️ REPLACE THIS
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",   // ⚠️ REPLACE THIS
-    projectId: "YOUR_PROJECT_ID",                     // ⚠️ REPLACE THIS
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",    // ⚠️ REPLACE THIS
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",   // ⚠️ REPLACE THIS
-    appId: "YOUR_APP_ID",                            // ⚠️ REPLACE THIS
-    measurementId: "YOUR_MEASUREMENT_ID"             // ⚠️ REPLACE THIS (optional)
+    apiKey: "AIzaSyDpllXWs31QEstBJVD31vMwTizCOS4RGt0",
+    authDomain: "sigmastudyhouse-31cc8.firebaseapp.com",
+    projectId: "sigmastudyhouse-31cc8",
+    storageBucket: "sigmastudyhouse-31cc8.firebasestorage.app",
+    messagingSenderId: "18084851101",
+    appId: "1:18084851101:web:06c5c3454b71e99bf9d374",
+    measurementId: "G-C15TVZCJ42"
 };
 
 // Initialize Firebase
@@ -43,13 +43,13 @@ try {
 
         console.log('✅ Firebase initialized successfully');
 
-        // Optional: Enable offline persistence
-        db.enablePersistence()
+        // Optional: Enable offline persistence with multi-tab support
+        db.enablePersistence({ synchronizeTabs: true })
             .catch((err) => {
                 if (err.code == 'failed-precondition') {
-                    console.warn('Persistence failed: Multiple tabs open');
+                    // Silently ignore - multiple tabs open
                 } else if (err.code == 'unimplemented') {
-                    console.warn('Persistence not available in this browser');
+                    // Silently ignore - browser doesn't support persistence
                 }
             });
     }

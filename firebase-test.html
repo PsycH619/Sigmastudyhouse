@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Setup Test - Sigma Study House</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .test-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #ccc;
+        }
+
+        .test-section.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+
+        .test-section.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .test-section.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+
+        .test-section h3 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .icon.pending { color: #6c757d; }
+        .icon.success { color: #28a745; }
+        .icon.error { color: #dc3545; }
+        .icon.warning { color: #ffc107; }
+
+        .details {
+            font-size: 0.9rem;
+            color: #333;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        .code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: #5568d3;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .summary h2 {
+            margin-bottom: 10px;
+        }
+
+        .next-steps {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .next-steps h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .next-steps ul {
+            list-style-position: inside;
+            line-height: 2;
+        }
+
+        .next-steps li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Firebase Setup Test</h1>
+        <p class="subtitle">Testing your Firebase configuration for Sigma Study House</p>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Running tests...
+        </div>
+
+        <div id="results" style="display: none;"></div>
+
+        <button class="btn" onclick="runTests()" style="display: none;" id="retryBtn">Run Tests Again</button>
+
+        <div class="next-steps" id="nextSteps" style="display: none;">
+            <h3>📋 Next Steps</h3>
+            <ul id="nextStepsList"></ul>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- Firebase Configuration -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        let testResults = [];
+
+        async function runTests() {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('nextSteps').style.display = 'none';
+            document.getElementById('retryBtn').style.display = 'none';
+            testResults = [];
+
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Test 1: Firebase SDK Loaded
+            await testFirebaseSDK();
+
+            // Test 2: Firebase Config
+            await testFirebaseConfig();
+
+            // Test 3: Firebase Auth
+            await testFirebaseAuth();
+
+            // Test 4: Firestore
+            await testFirestore();
+
+            // Test 5: Storage
+            await testStorage();
+
+            // Display results
+            displayResults();
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('retryBtn').style.display = 'block';
+            document.getElementById('nextSteps').style.display = 'block';
+        }
+
+        async function testFirebaseSDK() {
+            const test = {
+                name: 'Firebase SDK',
+                status: 'pending',
+                message: '',
+                details: ''
+            };
+
+            try {
+                if (typeof firebase === 'undefined') {
+                    test.status = 'error';
+                    test.message = 'Firebase SDK not loaded';
+                    test.details = 'Make sure Firebase scripts are included in your HTML before firebase-config.js';
+                } else {
+                    test.status = 'success';
+                    test.message = 'Firebase SDK loaded successfully';
+                    test.details = `Firebase version: ${firebase.SDK_VERSION || 'Unknown'}`;
+                }
+            } catch (error) {
+                test.status = 'error';
+                test.message = 'Error checking Firebase SDK';
+                test.details = error.message;
+            }
+
+            testResults.push(test);
+        }
+
+        async function testFirebaseConfig() {
+            const test = {
+                name: 'Firebase Configuration',
+                status: 'pending',
+                message: '',
+                details: ''
+            };
+
+            try {
+                if (!window.firebaseApp) {
+                    test.status = 'error';
+                    test.message = 'Firebase not initialized';
+                    test.details = 'Check js/firebase-config.js for configuration errors';
+                } else {
+                    const config = window.firebaseApp.options;
+                    const hasPlaceholders = Object.values(config).some(value =>
+                        typeof value === 'string' && value.includes('YOUR_')
+                    );
+
+                    if (hasPlaceholders) {
+                        test.status = 'error';
+                        test.message = 'Firebase config contains placeholders';
+                        test.details = 'Update js/firebase-config.js with your actual Firebase credentials';
+                    } else {
+                        test.status = 'success';
+                        test.message = 'Firebase initialized successfully';
+                        test.details = `Project ID: ${config.projectId}<br>Auth Domain: ${config.authDomain}`;
+                    }
+                }
+            } catch (error) {
+                test.status = 'error';
+                test.message = 'Error checking Firebase configuration';
+                test.details = error.message;
+            }
+
+            testResults.push(test);
+        }
+
+        async function testFirebaseAuth() {
+            const test = {
+                name: 'Firebase Authentication',
+                status: 'pending',
+                message: '',
+                details: ''
+            };
+
+            try {
+                if (!window.firebaseAuth) {
+                    test.status = 'error';
+                    test.message = 'Firebase Auth not initialized';
+                    test.details = 'Firebase Authentication module not loaded';
+                } else {
+                    // Try to check auth providers
+                    const currentUser = window.firebaseAuth.currentUser;
+
+                    test.status = 'success';
+                    test.message = 'Firebase Authentication ready';
+
+                    if (currentUser) {
+                        test.details = `Currently signed in as: ${currentUser.email}`;
+                    } else {
+                        test.details = 'Authentication service is active. No user currently signed in.';
+                    }
+
+                    // Check if we can access auth methods
+                    const authMethods = [
+                        'createUserWithEmailAndPassword',
+                        'signInWithEmailAndPassword',
+                        'signOut',
+                        'sendPasswordResetEmail'
+                    ];
+
+                    const availableMethods = authMethods.filter(method =>
+                        typeof window.firebaseAuth[method] === 'function'
+                    );
+
+                    test.details += `<br>Available methods: ${availableMethods.length}/4`;
+                }
+            } catch (error) {
+                test.status = 'error';
+                test.message = 'Error checking Firebase Auth';
+                test.details = error.message;
+            }
+
+            testResults.push(test);
+        }
+
+        async function testFirestore() {
+            const test = {
+                name: 'Cloud Firestore',
+                status: 'pending',
+                message: '',
+                details: ''
+            };
+
+            try {
+                if (!window.firebaseDB) {
+                    test.status = 'error';
+                    test.message = 'Firestore not initialized';
+                    test.details = 'Firestore module not loaded';
+                } else {
+                    // Try to check Firestore connection
+                    test.status = 'success';
+                    test.message = 'Firestore database ready';
+                    test.details = 'Database connection established. You can start reading/writing data.';
+
+                    // Check if DatabaseManager is loaded
+                    if (window.db) {
+                        test.details += '<br>DatabaseManager loaded and ready to use.';
+                    } else {
+                        test.status = 'warning';
+                        test.details += '<br>⚠️ DatabaseManager not loaded. Make sure database.js is included.';
+                    }
+                }
+            } catch (error) {
+                test.status = 'error';
+                test.message = 'Error checking Firestore';
+                test.details = error.message;
+            }
+
+            testResults.push(test);
+        }
+
+        async function testStorage() {
+            const test = {
+                name: 'Firebase Storage',
+                status: 'pending',
+                message: '',
+                details: ''
+            };
+
+            try {
+                if (!window.firebaseStorage) {
+                    test.status = 'warning';
+                    test.message = 'Storage not initialized';
+                    test.details = 'Storage is optional. Enable it in Firebase Console if you need file uploads.';
+                } else {
+                    test.status = 'success';
+                    test.message = 'Firebase Storage ready';
+                    test.details = 'File upload/download functionality is available.';
+                }
+            } catch (error) {
+                test.status = 'warning';
+                test.message = 'Error checking Storage';
+                test.details = error.message + ' (Storage is optional)';
+            }
+
+            testResults.push(test);
+        }
+
+        function displayResults() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            testResults.forEach(test => {
+                const section = document.createElement('div');
+                section.className = `test-section ${test.status}`;
+
+                const icon = test.status === 'success' ? '✅' :
+                            test.status === 'error' ? '❌' :
+                            test.status === 'warning' ? '⚠️' : '⏳';
+
+                section.innerHTML = `
+                    <h3>
+                        <span class="icon ${test.status}">${icon}</span>
+                        ${test.name}
+                    </h3>
+                    <div class="details">
+                        <strong>${test.message}</strong><br>
+                        ${test.details}
+                    </div>
+                `;
+
+                resultsDiv.appendChild(section);
+            });
+
+            // Summary
+            const successCount = testResults.filter(t => t.status === 'success').length;
+            const errorCount = testResults.filter(t => t.status === 'error').length;
+            const warningCount = testResults.filter(t => t.status === 'warning').length;
+
+            const summary = document.createElement('div');
+            summary.className = 'summary';
+
+            if (errorCount === 0 && warningCount === 0) {
+                summary.style.background = '#28a745';
+                summary.innerHTML = `
+                    <h2>🎉 All Tests Passed!</h2>
+                    <p>Your Firebase setup is complete and working perfectly!</p>
+                `;
+            } else if (errorCount > 0) {
+                summary.style.background = '#dc3545';
+                summary.innerHTML = `
+                    <h2>❌ Setup Issues Found</h2>
+                    <p>${errorCount} error(s) need to be fixed before Firebase will work.</p>
+                `;
+            } else {
+                summary.style.background = '#ffc107';
+                summary.innerHTML = `
+                    <h2>⚠️ Setup Mostly Complete</h2>
+                    <p>${warningCount} warning(s) - optional features not enabled.</p>
+                `;
+            }
+
+            resultsDiv.appendChild(summary);
+
+            // Generate next steps
+            generateNextSteps(errorCount, warningCount);
+        }
+
+        function generateNextSteps(errorCount, warningCount) {
+            const nextStepsList = document.getElementById('nextStepsList');
+            nextStepsList.innerHTML = '';
+
+            const steps = [];
+
+            if (errorCount > 0) {
+                steps.push('❌ Fix the errors shown above first');
+                steps.push('📖 Read <a href="FIREBASE_SETUP_GUIDE.md">FIREBASE_SETUP_GUIDE.md</a> for detailed instructions');
+                steps.push('🔧 Check your Firebase Console: <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a>');
+                steps.push('✅ Make sure Authentication and Firestore are enabled in Firebase Console');
+            } else if (warningCount > 0) {
+                steps.push('⚠️ Optional: Enable Firebase Storage if you need file uploads');
+                steps.push('✅ Your authentication system is ready to test!');
+                steps.push('🧪 Go to <a href="index.html">index.html</a> and try signing up');
+                steps.push('📧 Set up email templates in Firebase Console > Authentication > Templates');
+            } else {
+                steps.push('✅ <strong>Firebase is fully configured!</strong>');
+                steps.push('🧪 Test authentication on <a href="index.html">index.html</a>');
+                steps.push('📝 Try signing up with a new account');
+                steps.push('✉️ Check your email for verification link');
+                steps.push('🔑 Test "Forgot Password" feature');
+                steps.push('🌐 Try Google Sign-In (if enabled)');
+                steps.push('🔒 Set up Firestore security rules (see FIREBASE_SETUP_GUIDE.md)');
+                steps.push('📧 Customize email templates in Firebase Console');
+            }
+
+            steps.forEach(step => {
+                const li = document.createElement('li');
+                li.innerHTML = step;
+                nextStepsList.appendChild(li);
+            });
+        }
+
+        // Run tests on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>

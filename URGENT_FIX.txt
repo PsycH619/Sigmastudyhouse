@@ -1,0 +1,62 @@
+🚨 URGENT: Your Firestore Rules Are Blocking Everything!
+
+══════════════════════════════════════════════════════════════════
+
+STEP 1: Open This Link
+→ https://console.firebase.google.com/project/sigmastudyhouse-31cc8/firestore/rules
+
+══════════════════════════════════════════════════════════════════
+
+STEP 2: You'll See a Text Editor
+
+Look for text that says something like:
+
+    rules_version = '2';
+    service cloud.firestore {
+      match /databases/{database}/documents {
+        match /{document=**} {
+          allow read, write: if false;   ← THIS IS THE PROBLEM!
+        }
+      }
+    }
+
+The "if false" means NOBODY can read or write!
+
+══════════════════════════════════════════════════════════════════
+
+STEP 3: DELETE EVERYTHING and Replace With This:
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+══════════════════════════════════════════════════════════════════
+
+STEP 4: Click the Big Blue "PUBLISH" Button
+
+══════════════════════════════════════════════════════════════════
+
+STEP 5: Test
+
+1. Go back to your website
+2. Press Ctrl+F5 to refresh
+3. Click "Sign In"
+4. Enter: oosoo4000@gmail.com
+5. Enter your password
+6. Click "Sign In"
+
+The error should be GONE!
+
+══════════════════════════════════════════════════════════════════
+
+HAVEN'T DONE IT YET?
+
+The error will keep happening until you publish the rules!
+Every single Firebase operation is blocked right now.
+
+══════════════════════════════════════════════════════════════════

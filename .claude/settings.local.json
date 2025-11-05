@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(start index.html)",
+      "Bash(start firebase-test.html)",
+      "Bash(start https://console.firebase.google.com/project/sigmastudyhouse-31cc8/firestore/rules)",
+      "Bash(test:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
