@@ -11,7 +11,7 @@ class LanguageManager {
                 'Courses': 'Courses',
                 'Booking': 'Booking',
                 'Printing': 'Printing',
-                'Cafeteria': 'Cafeteria',
+                'Coffee Point': 'Coffee Point',
                 'Contact': 'Contact',
                 
                 // Common
@@ -61,7 +61,7 @@ class LanguageManager {
                 'Courses': 'الدورات',
                 'Booking': 'الحجز',
                 'Printing': 'الطباعة',
-                'Cafeteria': 'الكافيتيريا',
+                'Coffee Point': 'نقطة القهوة',
                 'Contact': 'اتصل بنا',
                 
                 // Common
