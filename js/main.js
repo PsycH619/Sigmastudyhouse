@@ -270,7 +270,7 @@ class SigmaStudyHouse {
             container.id = 'notification-container';
             container.style.cssText = `
                 position: fixed;
-                top: 20px;
+                top: 100px;
                 right: 20px;
                 z-index: 3000;
                 display: flex;
