@@ -19,6 +19,13 @@ class AuthManager {
         this.MAX_LOGIN_ATTEMPTS = 5;
         this.LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes
         this.unsubscribeAuth = null;
+        this.authStateReady = false;
+        this.authStatePromise = null;
+
+        // Create a promise that resolves when auth state is ready
+        this.authStatePromise = new Promise((resolve) => {
+            this.resolveAuthState = resolve;
+        });
 
         // Wait for Firebase and DatabaseManager to be ready
         this.waitForDependencies().then(() => {
@@ -56,8 +63,22 @@ class AuthManager {
                     console.log('🔓 User signed out');
                     this.currentUser = null;
                     this.updateAuthUI();
+
+                    // Resolve auth state promise even when no user
+                    if (!this.authStateReady) {
+                        this.authStateReady = true;
+                        if (this.resolveAuthState) {
+                            this.resolveAuthState(null);
+                        }
+                    }
                 }
             });
+        } else {
+            // No Firebase auth available, resolve immediately
+            this.authStateReady = true;
+            if (this.resolveAuthState) {
+                this.resolveAuthState(null);
+            }
         }
 
         this.initializeAuthModals();
@@ -104,8 +125,24 @@ class AuthManager {
             this.updateAuthUI();
             this.hideLoginModal();
 
+            // Resolve auth state promise when user is loaded
+            if (!this.authStateReady) {
+                this.authStateReady = true;
+                if (this.resolveAuthState) {
+                    this.resolveAuthState(this.currentUser);
+                }
+            }
+
         } catch (error) {
             console.error('Error handling auth state change:', error);
+
+            // Resolve auth state promise even on error
+            if (!this.authStateReady) {
+                this.authStateReady = true;
+                if (this.resolveAuthState) {
+                    this.resolveAuthState(null);
+                }
+            }
         }
     }
 
@@ -260,6 +297,20 @@ class AuthManager {
         }
     }
 
+    // ==================== WAIT FOR AUTH ====================
+
+    async waitForAuthState() {
+        return this.authStatePromise;
+    }
+
+    async requireAuth() {
+        await this.authStatePromise;
+        if (!this.currentUser) {
+            throw new Error('User not authenticated');
+        }
+        return this.currentUser;
+    }
+
     // ==================== LOGOUT ====================
 
     async logout() {
@@ -269,6 +320,15 @@ class AuthManager {
             this.userCredit = 25.00;
             this.updateAuthUI();
             this.showNotification('Successfully signed out!', 'success');
+
+            // Redirect to home if on protected page
+            const protectedPages = ['profile.html', 'booking.html'];
+            const currentPage = window.location.pathname.split('/').pop();
+            if (protectedPages.includes(currentPage)) {
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1000);
+            }
         } catch (error) {
             console.error('Logout error:', error);
             this.showNotification('Error signing out', 'error');
