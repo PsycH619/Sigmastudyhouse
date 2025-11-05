@@ -6,39 +6,78 @@ service cloud.firestore {
       // Allow users to read their own document
       allow read: if request.auth != null && request.auth.uid == userId;
 
-      // Allow users to write to their own document
-      allow write: if request.auth != null && request.auth.uid == userId;
-
-      // Allow creating user document on first sign up
-      allow create: if request.auth != null && request.auth.uid == userId;
+      // Allow users to create and update their own document
+      allow create, update: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Bookings collection - authenticated users only
+    // Bookings collection - users can only access their own bookings
     match /bookings/{bookingId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // Printing orders - authenticated users only
-    match /printingOrders/{orderId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // Course enrollments - authenticated users only
-    match /courseEnrollments/{enrollmentId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // Cafeteria orders - authenticated users only
-    match /cafeteriaOrders/{orderId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // Payment history - users can only access their own
-    match /paymentHistory/{paymentId} {
+      // Allow users to read their own bookings
       allow read: if request.auth != null &&
                   resource.data.userId == request.auth.uid;
-      allow write: if request.auth != null &&
-                   request.resource.data.userId == request.auth.uid;
+
+      // Allow users to create bookings for themselves
+      allow create: if request.auth != null &&
+                    request.resource.data.userId == request.auth.uid;
+
+      // Allow users to update their own bookings
+      allow update: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+
+      // Allow users to delete their own bookings
+      allow delete: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+    }
+
+    // Printing orders - users can only access their own orders
+    match /printingOrders/{orderId} {
+      allow read: if request.auth != null &&
+                  resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null &&
+                    request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+      allow delete: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+    }
+
+    // Course enrollments - users can only access their own enrollments
+    match /courseEnrollments/{enrollmentId} {
+      allow read: if request.auth != null &&
+                  resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null &&
+                    request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+      allow delete: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+    }
+
+    // Cafeteria orders - users can only access their own orders
+    match /cafeteriaOrders/{orderId} {
+      allow read: if request.auth != null &&
+                  resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null &&
+                    request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+      allow delete: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
+    }
+
+    // Payment history - users can only access their own payment history
+    match /paymentHistory/{paymentId} {
+      // Allow users to read their own payment history
+      allow read: if request.auth != null &&
+                  resource.data.userId == request.auth.uid;
+
+      // Allow users to create their own payment history entries
+      allow create: if request.auth != null &&
+                    request.resource.data.userId == request.auth.uid;
+
+      // Allow users to update their own payment history
+      allow update: if request.auth != null &&
+                    resource.data.userId == request.auth.uid;
     }
 
     // Settings - read-only for authenticated users
