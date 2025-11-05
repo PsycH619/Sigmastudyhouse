@@ -44,12 +44,20 @@ try {
         console.log('✅ Firebase initialized successfully');
 
         // Optional: Enable offline persistence with multi-tab support
+        // Only enable if not already enabled in another tab
         db.enablePersistence({ synchronizeTabs: true })
+            .then(() => {
+                console.log('✅ Firestore persistence enabled');
+            })
             .catch((err) => {
-                if (err.code == 'failed-precondition') {
-                    // Silently ignore - multiple tabs open
-                } else if (err.code == 'unimplemented') {
-                    // Silently ignore - browser doesn't support persistence
+                if (err.code === 'failed-precondition') {
+                    // Multiple tabs open, persistence can only be enabled in one tab at a time
+                    console.log('ℹ️ Persistence already enabled in another tab. Using memory cache.');
+                } else if (err.code === 'unimplemented') {
+                    // Browser doesn't support all features required for persistence
+                    console.log('ℹ️ Persistence not supported by this browser. Using memory cache.');
+                } else {
+                    console.warn('⚠️ Persistence error:', err);
                 }
             });
     }
